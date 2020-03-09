@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EcMonitoringController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TestDbController.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\EcMonitoring\DBContext.cs" />
+    <Compile Include="Models\EcMonitoring\Metric.cs" />
+    <Compile Include="Models\ECommerce\DBContext.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -177,6 +180,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\TestDb\Index.cshtml" />
+    <Content Include="Views\EcMonitoring\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,14 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace ECMonitoring.Models.EcMonitoring
+namespace ECMonitoring.Models.ECommerce
 {
     public class DBContext : DbContext
     {
-        public DBContext() : base("EcMonitoring")
+        public DBContext() : base("eCommerce")
         { }
 
-        public DbSet<Metric> Metrics { get; set; }
     }
 }
 
