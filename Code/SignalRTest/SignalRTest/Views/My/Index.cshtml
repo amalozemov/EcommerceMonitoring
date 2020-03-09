@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>Тест</h2>
+
+    <div class="main">
+        <input id="btnTest" type="button" value="Тест" />
+
+    </div>
+    <p></p>
+    <div id="chatroom"></div>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script>
+        $("#btnTest").click(function () {
+
+            //alert("btnTest_Click");
+
+            debugger;
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                url: "/My/SendMessageAllClients",
+                success: function (data) {
+                    //alert(data.Result);
+                    //var field = $('#chatroom');
+                    //var field2 = document.getElementById('chatroom');
+                    //field2.innerText = data.Result;
+                    //field.innerHtml = data.Result;// .append('<p><b>' + data.Result + '</b></p>');
+                    console.log(data.Result);
+                },
+                error: function (msg) {
+                    alert(msg);
+                },
+            });
+
+        });
+
+        $(function () {
+
+            var notificationhub = $.connection.notificationHub;
+
+            notificationhub.client.displayMessage = function (message) {
+
+                //$('#notification').html(message);
+                var field2 = document.getElementById('chatroom');
+                field2.innerText = message;
+            };
+
+            $.connection.hub.start();
+
+        });
+    </script>
+</body>
+</html>
