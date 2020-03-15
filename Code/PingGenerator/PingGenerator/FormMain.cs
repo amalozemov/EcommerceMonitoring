@@ -93,6 +93,7 @@ namespace PingGenerator
         {
             Settings.Default.DstIp = this.txtDstIP.Text;
             Settings.Default.Period = Convert.ToInt32(this.txtPeriod.Text);
+            Settings.Default.Save();
         }
     }
 }
