@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 
 // https://www.codeproject.com/Articles/12458/SharpPcap-A-Packet-Capture-Framework-for-NET
+// http://blog.sedicomm.com/2017/05/30/tcpdump-poleznoe-rukovodstvo-s-primerami/
+// ((ip.src == 192.168.0.103 && ip.dst == 192.168.0.100 && tcp.port==1800) || ( ip.src == 192.168.0.100 && tcp.port==1800 && ip.dst == 192.168.0.103)) && (http || tcp)
+// https://wiki.merionet.ru/servernye-resheniya/42/zaxvat-paketov-s-tcpdump-rukovodstvo-s-primerami/
 
 namespace WinPicap.Test
 {
@@ -45,10 +48,14 @@ namespace WinPicap.Test
 
             _device.OnPacketArrival += device_OnPacketArrival;
 
-            int readTimeoutMilliseconds = 1200;
+            int readTimeoutMilliseconds = 1;
             _device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
 
-            string filter = "ip and tcp";// "ip.src = 192.168.0.103";// "ip and tcp";
+            //string filter = "src 192.168.0.103";//"host 192.168.0.103";// "ip and tcp";// "ip.src = 192.168.0.103";// "ip and tcp";
+            //string filter = "host 192.168.0.103";
+
+            //string filter = "((src 192.168.0.103 && dst 192.168.0.100 && dst port 1800) || ( src 192.168.0.100 && dst port 1800 && dst 192.168.0.103)) && (http || tcp)";
+            string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
             _device.Filter = filter;
 
             Console.WriteLine("-- Listening on {0}, hit 'Enter' to stop...",
@@ -75,16 +82,18 @@ namespace WinPicap.Test
                 string srcIp = ip.SourceAddress.ToString();
                 string dstIp = ip.DestinationAddress.ToString();
 
-                if (srcIp == "192.168.0.103")
+                //if (srcIp == "192.168.0.103")
                 //if (dstIp == "192.168.23.15")
                 //if (dstIp == "100.106.86.121")
                 //if (dstIp == "192.168.0.103")
-                {
-                    Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}",
+                //{
+                //if (srcIp == "192.168.0.103" && dstIp == "192.168.0.100" || srcIp == "192.168.0.100" && dstIp == "192.168.0.103")
+
+                Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}",
                         time.Hour, time.Minute, time.Second,
                         time.Millisecond, len, srcIp, dstIp);
                     //Console.WriteLine(e.Packet.ToString());
-                }
+                //}
             }
 
             //// парсинг всего пакета
