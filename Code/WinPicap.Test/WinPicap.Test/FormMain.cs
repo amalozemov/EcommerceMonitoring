@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
 // https://www.codeproject.com/Articles/12458/SharpPcap-A-Packet-Capture-Framework-for-NET
 // http://blog.sedicomm.com/2017/05/30/tcpdump-poleznoe-rukovodstvo-s-primerami/
@@ -48,7 +49,7 @@ namespace WinPicap.Test
 
             _device.OnPacketArrival += device_OnPacketArrival;
 
-            int readTimeoutMilliseconds = 1;
+            int readTimeoutMilliseconds = 300;
             _device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
 
             //string filter = "src 192.168.0.103";//"host 192.168.0.103";// "ip and tcp";// "ip.src = 192.168.0.103";// "ip and tcp";
@@ -72,15 +73,42 @@ namespace WinPicap.Test
             //    time.Hour, time.Minute, time.Second, time.Millisecond, len);
 
             //var tcp = (TcpPacket)e.Packet.Extract(typeof(TcpPacket));
-            Packet packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+            var packet = Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
+
+
+            
             var ip = (IpPacket)packet.Extract(typeof(IpPacket));
+
+            var tcp = (TcpPacket)ip.Extract(typeof(TcpPacket));
+            
+            //Console.WriteLine($"tcp = {tcp}");
+            //var t = tcp;
+
+            //https://stackoverflow.com/questions/1863564/how-to-capture-http-packet-with-sharppcap
+            //https://stackoverflow.com/questions/318506/converting-raw-http-request-into-httpwebrequest-object
+            var buffer = tcp.PayloadData;
+            //var buffer2 = tcp.PayloadPacket;
+            //if (buffer2 != null)
+            //{
+            //    var httpHeader = buffer2;// GetHttpHeader(buffer2);
+            //}
+
+            //var httpHeader = string.Empty;
+            //if (buffer?.Length > 0)
+            //{
+            var httpHeader = GetHttpHeader(buffer, tcp.SequenceNumber);
+            //}
+
+            //var http = (IpPacket)tcp.Extract(typeof(PacketDotNet.SessionPacket));
+            //Console.WriteLine($"http = {http}");
+
             if (ip != null)
             {
-                DateTime time = e.Packet.Timeval.Date;
-                int len = e.Packet.Data.Length;
+                var time = e.Packet.Timeval.Date;
+                var len = e.Packet.Data.Length;
 
-                string srcIp = ip.SourceAddress.ToString();
-                string dstIp = ip.DestinationAddress.ToString();
+                var srcIp = ip.SourceAddress.ToString();
+                var dstIp = ip.DestinationAddress.ToString();
 
                 //if (srcIp == "192.168.0.103")
                 //if (dstIp == "192.168.23.15")
@@ -88,10 +116,11 @@ namespace WinPicap.Test
                 //if (dstIp == "192.168.0.103")
                 //{
                 //if (srcIp == "192.168.0.103" && dstIp == "192.168.0.100" || srcIp == "192.168.0.100" && dstIp == "192.168.0.103")
-
-                Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}",
+                var proto = 
+                    httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : ip.Protocol.ToString();
+                Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}, {7}, Rst={8}",
                         time.Hour, time.Minute, time.Second,
-                        time.Millisecond, len, srcIp, dstIp);
+                        string.Empty, len, srcIp, dstIp, proto, Convert.ToInt32(tcp.Rst));
                     //Console.WriteLine(e.Packet.ToString());
                 //}
             }
@@ -121,6 +150,63 @@ namespace WinPicap.Test
             //    Console.WriteLine(data);
             //}
         }
+
+        private string GetHttpHeader(byte[] inputBuffer, uint sequenceNumber)
+        {
+            //            string requestString =
+            //@"POST /resource/?query_id=0 HTTP/1.1
+            //Host: example.com
+            //User-Agent: custom
+            //Accept: */*
+            //Connection: close
+            //Content-Length: 20
+            //Content-Type: application/json
+
+            //{""key1"":1, ""key2"":2}";
+            //            byte[] requestRaw = Encoding.UTF8.GetBytes(requestString);
+            //            ReadOnlySequence<byte> buffer = new ReadOnlySequence<byte>(requestRaw);
+            //            HttpParser<Program> parser = new HttpParser<Program>();
+            //            Program app = new Program();
+            //            Console.WriteLine("Start line:");
+            //            parser.ParseRequestLine(app, buffer, out var consumed, out var examined);
+            //            buffer = buffer.Slice(consumed);
+            //            Console.WriteLine("Headers:");
+            //            parser.ParseHeaders(app, buffer, out consumed, out examined, out var b);
+            //            buffer = buffer.Slice(consumed);
+            //            string body = Encoding.UTF8.GetString(buffer.ToArray());
+            //            Dictionary<string, int> bodyObject = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, int>>(body);
+            //            Console.WriteLine("Body:");
+            //            foreach (var item in bodyObject)
+            //                Console.WriteLine($"key: {item.Key}, value: {item.Value}");
+            //            Console.ReadKey();
+
+            if (inputBuffer.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var path = $@"E:\Projects\Tolik\ECMonitoring\Code\WinPicap.Test\Data\damp{sequenceNumber}.bin";
+
+            // создаем объект BinaryWriter
+            using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+            {
+                //// записываем в файл значение каждого поля структуры
+                //foreach (State s in states)
+                //{
+                //    writer.Write(s.name);
+                //    writer.Write(s.capital);
+                //    writer.Write(s.area);
+                //    writer.Write(s.people);
+                //}
+                writer.Write(inputBuffer);
+            }
+
+
+            //var t = BitConverter.ToString(inputBuffer);
+            var res = Encoding.ASCII.GetString(inputBuffer);
+            return res;
+        }
+
         private void _btnDevicesList_Click(object sender, EventArgs e)
         {
             if (_device != null)
