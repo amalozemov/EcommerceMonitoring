@@ -11,6 +11,7 @@ namespace ECMService.Core
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsConnectes { get; private set; }
 
         List<ClientEndPoint> _clientEndPoints;
 
@@ -25,6 +26,7 @@ namespace ECMService.Core
             {
                 ep.Start();
             }
+            IsConnectes = true;
         }
 
         public void Stop()
@@ -33,6 +35,7 @@ namespace ECMService.Core
             {
                 ep.Stop();
             }
+            IsConnectes = false;
         }
 
         public void CreateEndPoints(IRepository repository)

@@ -19,13 +19,19 @@ namespace ECMService.Core
         public ClientEndPoint()
         {
             _monitor = new ECMonitoringPicap(Ip, Port);
-            _monitor.TcpArrivalHandler += _monitor_TcpArrivalHandler;
+            _monitor.TcpArrivalOn += _monitor_TcpArrivalOn;
         }
 
-        private void _monitor_TcpArrivalHandler(string message)
+        private void _monitor_TcpArrivalOn(object sender, DeviceStatus deviceStatus)
         {
-            Console.WriteLine($"IP: {Ip} - {message}");
+            // нужен IP приёмника сервера чей статус определяется
+            Console.WriteLine($"deviceStatus = {deviceStatus}");
         }
+
+        //private void _monitor_TcpArrivalOn(string message)
+        //{
+        //    Console.WriteLine($"IP: {Ip} - {message}");
+        //}
 
         public void Start()
         {

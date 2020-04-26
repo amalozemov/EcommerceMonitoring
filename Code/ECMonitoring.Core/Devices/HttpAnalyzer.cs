@@ -7,12 +7,16 @@ using SharpPcap;
 
 namespace ECMonitoring.Core.Devices
 {
-    public class HttpAnalyzer
+    internal class HttpAnalyzer
     {
-        public delegate void HttpArrivalHandler(CaptureEventArgs e);
-        public event HttpArrivalHandler HttpArrivalOn;
+        //public delegate void HttpArrivalHandler(CaptureEventArgs e);
+        //public event HttpArrivalHandler HttpArrivalOn;
 
-        internal void Analyze(CaptureEventArgs e)
+        //internal void Analyze(CaptureEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        internal HttpDeviceResponseStatus Analyze(LanDeviceEventArgs e)
         {
             throw new NotImplementedException();
         }

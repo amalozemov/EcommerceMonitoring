@@ -7,12 +7,11 @@ using SharpPcap;
 
 namespace ECMonitoring.Core.Devices
 {
-    public class TcpAnalyzer
+    internal class TcpAnalyzer
     {
-        public delegate void TcpArrivalHandler(CaptureEventArgs e);
-        public event TcpArrivalHandler TcpArrivalOn;
-
-        public void Analyze(CaptureEventArgs e)
+        //public delegate void TcpArrivalHandler(CaptureEventArgs e);
+        //public event TcpArrivalHandler TcpArrivalOn;
+        internal DeviceStatus Analyze(LanDeviceEventArgs e)
         {
             throw new NotImplementedException();
         }

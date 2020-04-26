@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this._lblTcpStatus = new System.Windows.Forms.Label();
             this._lblHttpStatus = new System.Windows.Forms.Label();
+            this._lblTcpStatus = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this._btnStart = new System.Windows.Forms.Button();
             this._btnStop = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -51,23 +51,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Сервис 1";
             // 
-            // label1
+            // _lblHttpStatus
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Пакеты TCP:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Пакеты HTTP:";
+            this._lblHttpStatus.AutoSize = true;
+            this._lblHttpStatus.Location = new System.Drawing.Point(139, 71);
+            this._lblHttpStatus.Name = "_lblHttpStatus";
+            this._lblHttpStatus.Size = new System.Drawing.Size(73, 13);
+            this._lblHttpStatus.TabIndex = 3;
+            this._lblHttpStatus.Text = "Пакеты TCP:";
             // 
             // _lblTcpStatus
             // 
@@ -78,14 +69,23 @@
             this._lblTcpStatus.TabIndex = 2;
             this._lblTcpStatus.Text = "Пакеты TCP:";
             // 
-            // _lblHttpStatus
+            // label2
             // 
-            this._lblHttpStatus.AutoSize = true;
-            this._lblHttpStatus.Location = new System.Drawing.Point(139, 71);
-            this._lblHttpStatus.Name = "_lblHttpStatus";
-            this._lblHttpStatus.Size = new System.Drawing.Size(73, 13);
-            this._lblHttpStatus.TabIndex = 3;
-            this._lblHttpStatus.Text = "Пакеты TCP:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Пакеты HTTP:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Пакеты TCP:";
             // 
             // _btnStart
             // 
@@ -117,6 +117,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormMain";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

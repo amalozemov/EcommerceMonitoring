@@ -16,7 +16,7 @@ namespace ECMService
     {
         List<ClientService> _clientServices;
         IRepository _repository;
-
+        public bool IsConnected { get; private set; }
 
         public FormMain()
         {
@@ -29,6 +29,12 @@ namespace ECMService
 
         private void _btnStart_Click(object sender, EventArgs e)
         {
+            if (IsConnected)
+            {
+                Console.WriteLine("Устройство уже подключено.");
+                return;
+            }
+
             var datas = _repository.GetServices();
 
             foreach (var data in datas)
@@ -36,12 +42,15 @@ namespace ECMService
                 var service = new ClientService()
                 {
                     Id = data.Id,
-                    Name = data.Name
+                    Name = data.Name,
                 };
                 service.CreateEndPoints(_repository);
                 _clientServices.Add(service);
                 service.Start();
             }
+
+            IsConnected = true;
+            Console.WriteLine("Устройство подключено.");
         }
 
         private void _btnStop_Click(object sender, EventArgs e)
@@ -50,8 +59,15 @@ namespace ECMService
             {
                 cs.Stop();
             }
-
             _clientServices.Clear();
+
+            IsConnected = false;
+            Console.WriteLine("Устройство отключено.");
+        }
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _btnStop_Click(null, null);
         }
     }
 }
