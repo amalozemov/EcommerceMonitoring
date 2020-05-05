@@ -18,10 +18,11 @@ namespace ECMService.Core
         ECMonitoringPicap _lanMonitor;
         IStorage _storage;
 
-        public ClientEndPoint(string ip, int port, IStorage storage)
+        public ClientEndPoint(string ip, int port, int id, IStorage storage)
         {
             Ip = ip;
             Port = port;
+            Id = id;
             _storage = storage;
             _lanMonitor = new ECMonitoringPicap(Ip, Port);
             _lanMonitor.TcpStatusChangedOn += _monitor_TcpStatusChangedOn;
@@ -34,6 +35,9 @@ namespace ECMService.Core
             Console.WriteLine($"httpStatus = {httpStatus}");
         }
 
+        /// <summary>
+        /// Изменение состояния TCP.
+        /// </summary>
         private void _monitor_TcpStatusChangedOn(object sender, LanDeviceStatus deviceStatus)
         {
             _storage.WriteData(Id, Ip, Port, deviceStatus);

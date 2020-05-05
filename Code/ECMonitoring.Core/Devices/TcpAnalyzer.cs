@@ -22,7 +22,7 @@ namespace ECMonitoring.Core.Devices
         {
             _prvStatus = LanDeviceStatus.Sleep;
             _rstCount = 0;
-            _singleShot = new SingleShot(10000, false);
+            _singleShot = new SingleShot(15000, false);
             _singleShot.Trigger += _singleShot_Trigger;
 
             _pingGenerator = new PingGenerator(srcIp, 500);

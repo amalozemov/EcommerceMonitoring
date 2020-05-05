@@ -29,35 +29,44 @@ namespace ECMService.Storage
             _httpStatusesCollection = null;
         }
 
-        public void ExtractData()
+        public EcmData ExtractData(string ip, int port, int id)
         {
+            var rez = default(EcmData);
+            var key = $"{ip}:{port}-{id}";
+
             lock (_syncObject)
             {
-                throw new NotImplementedException();
+                rez = new EcmData(_devicesStatusesCollection[key], _httpStatusesCollection[key]);
             }
+
+            return rez;
         }
 
         public void WriteData(int id, string ip, int port, LanDeviceStatus deviceStatus)
         {
+            var key = $"{ip}:{port}-{id}";
+
             lock (_syncObject)
             {
-                _devicesStatusesCollection[ip] = deviceStatus;
+                _devicesStatusesCollection[key] = deviceStatus;
             }
 
         }
 
         public void WriteData(int id, string ip, int port, LanDeviceHttpStatus httpStatus)
         {
+            var key = $"{ip}:{port}-{id}";
+
             lock (_syncObject)
             {
-                _httpStatusesCollection[ip] = httpStatus;
+                _httpStatusesCollection[key] = httpStatus;
             }
         }
 
-        public void AddEndoint(string ip)
+        public void AddEndoint(string ip, int port, int id)
         {
-            _devicesStatusesCollection.Add(ip, new LanDeviceStatus());
-            _httpStatusesCollection.Add(ip, new LanDeviceHttpStatus());
+            _devicesStatusesCollection.Add($"{ip}:{port}-{id}" , LanDeviceStatus.Sleep);
+            _httpStatusesCollection.Add($"{ip}:{port}-{id}", new LanDeviceHttpStatus());
         }
     }
 }

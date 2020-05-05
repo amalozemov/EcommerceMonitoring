@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this._btnStart = new System.Windows.Forms.Button();
             this._btnStop = new System.Windows.Forms.Button();
+            this._btnGetData = new System.Windows.Forms.Button();
+            this._btnStopGetData = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,11 +109,33 @@
             this._btnStop.UseVisualStyleBackColor = true;
             this._btnStop.Click += new System.EventHandler(this._btnStop_Click);
             // 
+            // _btnGetData
+            // 
+            this._btnGetData.Location = new System.Drawing.Point(246, 281);
+            this._btnGetData.Name = "_btnGetData";
+            this._btnGetData.Size = new System.Drawing.Size(100, 23);
+            this._btnGetData.TabIndex = 3;
+            this._btnGetData.Text = "Start GetData";
+            this._btnGetData.UseVisualStyleBackColor = true;
+            this._btnGetData.Click += new System.EventHandler(this._btnGetData_Click);
+            // 
+            // _btnStopGetData
+            // 
+            this._btnStopGetData.Location = new System.Drawing.Point(246, 310);
+            this._btnStopGetData.Name = "_btnStopGetData";
+            this._btnStopGetData.Size = new System.Drawing.Size(100, 23);
+            this._btnStopGetData.TabIndex = 4;
+            this._btnStopGetData.Text = "Stop GetData";
+            this._btnStopGetData.UseVisualStyleBackColor = true;
+            this._btnStopGetData.Click += new System.EventHandler(this._btnStopGetData_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(568, 354);
+            this.Controls.Add(this._btnStopGetData);
+            this.Controls.Add(this._btnGetData);
             this.Controls.Add(this._btnStop);
             this.Controls.Add(this._btnStart);
             this.Controls.Add(this.groupBox1);
@@ -133,6 +157,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button _btnStart;
         private System.Windows.Forms.Button _btnStop;
+        private System.Windows.Forms.Button _btnGetData;
+        private System.Windows.Forms.Button _btnStopGetData;
     }
 }
 

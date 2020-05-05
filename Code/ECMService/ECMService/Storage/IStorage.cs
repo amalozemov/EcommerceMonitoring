@@ -11,8 +11,8 @@ namespace ECMService.Storage
     {
         void WriteData(int id, string ip, int port, LanDeviceStatus deviceStatus);
         void WriteData(int id, string ip, int port, LanDeviceHttpStatus httpStatus);
-        void ExtractData(); // добавить возвращаемый параметр для извлечения данных из хранилища (например при получении запроса из внешнего сервиса)
-        void AddEndoint(string ip);
+        EcmData ExtractData(string ip, int port, int id); // добавить возвращаемый параметр для извлечения данных из хранилища (например при получении запроса из внешнего сервиса)
+        void AddEndoint(string ip, int port, int id);
         void Dispose();
     }
 }

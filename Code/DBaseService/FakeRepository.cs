@@ -11,15 +11,17 @@ namespace DBaseService
     {
         public IList<ClientEndPointDTO> GetEndPoints(int ServiceId)
         {
-            var clientEndPoints = new List<ClientEndPointDTO>()
+            var clientEndPoints = new List<ClientEndPointDTO>();
+            for (int i = 0; i < 300; i++)
             {
-                new ClientEndPointDTO()
+                var ep = new ClientEndPointDTO()
                 {
-                    Id = 1,
+                    Id = i,
                     Ip = "192.168.0.100",
                     Port = 1800
-                }
-            };
+                };
+                clientEndPoints.Add(ep);
+            }
 
             return clientEndPoints;
         }
