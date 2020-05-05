@@ -8,7 +8,7 @@ namespace ECMonitoring.Core
 {
     internal class FileLogger : ILogger
     {
-        public void HttpLog(HttpDeviceResponseStatus httpStatus)
+        public void HttpLog(LanDeviceHttpStatus httpStatus)
         {
             throw new NotImplementedException();
         }
@@ -23,7 +23,7 @@ namespace ECMonitoring.Core
             throw new NotImplementedException();
         }
 
-        public void TcpLog(DeviceStatus deviceStatus)
+        public void TcpLog(LanDeviceStatus deviceStatus)
         {
             Console.WriteLine(deviceStatus);
         }

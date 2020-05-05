@@ -9,15 +9,15 @@ namespace ECMonitoring.Core
     internal class HttpHeaderAttributes
     {
         //public ServerHttpResponseStatus ResponseStatus { get; private set; }
-        public string SrcIp { get; private set; }
+        public string DstIp { get; private set; }
         //public string ErrorDescription { get; private set; }
         public string HttpHeader { get; private set; }
 
 
-        public HttpHeaderAttributes(string srcIp, string httpHeader)
+        public HttpHeaderAttributes(string dstIp, string httpHeader)
         {
             HttpHeader = httpHeader;
-            SrcIp = srcIp;
+            DstIp = dstIp;
         }
 
         //public HttpAttributes(ServerHttpResponseStatus responseStatus, string srcIp, string errorDescription) : this(responseStatus, srcIp)

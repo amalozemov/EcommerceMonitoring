@@ -1,15 +1,18 @@
-﻿using System;
+﻿using ECMonitoring.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECMonitoring.Core
+namespace ECMService.Storage
 {
-    internal interface IStorageHandler
+    internal interface IStorage
     {
-        void WriteData(DeviceStatus deviceStatus);
-        void WriteData(HttpDeviceResponseStatus httpStatus); 
+        void WriteData(int id, string ip, int port, LanDeviceStatus deviceStatus);
+        void WriteData(int id, string ip, int port, LanDeviceHttpStatus httpStatus);
         void ExtractData(); // добавить возвращаемый параметр для извлечения данных из хранилища (например при получении запроса из внешнего сервиса)
+        void AddEndoint(string ip);
+        void Dispose();
     }
 }

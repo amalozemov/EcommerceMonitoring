@@ -10,7 +10,7 @@ namespace ECMonitoring.Core
     {
         void StartApplication();
         void StopApplication();
-        void TcpLog(DeviceStatus deviceStatus);
-        void HttpLog(HttpDeviceResponseStatus httpStatus);
+        void TcpLog(LanDeviceStatus deviceStatus);
+        void HttpLog(LanDeviceHttpStatus httpStatus);
     }
 }

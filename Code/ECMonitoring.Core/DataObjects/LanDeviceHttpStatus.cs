@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECMonitoring.Core
 {
-    public class HttpDeviceResponseStatus
+    public class LanDeviceHttpStatus
     {
         public string MethodServiceSignature { get; private set; }
         public string ErrorDescription { get; private set; }
@@ -14,12 +14,12 @@ namespace ECMonitoring.Core
         public ServerHttpResponseStatus ResponseStatus { get; private set; }
         public string SrcIp { get; private set; }
 
-        public HttpDeviceResponseStatus()
+        public LanDeviceHttpStatus()
         {
             ResponseStatus = ServerHttpResponseStatus.OK;
         }
 
-        public HttpDeviceResponseStatus(string srcIp, ServerHttpResponseStatus responseStatus, string methodServiceSignature, string errorDescription, string errorCode)
+        public LanDeviceHttpStatus(string srcIp, ServerHttpResponseStatus responseStatus, string methodServiceSignature, string errorDescription, string errorCode)
         {
             MethodServiceSignature = methodServiceSignature;
             ErrorDescription = ErrorDescription;

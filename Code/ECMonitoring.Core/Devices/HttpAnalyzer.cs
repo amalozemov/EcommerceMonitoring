@@ -12,13 +12,20 @@ namespace ECMonitoring.Core.Devices
         //public delegate void HttpArrivalHandler(CaptureEventArgs e);
         //public event HttpArrivalHandler HttpArrivalOn;
 
+        public void Dispose()
+        {
+            //
+        }
+
         //internal void Analyze(CaptureEventArgs e)
         //{
         //    throw new NotImplementedException();
         //}
-        internal HttpDeviceResponseStatus Analyze(LanDeviceEventArgs e)
+        internal bool Analyze(LanDeviceEventArgs e, out LanDeviceHttpStatus httpStatus)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

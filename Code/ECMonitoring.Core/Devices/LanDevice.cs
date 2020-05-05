@@ -11,15 +11,12 @@ namespace ECMonitoring.Core.Devices
 {
     // Сетевая карта
 
-    internal class LanDevice
+    internal class LanDevice : ILanDevice
     {
-        
-        public delegate void PacketArrivalHandler(object sender, LanDeviceEventArgs e);
         public event PacketArrivalHandler PacketArrivalOn;
         public string Ip { get; private set; }
         public int Port { get; private set; }
-
-        ICaptureDevice _device;
+        private ICaptureDevice _device;
 
         public LanDevice(string ip, int port)
         {
@@ -40,7 +37,9 @@ namespace ECMonitoring.Core.Devices
             int readTimeoutMilliseconds = 300;
             _device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
 
-            string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
+            //string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
+            //string filter = "(src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
+            string filter = "(src 192.168.0.100 && port 1800) && tcp";
             _device.Filter = filter;
 
             _device.StartCapture();
@@ -79,9 +78,9 @@ namespace ECMonitoring.Core.Devices
                         string.Empty, len, srcIp, dstIp, proto, Convert.ToInt32(tcp.Rst));
 
                 var eventArgs = 
-                    new LanDeviceEventArgs(srcIp, tcp.Rst, isHttpPresent, httpAttributes);
+                    new LanDeviceEventArgs(srcIp, dstIp, tcp.Rst, isHttpPresent, httpAttributes);
 
-                PacketArrivalOn?.Invoke(this, eventArgs);
+                PacketArrivalOn?.BeginInvoke(this, eventArgs, null, null);
             }
         }
 
