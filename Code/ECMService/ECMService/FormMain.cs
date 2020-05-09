@@ -20,7 +20,8 @@ namespace ECMService
         IStorage _storage;
         public bool IsConnected { get; private set; }
         System.Threading.Timer _timer { get; set; }
-        
+        object _syncObject;
+
         public FormMain()
         {
             InitializeComponent();
@@ -30,52 +31,61 @@ namespace ECMService
             _repository = new FakeRepository();
 
             _timer = new System.Threading.Timer(GetEcmData);
+
+            _syncObject = new object();
         }
 
         private void _btnStart_Click(object sender, EventArgs e)
         {
-            if (IsConnected)
+            lock (_syncObject)
             {
-                Console.WriteLine("Устройство уже подключено.");
-                return;
-            }
-
-            _storage = new MemoryStorage();
-
-            var datas = _repository.GetServices();
-            foreach (var services in datas)
-            {
-                var endpoints = _repository.GetEndPoints(services.Id);
-                foreach (var endpoint in endpoints)
+                if (IsConnected)
                 {
-                    var ep = new ClientEndPoint(endpoint.Ip, endpoint.Port, endpoint.Id, _storage);
-                    _storage.AddEndoint(ep.Ip, ep.Port, ep.Id);
-                    _clientEndPoints.Add(ep);
-                    ep.Start();
+                    Console.WriteLine("Устройство уже подключено.");
+                    return;
                 }
-            }
 
-            IsConnected = true;
-            Console.WriteLine("Устройство подключено.");
+                _storage = new MemoryStorage();
+
+                var datas = _repository.GetServices();
+                foreach (var services in datas)
+                {
+                    var endpoints = _repository.GetEndPoints(services.Id);
+                    foreach (var endpoint in endpoints)
+                    {
+                        var ep = new ClientEndPoint(endpoint.Ip, endpoint.Port, endpoint.Id, _storage);
+                        _storage.AddEndoint(ep.Ip, ep.Port, ep.Id);
+                        _clientEndPoints.Add(ep);
+                        ep.Start();
+                    }
+                }
+
+                IsConnected = true;
+                Console.WriteLine("Устройство подключено.");
+            }
         }
 
         private void _btnStop_Click(object sender, EventArgs e)
         {
-            if (!IsConnected)
+            lock (_syncObject)
             {
-                Console.WriteLine("Устройство ещё не подключено.");
-                return;
-            }
+                if (!IsConnected)
+                {
+                    Console.WriteLine("Устройство ещё не подключено.");
+                    return;
+                }
 
-            foreach (var ep in _clientEndPoints)
-            {
-                ep.Stop();
-            }
-            _clientEndPoints.Clear();
-            _storage.Dispose();
+                IsConnected = false;
 
-            IsConnected = false;
-            Console.WriteLine("Устройство отключено.");
+                foreach (var ep in _clientEndPoints)
+                {
+                    ep.Stop();
+                }
+                _clientEndPoints.Clear();
+                _storage.Dispose();
+
+                Console.WriteLine("Устройство отключено.");
+            }
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -108,10 +118,18 @@ namespace ECMService
 
         void GetEcmData(object o)
         {
-            foreach (var ep in _clientEndPoints)
+            lock (_syncObject)
             {
-                var data = _storage.ExtractData("192.168.0.100", 1800, ep.Id);
-                Console.WriteLine($"Для конечной точки с Id = {ep.Id} состояние = {data.StatusLanDevice}");
+                if (!IsConnected)
+                {
+                    return;
+                }
+
+                foreach (var ep in _clientEndPoints)
+                {
+                    var data = _storage.ExtractData("192.168.0.100", 1800, ep.Id);
+                    Console.WriteLine($"Для конечной точки с Id = {ep.Id} состояние = {data.StatusLanDevice}");
+                }
             }
         }
 

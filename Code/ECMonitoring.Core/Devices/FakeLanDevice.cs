@@ -24,6 +24,7 @@ namespace ECMonitoring.Core.Devices
             
         }
 
+        int _rstCount;
         private void TimerOn(object state)
         {
             #region httpHeader
@@ -41,12 +42,23 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
 
             #endregion
 
+            //Console.WriteLine("Сработал таймер........................................");
+
             var proto =
                 httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : "TCP";
 
             var srcIp = "192.168.0.103";
             var dstIp = "192.168.0.100";
-            var rst = false;
+            var rst = true;
+            if (_rstCount == 2)
+            {
+                rst = false;
+                _rstCount = 0;
+            }
+            else
+            {
+                _rstCount++;
+            }
             var isHttpPresent = GetIsHttpPresent();
             var httpAttributes = default(HttpHeaderAttributes);
 
@@ -59,6 +71,7 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
                 new LanDeviceEventArgs(srcIp, dstIp, rst, isHttpPresent, httpAttributes);
 
             PacketArrivalOn?.BeginInvoke(this, eventArgs, null, null);
+            //PacketArrivalOn?.Invoke(this, eventArgs);
         }
 
         private int _tickCount;
@@ -80,7 +93,7 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
                 throw new DeviceAlreadyConnectedException("Устройство уже подключено.");
             }
 
-            _timer = new Timer(TimerOn,null, 0, 1000);
+            _timer = new Timer(TimerOn,null, 0, 1);
 
             //_timer.Change(0, 1000);
         }
@@ -90,6 +103,7 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
             _timer.Dispose();
             _timer = null;
+            //Console.WriteLine("Таймер остановлен.");
         }
     }
 }

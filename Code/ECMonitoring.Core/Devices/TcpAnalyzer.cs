@@ -18,6 +18,8 @@ namespace ECMonitoring.Core.Devices
         public delegate void TcpAnalyzeCompleteHandler(object sender, LanDeviceStatus deviceStatus);
         public event TcpAnalyzeCompleteHandler TcpAnalyzeCompleteOn;
 
+        bool _isDisposed;
+
         public TcpAnalyzer(string srcIp)
         {
             _prvStatus = LanDeviceStatus.Sleep;
@@ -33,16 +35,25 @@ namespace ECMonitoring.Core.Devices
 
         public void Dispose()
         {
-            _singleShot.Trigger -= _singleShot_Trigger;
-            _pingGenerator.PingErrorOn -= _pingGenerator_PingErrorOn;
-            _singleShot.Dispose();
-            _pingGenerator.Dispose();
+            lock (_syncObject)
+            {
+                _singleShot.Trigger -= _singleShot_Trigger;
+                _pingGenerator.PingErrorOn -= _pingGenerator_PingErrorOn;
+                _singleShot.Dispose();
+                _pingGenerator.Dispose();
+                _isDisposed = true;
+            }
         }
 
         private void _pingGenerator_PingErrorOn(object sender, string errorMessage)
         {
             lock (_syncObject)
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
+
                 _rstCount = 0;
                 if (_prvStatus != LanDeviceStatus.Break)
                 {
@@ -56,6 +67,11 @@ namespace ECMonitoring.Core.Devices
         {
             lock (_syncObject)
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
+
                 if (_prvStatus != LanDeviceStatus.Connect)
                 {
                     return;
@@ -72,8 +88,15 @@ namespace ECMonitoring.Core.Devices
         {
             lock (_syncObject)
             {
+                if (_isDisposed)
+                {
+                    return;
+                }
+
                 _singleShot.Start();
                 _pingGenerator.Stop();
+
+                //System.Threading.Thread.Sleep(1000);
 
                 if (!device.IsRst)
                 {

@@ -40,7 +40,7 @@ namespace ECMonitoring.Core
 
         public ECMonitoringPicap(string ip, int port)
         {
-            _lanDevice = new LanDevice(ip, port); //new FakeLanDevice(ip, port);//
+            _lanDevice = new FakeLanDevice(ip, port);//new LanDevice(ip, port); //
             _lanDevice.PacketArrivalOn += _lanDevice_PacketArrivalOn;
 
             _tcpAnalyzer = new TcpAnalyzer(ip);
@@ -54,6 +54,7 @@ namespace ECMonitoring.Core
         public void Dispose()
         {
             _lanDevice.Stop();
+            //Thread.Sleep(1000);
             _tcpAnalyzer.Dispose();
             _httpAnalyzer.Dispose();
         }
@@ -64,6 +65,7 @@ namespace ECMonitoring.Core
         private void _tcpAnalyzer_TcpAnalyzeCompleteOn(object sender, LanDeviceStatus deviceStatus)
         {
             _logger.TcpLog(deviceStatus);
+            //Console.WriteLine($"_tcpAnalyzer_TcpAnalyzeCompleteOn deviceStatus = {deviceStatus}");
             TcpStatusChangedOn?.Invoke(this, deviceStatus);
         }
 
@@ -72,6 +74,7 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _lanDevice_PacketArrivalOn(object sender, LanDeviceEventArgs e)
         {
+            //Console.WriteLine($"_lanDevice_PacketArrivalOn staus = {e.IsRst}");
             _tcpAnalyzer.Analyze(e);
             //_httpAnalyzer.Analyze(e);
         }

@@ -48,6 +48,7 @@ namespace ECMService.Storage
 
             lock (_syncObject)
             {
+                //System.Threading.Thread.Sleep(1000);
                 _devicesStatusesCollection[key] = deviceStatus;
             }
 

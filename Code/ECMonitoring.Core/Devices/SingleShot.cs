@@ -62,7 +62,6 @@ namespace ECMonitoring.Core.Devices
                 Trigger();
         }
         
-
         /// Запуск одновибратора. Перезапуск одновибратора разрешается только если не истёк период TimeInterval.
         public SingleShotStatus Start()
         {

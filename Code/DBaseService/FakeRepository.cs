@@ -13,6 +13,7 @@ namespace DBaseService
         {
             var clientEndPoints = new List<ClientEndPointDTO>();
             for (int i = 0; i < 300; i++)
+            //for (int i = 0; i < 1; i++)
             {
                 var ep = new ClientEndPointDTO()
                 {
