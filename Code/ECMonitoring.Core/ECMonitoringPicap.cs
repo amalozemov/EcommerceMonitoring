@@ -29,9 +29,12 @@ namespace ECMonitoring.Core
     {
         public delegate void TcpStatusChangedHandler(object sender, LanDeviceStatus deviceStatus);
         public event TcpStatusChangedHandler TcpStatusChangedOn;
+        public delegate void HttpStatusChangedHandler(object sender, int errorsCount);
+        public event HttpStatusChangedHandler HttpStatusChangedOn;
 
-        public delegate void HttpArrivalHandler(object sender, LanDeviceHttpStatus httpStatus);
-        public event HttpArrivalHandler HttpArrivalOn;
+
+        //public delegate void HttpArrivalHandler(object sender, LanDeviceHttpStatus httpStatus);
+        //public event HttpArrivalHandler HttpArrivalOn;
 
         ILanDevice _lanDevice;
         HttpAnalyzer _httpAnalyzer;
@@ -47,8 +50,14 @@ namespace ECMonitoring.Core
             _tcpAnalyzer.TcpAnalyzeCompleteOn += _tcpAnalyzer_TcpAnalyzeCompleteOn;
 
             _httpAnalyzer = new HttpAnalyzer();
-
+            _httpAnalyzer.HttpAnalyzeCompleteOn += _httpAnalyzer_HttpAnalyzeCompleteOn;
             _logger = new FileLogger();
+        }
+
+        private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
+        {
+            _logger.HttpLog(httpStatus);
+            HttpStatusChangedOn?.Invoke(this, httpStatus.HttpErrorsCount);
         }
 
         public void Dispose()
@@ -76,7 +85,7 @@ namespace ECMonitoring.Core
         {
             //Console.WriteLine($"_lanDevice_PacketArrivalOn staus = {e.IsRst}");
             _tcpAnalyzer.Analyze(e);
-            //_httpAnalyzer.Analyze(e);
+            _httpAnalyzer.Analyze(e);
         }
 
         public void Start()

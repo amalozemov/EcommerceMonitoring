@@ -27,25 +27,12 @@ namespace ECMonitoring.Core.Devices
         int _rstCount;
         private void TimerOn(object state)
         {
-            #region httpHeader
 
-            var httpHeader = @"HTTP/1.1 200 OK
-Cache - Control: private
-Content-Length: 117
-Content-Type: application/json; charset=utf-8
-Server: Microsoft-IIS/7.5
-X-AspNet-Version: 4.0.30319
-X-Powered-By: ASP.NET
-Access-Control-Allow-Origin: *
-Date: Mon, 04 May 2020 11:24:57 GMT" +
-"{\"d\":{\"__type\":\"ActionServiceRequestResult:#GMCS.MTT.XRM.Domain.DTO.Action\",\"ActionCode\":\"1\",\"ActionMessage\":\"1234\"}}\"";
-
-            #endregion
 
             //Console.WriteLine("Сработал таймер........................................");
 
-            var proto =
-                httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : "TCP";
+            //var proto =
+            //    httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : "TCP";
 
             var srcIp = "192.168.0.103";
             var dstIp = "192.168.0.100";
@@ -59,11 +46,12 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             {
                 _rstCount++;
             }
-            var isHttpPresent = GetIsHttpPresent();
+            var isHttpPresent = IsHttpPresent();
             var httpAttributes = default(HttpHeaderAttributes);
 
             if (isHttpPresent)
             {
+                var httpHeader = GetHttpHeader();
                 httpAttributes = new HttpHeaderAttributes(srcIp, httpHeader);
             }
 
@@ -74,8 +62,35 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             //PacketArrivalOn?.Invoke(this, eventArgs);
         }
 
+        int _countHttp;
+        private string GetHttpHeader()
+        {
+            var part1 = @"HTTP/1.1 200 OK ";
+            if (_countHttp == 1)
+            {
+                part1 = @"HTTP/1.1 500 ERROR ";
+                _countHttp = 0;
+            }
+            else
+            {
+                _countHttp++;
+            }
+            var httpHeader = part1 + 
+@"Cache - Control: private
+Content-Length: 117
+Content-Type: application/json; charset=utf-8
+Server: Microsoft-IIS/7.5
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+Access-Control-Allow-Origin: *
+Date: Mon, 04 May 2020 11:24:57 GMT" +
+"{\"d\":{\"__type\":\"ActionServiceRequestResult:#GMCS.MTT.XRM.Domain.DTO.Action\",\"ActionCode\":\"1\",\"ActionMessage\":\"1234\"}}\"";
+
+            return httpHeader;
+        }
+
         private int _tickCount;
-        private bool GetIsHttpPresent()
+        private bool IsHttpPresent()
         {
             if (_tickCount == 2)
             {

@@ -10,7 +10,7 @@ namespace ECMonitoring.Core
     {
         public void HttpLog(LanDeviceHttpStatus httpStatus)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{httpStatus.ErrorCode} --- {httpStatus.ErrorDescription}");
         }
 
         public void StartApplication()

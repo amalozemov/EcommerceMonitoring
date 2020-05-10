@@ -10,12 +10,12 @@ namespace ECMService.Storage
     public class EcmData
     {
         public LanDeviceStatus StatusLanDevice { get; private set; }
-        public LanDeviceHttpStatus StatusLanDeviceHttp { get; private set; }
+        public int HttpErrorsCount { get; private set; }
 
-        public EcmData(LanDeviceStatus lanDeviceStatus, LanDeviceHttpStatus lanDeviceHttpStatus)
+        public EcmData(LanDeviceStatus lanDeviceStatus, int httpErrorsCount)
         {
             StatusLanDevice = lanDeviceStatus;
-            StatusLanDeviceHttp = lanDeviceHttpStatus;
+            HttpErrorsCount = httpErrorsCount;
         }
     }
 }

@@ -26,13 +26,16 @@ namespace ECMService.Core
             _storage = storage;
             _lanMonitor = new ECMonitoringPicap(Ip, Port);
             _lanMonitor.TcpStatusChangedOn += _monitor_TcpStatusChangedOn;
-            _lanMonitor.HttpArrivalOn += _monitor_HttpArrivalOn;
+            _lanMonitor.HttpStatusChangedOn += _lanMonitor_HttpStatusChangedOn;
         }
 
-        private void _monitor_HttpArrivalOn(object sender, LanDeviceHttpStatus httpStatus)
+        /// <summary>
+        /// Изменение состояния HTTP.
+        /// </summary>
+        private void _lanMonitor_HttpStatusChangedOn(object sender, int errorsCount)
         {
-            _storage.WriteData(Id, Ip, Port, httpStatus);
-            Console.WriteLine($"httpStatus = {httpStatus}");
+            _storage.WriteData(Id, Ip, Port, errorsCount);
+            Console.WriteLine($"Количество ошибок HTTP  = {errorsCount}");
         }
 
         /// <summary>
