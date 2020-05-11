@@ -1,4 +1,5 @@
-﻿using ECMonitoring.Core;
+﻿using DBaseService;
+using ECMonitoring.Core;
 using ECMService.Storage;
 using System;
 using System.Collections.Generic;
@@ -15,47 +16,65 @@ namespace ECMService.Core
         public string Ip { get; private set; }
         public int Port { get; private set; }
 
-        ECMonitoringPicap _lanMonitor;
+        IList<IECMonitor> _monitors;
         IStorage _storage;
 
-        public ClientEndPoint(string ip, int port, int id, IStorage storage)
+        public ClientEndPoint(IRepository repository, string ip, int port, int id, IStorage storage)
         {
             Ip = ip;
             Port = port;
             Id = id;
             _storage = storage;
-            _lanMonitor = new ECMonitoringPicap(Ip, Port);
-            _lanMonitor.TcpStatusChangedOn += _monitor_TcpStatusChangedOn;
-            _lanMonitor.HttpStatusChangedOn += _lanMonitor_HttpStatusChangedOn;
+
+            _monitors = new List<IECMonitor>();
+            string[] metrics = repository.GetMetrics(id);
+            foreach (var m in metrics)
+            {
+                switch (m)
+                {
+                    case "LanMonitor":
+                        var lanMonitor = new LanMonitor(Ip, Port);
+                        lanMonitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
+                        _monitors.Add(lanMonitor);
+                        break;
+                    default:
+                        throw new NotImplementedException("Метрика не реализована.");
+                }
+            }
         }
 
         /// <summary>
-        /// Изменение состояния HTTP.
+        /// Изменение состояния TCP или HTTP
         /// </summary>
-        private void _lanMonitor_HttpStatusChangedOn(object sender, int errorsCount)
+        private void _lanMonitor_DeviceStatusChangedOn(object sender, object eventArgs)
         {
-            _storage.WriteData(Id, Ip, Port, errorsCount);
-            Console.WriteLine($"Количество ошибок HTTP  = {errorsCount}");
-        }
-
-        /// <summary>
-        /// Изменение состояния TCP.
-        /// </summary>
-        private void _monitor_TcpStatusChangedOn(object sender, LanDeviceStatus deviceStatus)
-        {
-            _storage.WriteData(Id, Ip, Port, deviceStatus);
-            Console.WriteLine($"deviceStatus = {deviceStatus}");
+            var deviceStatus = (LanDeviceStatusEventArgs)eventArgs;
+            if (deviceStatus.EventSource == SourceEvent.Tcp)
+            {
+                _storage.WriteData(Id, deviceStatus.DeviceStatus.Value);
+                Console.WriteLine($"deviceStatus = {deviceStatus.DeviceStatus.Value}");
+            }
+            else
+            {
+                _storage.WriteData(Id, deviceStatus.HttpErrorsCount.Value);
+                Console.WriteLine($"Количество ошибок HTTP  = {deviceStatus.HttpErrorsCount.Value}");
+            }
         }
 
         public void Start()
         {
-            _lanMonitor.Start();
-
+            foreach (var m in _monitors)
+            {
+                m.Start();
+            }
         }
 
         public void Stop()
         {
-            _lanMonitor.Stop();
+            foreach (var m in _monitors)
+            {
+                m.Stop();
+            }
         }
     }
 }

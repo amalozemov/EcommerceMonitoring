@@ -10,7 +10,7 @@ namespace ECMonitoring.Core
     {
         public void HttpLog(LanDeviceHttpStatus httpStatus)
         {
-            Console.WriteLine($"{httpStatus.ErrorCode} --- {httpStatus.ErrorDescription}");
+            Console.WriteLine($"{httpStatus.StatusCode} --- {httpStatus.ErrorDescription}");
         }
 
         public void StartApplication()

@@ -9,10 +9,10 @@ namespace ECMService.Storage
 {
     internal interface IStorage
     {
-        void WriteData(int id, string ip, int port, LanDeviceStatus deviceStatus);
-        void WriteData(int id, string ip, int port, int httpErrorsCount);
-        EcmData ExtractData(string ip, int port, int id); // добавить возвращаемый параметр для извлечения данных из хранилища (например при получении запроса из внешнего сервиса)
-        void AddEndoint(string ip, int port, int id);
+        void WriteData(int id, LanDeviceStatus deviceStatus);
+        void WriteData(int id, int httpErrorsCount);
+        EcmData ExtractData(int id);
+        void AddEndoint(int id);
         void Dispose();
     }
 }

@@ -9,15 +9,16 @@ namespace ECMService.Storage
 {
     internal class MemoryStorage : IStorage
     {
-        IDictionary<string, LanDeviceStatus> _devicesStatusesCollection;
-        IDictionary<string, int> _httpStatusesCollection;
+        IDictionary<int, LanDeviceStatus> _devicesStatusesCollection;
+        IDictionary<int, int> _httpStatusesCollection;
         object _syncObject;
 
         public MemoryStorage()
         {
-            // все коллекции и их содержимое создаются при первой инициализации в методе AddEndoint и в дальнейшем их размеры не меняются.
-            _devicesStatusesCollection = new Dictionary<string, LanDeviceStatus>();
-            _httpStatusesCollection = new Dictionary<string, int>();
+            // все коллекции и их содержимое создаются при первой инициализации в методе 
+            // AddEndoint и в дальнейшем их размеры не меняются.
+            _devicesStatusesCollection = new Dictionary<int, LanDeviceStatus>();
+            _httpStatusesCollection = new Dictionary<int, int>();
             _syncObject = new object();
         }
 
@@ -32,54 +33,48 @@ namespace ECMService.Storage
             }
         }
 
-        public EcmData ExtractData(string ip, int port, int id)
+        public EcmData ExtractData(int id)
         {
             var rez = default(EcmData);
-            var key = $"{ip}:{port}-{id}";
 
             lock (_syncObject)
             {
                 if (_devicesStatusesCollection != null && _httpStatusesCollection != null)
                 {
-                    rez = new EcmData(_devicesStatusesCollection[key], _httpStatusesCollection[key]);
+                    rez = new EcmData(_devicesStatusesCollection[id], _httpStatusesCollection[id]);
                 }
             }
 
             return rez;
         }
 
-        public void WriteData(int id, string ip, int port, LanDeviceStatus deviceStatus)
+        public void WriteData(int id, LanDeviceStatus deviceStatus)
         {
-            var key = $"{ip}:{port}-{id}";
-
             lock (_syncObject)
             {
-                //System.Threading.Thread.Sleep(1000);
                 if (_devicesStatusesCollection != null)
                 {
-                    _devicesStatusesCollection[key] = deviceStatus;
+                    _devicesStatusesCollection[id] = deviceStatus;
                 }
             }
 
         }
 
-        public void WriteData(int id, string ip, int port, int httpErrorsCount)
+        public void WriteData(int id, int httpErrorsCount)
         {
-            var key = $"{ip}:{port}-{id}";
-
             lock (_syncObject)
             {
                 if (_httpStatusesCollection != null)
                 {
-                    _httpStatusesCollection[key] = httpErrorsCount;
+                    _httpStatusesCollection[id] = httpErrorsCount;
                 }
             }
         }
 
-        public void AddEndoint(string ip, int port, int id)
+        public void AddEndoint(int id)
         {
-            _devicesStatusesCollection.Add($"{ip}:{port}-{id}" , LanDeviceStatus.Sleep);
-            _httpStatusesCollection.Add($"{ip}:{port}-{id}", 0);
+            _devicesStatusesCollection.Add(id, LanDeviceStatus.Sleep);
+            _httpStatusesCollection.Add(id, 0);
         }
     }
 }

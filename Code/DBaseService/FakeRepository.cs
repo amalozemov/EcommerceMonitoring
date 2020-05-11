@@ -40,5 +40,10 @@ namespace DBaseService
 
             return clientServices;
         }
+
+        public string[] GetMetrics(int id)
+        {
+            return new string[] { "LanMonitor" };
+        }
     }
 }

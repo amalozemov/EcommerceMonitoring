@@ -10,7 +10,7 @@ namespace ECMonitoring.Core
     {
         public string MethodServiceSignature { get; private set; }
         public string ErrorDescription { get; private set; }
-        public string ErrorCode { get; private set; }
+        public int StatusCode { get; private set; }
         public ServerHttpResponseStatus ResponseStatus { get; private set; }
         public string SrcIp { get; private set; }
         public int HttpErrorsCount { get; private set; }
@@ -20,11 +20,11 @@ namespace ECMonitoring.Core
             ResponseStatus = ServerHttpResponseStatus.OK;
         }
 
-        public LanDeviceHttpStatus(string srcIp, ServerHttpResponseStatus responseStatus, string methodServiceSignature, string errorDescription, string errorCode, int httpErrorsCount)
+        public LanDeviceHttpStatus(string srcIp, ServerHttpResponseStatus responseStatus, string methodServiceSignature, string errorDescription, int statusCode, int httpErrorsCount)
         {
             MethodServiceSignature = methodServiceSignature;
-            ErrorDescription = ErrorDescription;
-            ErrorCode = errorCode;
+            ErrorDescription = errorDescription;
+            StatusCode = statusCode;
             ResponseStatus = responseStatus;
             SrcIp = srcIp;
             HttpErrorsCount = httpErrorsCount;

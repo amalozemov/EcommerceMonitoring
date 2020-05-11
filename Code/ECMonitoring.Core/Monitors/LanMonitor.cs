@@ -1,11 +1,5 @@
 ﻿using ECMonitoring.Core.Devices;
-//using SharpPcap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace ECMonitoring.Core
 {
@@ -25,23 +19,15 @@ namespace ECMonitoring.Core
 
     internal delegate void PacketArrivalHandler(object sender, LanDeviceEventArgs e);
 
-    public class ECMonitoringPicap
+    public class LanMonitor : IECMonitor
     {
-        public delegate void TcpStatusChangedHandler(object sender, LanDeviceStatus deviceStatus);
-        public event TcpStatusChangedHandler TcpStatusChangedOn;
-        public delegate void HttpStatusChangedHandler(object sender, int errorsCount);
-        public event HttpStatusChangedHandler HttpStatusChangedOn;
-
-
-        //public delegate void HttpArrivalHandler(object sender, LanDeviceHttpStatus httpStatus);
-        //public event HttpArrivalHandler HttpArrivalOn;
-
+        public event DeviceStatusChangedHandler DeviceStatusChangedOn;
         ILanDevice _lanDevice;
         HttpAnalyzer _httpAnalyzer;
         TcpAnalyzer _tcpAnalyzer;
         ILogger _logger;
 
-        public ECMonitoringPicap(string ip, int port)
+        public LanMonitor(string ip, int port)
         {
             _lanDevice = new FakeLanDevice(ip, port);//new LanDevice(ip, port); //
             _lanDevice.PacketArrivalOn += _lanDevice_PacketArrivalOn;
@@ -54,16 +40,9 @@ namespace ECMonitoring.Core
             _logger = new FileLogger();
         }
 
-        private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
-        {
-            _logger.HttpLog(httpStatus);
-            HttpStatusChangedOn?.Invoke(this, httpStatus.HttpErrorsCount);
-        }
-
         public void Dispose()
         {
             _lanDevice.Stop();
-            //Thread.Sleep(1000);
             _tcpAnalyzer.Dispose();
             _httpAnalyzer.Dispose();
         }
@@ -74,8 +53,18 @@ namespace ECMonitoring.Core
         private void _tcpAnalyzer_TcpAnalyzeCompleteOn(object sender, LanDeviceStatus deviceStatus)
         {
             _logger.TcpLog(deviceStatus);
-            //Console.WriteLine($"_tcpAnalyzer_TcpAnalyzeCompleteOn deviceStatus = {deviceStatus}");
-            TcpStatusChangedOn?.Invoke(this, deviceStatus);
+            var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Tcp, deviceStatus, null);
+            DeviceStatusChangedOn?.Invoke(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Завершение работы анализатора HTTP пакетов.
+        /// </summary>
+        private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
+        {
+            _logger.HttpLog(httpStatus);
+            var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Http, null, httpStatus.HttpErrorsCount);
+            DeviceStatusChangedOn?.Invoke(this, eventArgs);
         }
 
         /// <summary>
@@ -83,7 +72,6 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _lanDevice_PacketArrivalOn(object sender, LanDeviceEventArgs e)
         {
-            //Console.WriteLine($"_lanDevice_PacketArrivalOn staus = {e.IsRst}");
             _tcpAnalyzer.Analyze(e);
             _httpAnalyzer.Analyze(e);
         }

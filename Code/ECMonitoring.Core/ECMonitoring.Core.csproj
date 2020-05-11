@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\LanDeviceStatusEventArgs.cs" />
+    <Compile Include="Monitors\CpuMonitor.cs" />
     <Compile Include="DataObjects\HttpHeaderAttributes.cs" />
     <Compile Include="DataObjects\LanDeviceHttpStatus.cs" />
     <Compile Include="DataObjects\LanDeviceEventArgs.cs" />
@@ -57,10 +59,12 @@
     <Compile Include="Devices\PingGenerator.cs" />
     <Compile Include="Devices\SingleShot.cs" />
     <Compile Include="Devices\TcpAnalyzer.cs" />
-    <Compile Include="ECMonitoringPicap.cs" />
+    <Compile Include="Monitors\IECMonitor.cs" />
+    <Compile Include="Monitors\LanMonitor.cs" />
     <Compile Include="Exceptions\DeviceAlreadyConnectedException.cs" />
     <Compile Include="Loggers\ILogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
+    <Compile Include="Monitors\MemoryMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
