@@ -33,10 +33,10 @@
             this._lblTcpStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._btnStart = new System.Windows.Forms.Button();
             this._btnStop = new System.Windows.Forms.Button();
             this._btnGetData = new System.Windows.Forms.Button();
             this._btnStopGetData = new System.Windows.Forms.Button();
+            this._btnStart = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,16 +89,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Пакеты TCP:";
             // 
-            // _btnStart
-            // 
-            this._btnStart.Location = new System.Drawing.Point(54, 240);
-            this._btnStart.Name = "_btnStart";
-            this._btnStart.Size = new System.Drawing.Size(75, 23);
-            this._btnStart.TabIndex = 1;
-            this._btnStart.Text = "Start";
-            this._btnStart.UseVisualStyleBackColor = true;
-            this._btnStart.Click += new System.EventHandler(this._btnStart_Click);
-            // 
             // _btnStop
             // 
             this._btnStop.Location = new System.Drawing.Point(54, 269);
@@ -129,6 +119,16 @@
             this._btnStopGetData.UseVisualStyleBackColor = true;
             this._btnStopGetData.Click += new System.EventHandler(this._btnStopGetData_Click);
             // 
+            // _btnStart
+            // 
+            this._btnStart.Location = new System.Drawing.Point(54, 240);
+            this._btnStart.Name = "_btnStart";
+            this._btnStart.Size = new System.Drawing.Size(75, 23);
+            this._btnStart.TabIndex = 1;
+            this._btnStart.Text = "Start";
+            this._btnStart.UseVisualStyleBackColor = true;
+            this._btnStart.Click += new System.EventHandler(this._btnStart_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,10 +155,10 @@
         private System.Windows.Forms.Label _lblTcpStatus;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button _btnStart;
         private System.Windows.Forms.Button _btnStop;
         private System.Windows.Forms.Button _btnGetData;
         private System.Windows.Forms.Button _btnStopGetData;
+        private System.Windows.Forms.Button _btnStart;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Core;
+using ECMService.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ECMService.Storage
     internal class MemoryStorage : IStorage
     {
         IDictionary<int, LanDeviceStatus> _devicesStatusesCollection;
-        IDictionary<int, int> _httpStatusesCollection;
+        IDictionary<int, int> _httpErrorsCountCollection;
         object _syncObject;
 
         public MemoryStorage()
@@ -18,7 +19,7 @@ namespace ECMService.Storage
             // все коллекции и их содержимое создаются при первой инициализации в методе 
             // AddEndoint и в дальнейшем их размеры не меняются.
             _devicesStatusesCollection = new Dictionary<int, LanDeviceStatus>();
-            _httpStatusesCollection = new Dictionary<int, int>();
+            _httpErrorsCountCollection = new Dictionary<int, int>();
             _syncObject = new object();
         }
 
@@ -28,8 +29,8 @@ namespace ECMService.Storage
             {
                 _devicesStatusesCollection.Clear();
                 _devicesStatusesCollection = null;
-                _httpStatusesCollection.Clear();
-                _httpStatusesCollection = null;
+                _httpErrorsCountCollection.Clear();
+                _httpErrorsCountCollection = null;
             }
         }
 
@@ -39,9 +40,11 @@ namespace ECMService.Storage
 
             lock (_syncObject)
             {
-                if (_devicesStatusesCollection != null && _httpStatusesCollection != null)
+                if (_devicesStatusesCollection != null && _httpErrorsCountCollection != null)
                 {
-                    rez = new EcmData(_devicesStatusesCollection[id], _httpStatusesCollection[id]);
+                    var devicesStatus = _devicesStatusesCollection.Keys.Contains(id) ? (LanDeviceStatus?)_devicesStatusesCollection[id] : null;
+                    var httpErrorsCount = _httpErrorsCountCollection.Keys.Contains(id) ? (int?)_httpErrorsCountCollection[id] : null;
+                    rez = new EcmData(devicesStatus, httpErrorsCount);
                 }
             }
 
@@ -64,17 +67,27 @@ namespace ECMService.Storage
         {
             lock (_syncObject)
             {
-                if (_httpStatusesCollection != null)
+                if (_httpErrorsCountCollection != null)
                 {
-                    _httpStatusesCollection[id] = httpErrorsCount;
+                    _httpErrorsCountCollection[id] = httpErrorsCount;
                 }
             }
         }
 
-        public void AddEndoint(int id)
+        public void AddEndoint(ClientEndPoint endPoint)
         {
-            _devicesStatusesCollection.Add(id, LanDeviceStatus.Sleep);
-            _httpStatusesCollection.Add(id, 0);
+            foreach (var m in endPoint.Metrics)
+            {
+                switch (m)
+                {
+                    case MonitorType.LanMonitor:
+                        _devicesStatusesCollection.Add(endPoint.Id, LanDeviceStatus.Sleep);
+                        _httpErrorsCountCollection.Add(endPoint.Id, 0);
+                        break;
+                    default:
+                        throw new NotImplementedException("Метрика не реализована.");
+                }
+            }
         }
     }
 }

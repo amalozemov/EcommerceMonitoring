@@ -8,23 +8,28 @@ using System.Threading.Tasks;
 
 namespace ECMService.Core
 {
-    internal class ECMonitor
+    internal enum MonitorType
     {
-        IList<ClientEndPoint> _clientEndPoints;
-        IRepository _repository;
-        IStorage _storage;
-        object _syncObject;
-        public bool IsConnected { get; private set; }
+        LanMonitor = 0
+    }
+
+    internal static class ECMonitor
+    {
+        static IList<ClientEndPoint> _clientEndPoints;
+        static IRepository _repository;
+        static IStorage _storage;
+        static object _syncObject;
+        public static bool IsConnected { get; private set; }
 
 
-        public ECMonitor()
+        static ECMonitor()
         {
             _clientEndPoints = new List<ClientEndPoint>();
             _repository = new FakeRepository();
             _syncObject = new object();
         }
 
-        public void Start()
+        public static void Start()
         {
             lock (_syncObject)
             {
@@ -36,13 +41,13 @@ namespace ECMService.Core
                 _storage = new MemoryStorage();
 
                 var datas = _repository.GetServices();
-                foreach (var services in datas)
+                foreach (var service in datas)
                 {
-                    var endpoints = _repository.GetEndPoints(services.Id);
+                    var endpoints = _repository.GetEndPoints(service.Id);
                     foreach (var endpoint in endpoints)
                     {
                         var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, _storage);
-                        _storage.AddEndoint(ep.Id);
+                        _storage.AddEndoint(ep);
                         _clientEndPoints.Add(ep);
                         ep.Start();
                     }
@@ -52,7 +57,7 @@ namespace ECMService.Core
             }
         }
 
-        public void Stop()
+        public static void Stop()
         {
             lock (_syncObject)
             {
@@ -72,7 +77,7 @@ namespace ECMService.Core
             }
         }
 
-        public EcmData GetDataByEndPointId(int endPointid)
+        public static EcmData GetDataByEndPointId(int endPointid)
         {
             lock (_syncObject)
             {
@@ -89,12 +94,12 @@ namespace ECMService.Core
         /// Данные по конечным точкам сервиса можно получить не меняя сруктуру приложения, 
         /// для этого нужно получить из БД все конечные точки сервиса и получить данные для них.
         /// </summary>
-        public EcmData GetDataByServiceId(int serviceid)
+        public static EcmData GetDataByServiceId(int serviceid)
         {
             throw new NotImplementedException("Метод GetDataByServiceId не реализован.");
         }
 
-        public void HttpErrorsReset(int id)
+        public static void HttpErrorsReset(int id)
         {
         }
     }

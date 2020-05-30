@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Core;
+using ECMService.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ECMService.Storage
         void WriteData(int id, LanDeviceStatus deviceStatus);
         void WriteData(int id, int httpErrorsCount);
         EcmData ExtractData(int id);
-        void AddEndoint(int id);
+        void AddEndoint(ClientEndPoint id);
         void Dispose();
     }
 }

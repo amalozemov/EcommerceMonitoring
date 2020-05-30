@@ -15,6 +15,7 @@ namespace ECMService.Core
         public int Id { get; private set; }
         public string Ip { get; private set; }
         public int Port { get; private set; }
+        public MonitorType[] Metrics { get; private set; }
 
         IList<IECMonitor> _monitors;
         IStorage _storage;
@@ -27,12 +28,12 @@ namespace ECMService.Core
             _storage = storage;
 
             _monitors = new List<IECMonitor>();
-            string[] metrics = repository.GetMetrics(id);
-            foreach (var m in metrics)
+            Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
+            foreach (var m in Metrics)
             {
                 switch (m)
                 {
-                    case "LanMonitor":
+                    case MonitorType.LanMonitor:
                         var lanMonitor = new LanMonitor(Ip, Port);
                         lanMonitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
                         _monitors.Add(lanMonitor);

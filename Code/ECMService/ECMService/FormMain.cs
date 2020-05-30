@@ -1,6 +1,7 @@
 ﻿using DBaseService;
 using ECMService.Core;
 using System;
+using System.ServiceModel;
 using System.Windows.Forms;
 
 namespace ECMService
@@ -8,7 +9,8 @@ namespace ECMService
     public partial class FormMain : Form
     {
         System.Threading.Timer _timer { get; set; }
-        ECMonitor _ecMonitor;
+        //ECMonitor _ecMonitor;
+        ServiceHost _host;
 
         public FormMain()
         {
@@ -17,31 +19,44 @@ namespace ECMService
 
             _timer = new System.Threading.Timer(GetEcmData);
 
-            _ecMonitor = new ECMonitor();
+            //_ecMonitor = new ECMonitor();
+
+            //using (var host = new ServiceHost(typeof(Connectors)))
+            //{
+            //    host.Open();
+            //    Console.WriteLine("ECMService started...");
+            //    //Console.ReadLine();
+            //}
+
+            _host = new ServiceHost(typeof(Connectors));
+           // _host = new ServiceHost(new Connectors(_ecMonitor));
+            
+            _host.Open();
+            Console.WriteLine("ECMService started...");
         }
 
         private void _btnStart_Click(object sender, EventArgs e)
         {
-            if (_ecMonitor.IsConnected)
+            if (ECMonitor.IsConnected)
             {
                 Console.WriteLine("Устройство уже подключено.");
                 return;
             }
 
-            _ecMonitor.Start();
+            ECMonitor.Start();
 
             Console.WriteLine("Устройство подключено.");
         }
 
         private void _btnStop_Click(object sender, EventArgs e)
         {
-            if (!_ecMonitor.IsConnected)
+            if (!ECMonitor.IsConnected)
             {
                 Console.WriteLine("Устройство ещё не подключено.");
                 return;
             }
 
-            _ecMonitor.Stop();
+            ECMonitor.Stop();
 
             Console.WriteLine("Устройство отключено.");
         }
@@ -50,11 +65,12 @@ namespace ECMService
         {
             _btnStopGetData_Click(null, null);
             _btnStop_Click(null, null);
+            _host.Close();
         }
 
         private void _btnGetData_Click(object sender, EventArgs e)
         {
-            if (!_ecMonitor.IsConnected)
+            if (!ECMonitor.IsConnected)
             {
                 Console.WriteLine("Устройство ещё не подключено.");
                 return;
@@ -65,7 +81,7 @@ namespace ECMService
 
         void GetEcmData(object o)
         {
-            if (!_ecMonitor.IsConnected)
+            if (!ECMonitor.IsConnected)
             {
                 return;
             }
@@ -77,7 +93,7 @@ namespace ECMService
                 var endpoints = _repository.GetEndPoints(service.Id);
                 foreach (var ep in endpoints)
                 {
-                    var data = _ecMonitor.GetDataByEndPointId(ep.Id);
+                    var data = ECMonitor.GetDataByEndPointId(ep.Id);
                     Console.WriteLine($"Для конечной точки с Id = {ep.Id} состояние = {data?.StatusLanDevice}");
                 }
             }

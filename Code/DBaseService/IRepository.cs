@@ -11,6 +11,6 @@ namespace DBaseService
     {
         IList<ClientServiceDTO> GetServices();
         IList<ClientEndPointDTO> GetEndPoints(int ServiceId);
-        string[] GetMetrics(int id);
+        int[] GetMetrics(int id);
     }
 }
