@@ -12,8 +12,10 @@ namespace DBaseService
         public IList<ClientEndPointDTO> GetEndPoints(int ServiceId)
         {
             var clientEndPoints = new List<ClientEndPointDTO>();
-            for (int i = 0; i < 300; i++)
+            //for (int i = 0; i < 300; i++)
             //for (int i = 0; i < 1; i++)
+            //for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var ep = new ClientEndPointDTO()
                 {

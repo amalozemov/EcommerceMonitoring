@@ -16,6 +16,6 @@ namespace ECMService
         int DoWork(int x, int y);
 
         [OperationContract]
-        EcmData GetDataByEndPointId(int endPointid);
+        EcmData GetDataByEndPointId(int endPointId);
     }
 }

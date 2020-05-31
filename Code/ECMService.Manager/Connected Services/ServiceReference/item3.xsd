@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ECMService.Storage" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ECMService.Storage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8733/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ECMonitoring.Core" />
+  <xs:complexType name="EcmData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HttpErrorsCount" nillable="true" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ECMonitoring.Core" minOccurs="0" name="StatusLanDevice" nillable="true" type="q1:LanDeviceStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EcmData" nillable="true" type="tns:EcmData" />
+</xs:schema>

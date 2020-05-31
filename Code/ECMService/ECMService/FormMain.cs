@@ -9,7 +9,6 @@ namespace ECMService
     public partial class FormMain : Form
     {
         System.Threading.Timer _timer { get; set; }
-        //ECMonitor _ecMonitor;
         ServiceHost _host;
 
         public FormMain()
@@ -19,19 +18,9 @@ namespace ECMService
 
             _timer = new System.Threading.Timer(GetEcmData);
 
-            //_ecMonitor = new ECMonitor();
-
-            //using (var host = new ServiceHost(typeof(Connectors)))
-            //{
-            //    host.Open();
-            //    Console.WriteLine("ECMService started...");
-            //    //Console.ReadLine();
-            //}
-
             _host = new ServiceHost(typeof(Connectors));
-           // _host = new ServiceHost(new Connectors(_ecMonitor));
-            
             _host.Open();
+
             Console.WriteLine("ECMService started...");
         }
 
@@ -76,7 +65,7 @@ namespace ECMService
                 return;
             }
 
-            _timer.Change(0, 1);
+            _timer.Change(0, 100);
         }
 
         void GetEcmData(object o)
