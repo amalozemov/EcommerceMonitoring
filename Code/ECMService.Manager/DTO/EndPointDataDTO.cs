@@ -14,9 +14,24 @@ namespace ECMService.Manager
         Break = 3,
     }
 
-    public class EndPointDataDTO
+    public class EndPointDataDTO : IEquatable<EndPointDataDTO>
     {
         public int? HttpErrorsCount { get; internal set; }
         public LanDeviceStatus? StatusLanDevice { get; internal set; }
+
+        public bool Equals(EndPointDataDTO other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (HttpErrorsCount == other.HttpErrorsCount && StatusLanDevice == other.StatusLanDevice)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

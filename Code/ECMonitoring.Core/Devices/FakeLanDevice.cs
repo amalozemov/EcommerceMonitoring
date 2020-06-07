@@ -35,7 +35,7 @@ namespace ECMonitoring.Core.Devices
             //    httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : "TCP";
 
             var srcIp = "192.168.0.103";
-            var dstIp = "192.168.0.100";
+            var dstIp = "192.168.0.101";
             var rst = true;
             if (_rstCount == 2)
             {

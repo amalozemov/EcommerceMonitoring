@@ -30,6 +30,7 @@
         {
             this._btnStop = new System.Windows.Forms.Button();
             this._btnStart = new System.Windows.Forms.Button();
+            this._btnGetDataFromManager = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _btnStop
@@ -52,11 +53,22 @@
             this._btnStart.UseVisualStyleBackColor = true;
             this._btnStart.Click += new System.EventHandler(this._btnStart_Click);
             // 
+            // _btnGetDataFromManager
+            // 
+            this._btnGetDataFromManager.Location = new System.Drawing.Point(328, 324);
+            this._btnGetDataFromManager.Name = "_btnGetDataFromManager";
+            this._btnGetDataFromManager.Size = new System.Drawing.Size(132, 42);
+            this._btnGetDataFromManager.TabIndex = 5;
+            this._btnGetDataFromManager.Text = "Получить данные через менеджер";
+            this._btnGetDataFromManager.UseVisualStyleBackColor = true;
+            this._btnGetDataFromManager.Click += new System.EventHandler(this._btnGetDataFromManager_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(730, 450);
+            this.Controls.Add(this._btnGetDataFromManager);
             this.Controls.Add(this._btnStop);
             this.Controls.Add(this._btnStart);
             this.Name = "FormMain";
@@ -69,6 +81,7 @@
 
         private System.Windows.Forms.Button _btnStop;
         private System.Windows.Forms.Button _btnStart;
+        private System.Windows.Forms.Button _btnGetDataFromManager;
     }
 }
 

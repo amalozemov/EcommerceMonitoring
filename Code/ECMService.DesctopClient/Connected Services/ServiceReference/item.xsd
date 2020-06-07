@@ -19,7 +19,7 @@
   <xs:element name="GetDataByEndPointId">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="endPointid" type="xs:int" />
+        <xs:element minOccurs="0" name="endPointId" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

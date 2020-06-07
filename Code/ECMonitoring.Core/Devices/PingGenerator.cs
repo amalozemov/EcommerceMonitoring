@@ -16,6 +16,7 @@ namespace ECMonitoring.Core.Devices
         public string Ip { get; private set; }
         public int Period { get; private set; }
         Timer _timer { get; set; }
+        int _errosCount;
 
         public PingGenerator(string ip, int period)
         {
@@ -62,10 +63,20 @@ namespace ECMonitoring.Core.Devices
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                
-                PingErrorOn?.Invoke(this, errorMessage);
+                if (_errosCount > 10)
+                {
+                    PingErrorOn?.Invoke(this, errorMessage);
+                }
+                else
+                {
+                    _errosCount++;
+                    ping.Dispose();
+                    ping = null;
+                    return;
+                }
             }
 
+            _errosCount = 0;
             ping.Dispose();
             ping = null;
         }

@@ -39,7 +39,7 @@ namespace ECMonitoring.Core.Devices
 
             //string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
             //string filter = "(src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
-            string filter = "(src 192.168.0.100 && port 1800) && tcp";
+            string filter = "(src 192.168.0.101 && port 1800) && tcp";
             _device.Filter = filter;
 
             _device.StartCapture();
@@ -73,14 +73,25 @@ namespace ECMonitoring.Core.Devices
                     httpAttributes = new HttpHeaderAttributes(srcIp, httpHeader);
                 }
 
-                Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}, {7}, Rst={8}",
-                        time.Hour, time.Minute, time.Second,
-                        string.Empty, len, srcIp, dstIp, proto, Convert.ToInt32(tcp.Rst));
+                //Console.WriteLine("{0}:{1}:{2},{3} (Len={4});  SrcIp={5} -> DstIp={6}, {7}, Rst={8}",
+                //        time.Hour, time.Minute, time.Second,
+                //        string.Empty, len, srcIp, dstIp, proto, Convert.ToInt32(tcp.Rst));
 
-                var eventArgs = 
-                    new LanDeviceEventArgs(srcIp, dstIp, tcp.Rst, isHttpPresent, httpAttributes);
+                //var t = ip.SourceAddress;
+                //if (tcp.SourcePort == 1800 && ip.SourceAddress.ToString() != "192.168.0.101")
+                //{
+                    Console.WriteLine("SrcIp={0}:{1} -> DstIp={2}:{3}, {4}, Rst={5}",
+                       //time.Hour, time.Minute, time.Second,
+                       //string.Empty, len, 
+                       srcIp, tcp.SourcePort, dstIp, tcp.DestinationPort, proto, Convert.ToInt32(tcp.Rst));
 
-                PacketArrivalOn?.BeginInvoke(this, eventArgs, null, null);
+                
+                    var eventArgs =
+                        new LanDeviceEventArgs(srcIp, dstIp, tcp.Rst, isHttpPresent, httpAttributes);
+                
+
+                    PacketArrivalOn?.BeginInvoke(this, eventArgs, null, null);
+                //}
             }
         }
 

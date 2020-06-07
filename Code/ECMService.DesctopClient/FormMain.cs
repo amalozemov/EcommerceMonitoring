@@ -1,5 +1,6 @@
 ﻿using DBaseService;
 using ECMService.DesctopClient.ServiceReference;
+using ECMService.Manager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace ECMService.DesctopClient
     {
         ConnectorsClient _clientService;
         System.Threading.Timer _timer;
+        ECMonitor _esMonitor;
 
         public FormMain()
         {
@@ -23,6 +25,8 @@ namespace ECMService.DesctopClient
             Text = Application.ProductName;
 
             _timer = new System.Threading.Timer(GetEcmData);
+
+            _esMonitor = new ECMonitor();
         }
 
         private void _btnStart_Click(object sender, EventArgs e)
@@ -57,6 +61,22 @@ namespace ECMService.DesctopClient
             _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             _clientService.Close();
             _clientService = null;
+        }
+
+        private void _btnGetDataFromManager_Click(object sender, EventArgs e)
+        {
+            var data = default(EndPointDataDTO);
+
+            var endPointId = 0;
+            var result = _esMonitor.GetDataByEndPointId(endPointId, out data);
+            if (result == ResultOperation.NoChange)
+            {
+                Console.WriteLine("Состояние конечной точки не изменилось");
+            }
+            else
+            {
+                Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+            }
         }
     }
 }

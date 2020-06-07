@@ -20,7 +20,7 @@ namespace DBaseService
                 var ep = new ClientEndPointDTO()
                 {
                     Id = i,
-                    Ip = "192.168.0.100",
+                    Ip = "192.168.0.101",
                     Port = 1800
                 };
                 clientEndPoints.Add(ep);

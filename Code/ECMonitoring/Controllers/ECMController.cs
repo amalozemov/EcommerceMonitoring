@@ -14,11 +14,15 @@ namespace ECMonitoring.Controllers
         {
             // тут 31.05.2020 ECMService.Manager подключать к Десктоп клиенту ECMService.DesctopClient и программировать его:
             //     1) Таймер забирает сразу все данные (по всем сервисам и конечным точкам) 
-            //     2) ECMService.Manager отдаёт данные по каждой конечной точке определяя изменились ли они по отношению к предыдущему запросу (для SignalR можно предусмотреть события) 
+            //     2) ECMService.Manager отдаёт данные по каждой конечной точке (по сервису) определяя изменились ли они по отношению к предыдущему запросу (для SignalR можно предусмотреть события) 
 
-            EndPointDataDTO data;
+            var data = default(EndPointDataDTO);
             var esMonitor = HttpContext.Application["EsMonitor"] as ECMonitor;
-            var t = esMonitor.GetDataByEndPointId(0, out data);
+            var result = esMonitor.GetDataByEndPointId(0, out data);
+            if (result == ResultOperation.NoChange)
+            {
+                // Вернуть клиенту NoChange 
+            }
 
             return View();
         }

@@ -102,10 +102,10 @@ namespace ECMService.DesctopClient.ServiceReference {
         System.Threading.Tasks.Task<int> DoWorkAsync(int x, int y);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByEndPointId", ReplyAction="http://tempuri.org/IConnectors/GetDataByEndPointIdResponse")]
-        ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointid);
+        ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByEndPointId", ReplyAction="http://tempuri.org/IConnectors/GetDataByEndPointIdResponse")]
-        System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointid);
+        System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -143,12 +143,12 @@ namespace ECMService.DesctopClient.ServiceReference {
             return base.Channel.DoWorkAsync(x, y);
         }
         
-        public ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointid) {
-            return base.Channel.GetDataByEndPointId(endPointid);
+        public ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointId) {
+            return base.Channel.GetDataByEndPointId(endPointId);
         }
         
-        public System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointid) {
-            return base.Channel.GetDataByEndPointIdAsync(endPointid);
+        public System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId) {
+            return base.Channel.GetDataByEndPointIdAsync(endPointId);
         }
     }
 }

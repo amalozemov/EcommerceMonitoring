@@ -109,6 +109,16 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DBaseService\DBaseService.csproj">
+      <Project>{a4b16342-00d6-4c77-9738-41f4271eec37}</Project>
+      <Name>DBaseService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ECMService.Manager\ECMService.Manager.csproj">
+      <Project>{016a3841-bbc5-4a7f-af33-465f92d688df}</Project>
+      <Name>ECMService.Manager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\ServiceReference\" />
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +135,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DBaseService\DBaseService.csproj">
-      <Project>{a4b16342-00d6-4c77-9738-41f4271eec37}</Project>
-      <Name>DBaseService</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

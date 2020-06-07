@@ -17,7 +17,7 @@ namespace ECMService.Core
         public int Port { get; private set; }
         public MonitorType[] Metrics { get; private set; }
 
-        IList<IECMonitor> _monitors;
+        IList<IECMonitor> _monitors;    // мониторы, они же метрики
         IStorage _storage;
 
         public ClientEndPoint(IRepository repository, string ip, int port, int id, IStorage storage)
