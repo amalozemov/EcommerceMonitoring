@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECMService.Manager.DTO
 {
-    internal class DataContainer<T>
+    public class ServiceDataDTO
     {
-        public DateTime TimeStamp { get; set; }
-        public T DataObject { get; set; }
+        public IList<EndPointDataDTO> EndPointsData { get; internal set; }
     }
 }

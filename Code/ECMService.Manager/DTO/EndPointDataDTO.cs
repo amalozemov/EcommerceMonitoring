@@ -16,6 +16,7 @@ namespace ECMService.Manager
 
     public class EndPointDataDTO : IEquatable<EndPointDataDTO>
     {
+        public int EndPointId { get; internal set; }
         public int? HttpErrorsCount { get; internal set; }
         public LanDeviceStatus? StatusLanDevice { get; internal set; }
 

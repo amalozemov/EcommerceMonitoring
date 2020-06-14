@@ -18,5 +18,8 @@ namespace ECMService
 
         [OperationContract]
         EcmData GetDataByEndPointId(int endPointId);
+
+        [OperationContract]
+        IList<EcmData> GetDataByServiceId(int serviceId);
     }
 }

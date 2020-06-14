@@ -44,7 +44,7 @@ namespace ECMService.Storage
                 {
                     var devicesStatus = _devicesStatusesCollection.Keys.Contains(id) ? (LanDeviceStatus?)_devicesStatusesCollection[id] : null;
                     var httpErrorsCount = _httpErrorsCountCollection.Keys.Contains(id) ? (int?)_httpErrorsCountCollection[id] : null;
-                    rez = new EcmData(devicesStatus, httpErrorsCount);
+                    rez = new EcmData(id, devicesStatus, httpErrorsCount);
                 }
             }
 

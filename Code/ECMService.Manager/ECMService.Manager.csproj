@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="DTO\DataContainer.cs" />
     <Compile Include="DTO\EndPointDataDTO.cs" />
+    <Compile Include="DTO\ServiceDataDTO.cs" />
     <Compile Include="ECMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

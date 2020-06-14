@@ -17,6 +17,8 @@ namespace ECMService.DesctopClient
     {
         ConnectorsClient _clientService;
         System.Threading.Timer _timer;
+        System.Threading.Timer _timer2;
+        System.Threading.Timer _timer3;
         ECMonitor _esMonitor;
 
         public FormMain()
@@ -25,6 +27,8 @@ namespace ECMService.DesctopClient
             Text = Application.ProductName;
 
             _timer = new System.Threading.Timer(GetEcmData);
+            _timer2 = new System.Threading.Timer(GetAllEndPointDataFromManager);
+            _timer3 = new System.Threading.Timer(GetAllServicesDataFromManager);
 
             _esMonitor = new ECMonitor();
         }
@@ -65,17 +69,85 @@ namespace ECMService.DesctopClient
 
         private void _btnGetDataFromManager_Click(object sender, EventArgs e)
         {
-            var data = default(EndPointDataDTO);
-
             var endPointId = 0;
-            var result = _esMonitor.GetDataByEndPointId(endPointId, out data);
-            if (result == ResultOperation.NoChange)
+            var data = _esMonitor.GetEndPointData(endPointId);
+
+            Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+
+        }
+
+        bool _isDataRecieved;
+        private void _btnGetDataFromManagerAllAndPoints_Click(object sender, EventArgs e)
+        {
+            if (_isDataRecieved)
             {
-                Console.WriteLine("Состояние конечной точки не изменилось");
+                _isDataRecieved = false;
+                _timer2.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             }
-            else
+
+            _isDataRecieved = true;
+            _timer2.Change(0, 100);
+        }
+
+        private void GetAllEndPointDataFromManager(object o)
+        {
+            IRepository _repository = new FakeRepository();
+            var services = _repository.GetServices();
+            foreach (var service in services)
             {
-                Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                var endpoints = _repository.GetEndPoints(service.Id);
+                foreach (var ep in endpoints)
+                {
+                    //var data = _esMonitor.GetEndPointData(ep.Id);
+                    //Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                    new Task(() =>
+                    {
+                        var data = _esMonitor.GetEndPointData(ep.Id);
+                        Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                    }).Start();
+                }
+            }
+        }
+
+        private void _btnGetDataFromManagerByService_Click(object sender, EventArgs e)
+        {
+            var srviceId = 0;
+            var srviceData = _esMonitor.GetServiceData(srviceId);
+
+            foreach (var data in srviceData.EndPointsData)
+            {
+                Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+            }
+        }
+
+        bool _isDataRecieved2;
+        private void _btnGetDataFromManagerByAllServices_Click(object sender, EventArgs e)
+        {
+            if (_isDataRecieved2)
+            {
+                _isDataRecieved2 = false;
+                _timer3.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            }
+
+            _isDataRecieved2 = true;
+            _timer3.Change(0, 100);
+        }
+
+        private void GetAllServicesDataFromManager(object o)
+        {
+            IRepository _repository = new FakeRepository();
+            var services = _repository.GetServices();
+
+            foreach (var service in services)
+            {
+                new Task(() =>
+                {
+                    var srviceData = _esMonitor.GetServiceData(service.Id);
+                    foreach (var data in srviceData.EndPointsData)
+                    {
+                        Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                    }
+                }).Start();
             }
         }
     }

@@ -29,7 +29,7 @@ namespace ECMonitoring.Core
 
         public LanMonitor(string ip, int port)
         {
-            _lanDevice = new LanDevice(ip, port); //new FakeLanDevice(ip, port);//
+            _lanDevice = new FakeLanDevice(ip, port);//new LanDevice(ip, port); //
             _lanDevice.PacketArrivalOn += _lanDevice_PacketArrivalOn;
 
             _tcpAnalyzer = new TcpAnalyzer(ip);

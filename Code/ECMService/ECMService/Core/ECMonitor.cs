@@ -94,9 +94,24 @@ namespace ECMService.Core
         /// Данные по конечным точкам сервиса можно получить не меняя сруктуру приложения, 
         /// для этого нужно получить из БД все конечные точки сервиса и получить данные для них.
         /// </summary>
-        public static EcmData GetDataByServiceId(int serviceid)
+        public static IList<EcmData> GetDataByServiceId(int serviceId)
         {
-            throw new NotImplementedException("Метод GetDataByServiceId не реализован.");
+            lock (_syncObject)
+            {
+                if (!IsConnected)
+                {
+                    return null;
+                }
+
+                IList<EcmData> result = new List<EcmData>();
+                var endPoints = _repository.GetEndPoints(serviceId);
+                foreach (var ep in endPoints)
+                {
+                    var data = _storage.ExtractData(ep.Id);
+                    result.Add(data);
+                }
+                return result;
+            }
         }
 
         public static void HttpErrorsReset(int id)

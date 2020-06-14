@@ -22,5 +22,11 @@ namespace ECMService
             var data = ECMonitor.GetDataByEndPointId(endPointId);
             return data;
         }
+
+        public IList<EcmData> GetDataByServiceId(int serviceId)
+        {
+            var data = ECMonitor.GetDataByServiceId(serviceId);
+            return data;
+        }
     }
 }

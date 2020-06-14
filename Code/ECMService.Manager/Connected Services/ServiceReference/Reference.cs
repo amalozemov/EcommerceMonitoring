@@ -23,6 +23,9 @@ namespace ECMService.Manager.ServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int EndPointIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<int> HttpErrorsCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -35,6 +38,19 @@ namespace ECMService.Manager.ServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int EndPointId {
+            get {
+                return this.EndPointIdField;
+            }
+            set {
+                if ((this.EndPointIdField.Equals(value) != true)) {
+                    this.EndPointIdField = value;
+                    this.RaisePropertyChanged("EndPointId");
+                }
             }
         }
         
@@ -106,6 +122,12 @@ namespace ECMService.Manager.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByEndPointId", ReplyAction="http://tempuri.org/IConnectors/GetDataByEndPointIdResponse")]
         System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByServiceId", ReplyAction="http://tempuri.org/IConnectors/GetDataByServiceIdResponse")]
+        ECMService.Manager.ServiceReference.EcmData[] GetDataByServiceId(int serviceId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByServiceId", ReplyAction="http://tempuri.org/IConnectors/GetDataByServiceIdResponse")]
+        System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -149,6 +171,14 @@ namespace ECMService.Manager.ServiceReference {
         
         public System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId) {
             return base.Channel.GetDataByEndPointIdAsync(endPointId);
+        }
+        
+        public ECMService.Manager.ServiceReference.EcmData[] GetDataByServiceId(int serviceId) {
+            return base.Channel.GetDataByServiceId(serviceId);
+        }
+        
+        public System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId) {
+            return base.Channel.GetDataByServiceIdAsync(serviceId);
         }
     }
 }
