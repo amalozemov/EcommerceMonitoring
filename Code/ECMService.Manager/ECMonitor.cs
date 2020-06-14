@@ -100,7 +100,7 @@ namespace ECMService.Manager
                 if (_endPointsCashe.ContainsKey(endPointId))
                 {
                     var dataCashe = _endPointsCashe[endPointId];
-                    if (dataCashe.TimeStamp >= DateTime.Now.AddMilliseconds(_periodDataUpdate))
+                    if (dataCashe?.TimeStamp >= DateTime.Now.AddMilliseconds(_periodDataUpdate))
                     {
                         return dataCashe.DataObject;
                     }
@@ -111,6 +111,16 @@ namespace ECMService.Manager
                 }
 
                 var data = _clientService.GetDataByEndPointId(endPointId);
+                if (data == null)
+                {
+                    return new EndPointDataDTO()
+                    {
+                        EndPointId = endPointId,
+                        HttpErrorsCount = 0,
+                        StatusLanDevice = LanDeviceStatus.Sleep,
+                    };
+                }
+
                 var endPointData = new EndPointDataDTO()
                 {
                     EndPointId = data.EndPointId,
@@ -137,10 +147,15 @@ namespace ECMService.Manager
         {
             lock (_syncObject)
             {
+                var serviceData = new ServiceDataDTO()
+                {
+                    EndPointsData = new List<EndPointDataDTO>()
+                };
+
                 if (_servicesCashe.ContainsKey(serviceId))
                 {
                     var dataCashe = _servicesCashe[serviceId];
-                    if (dataCashe.TimeStamp >= DateTime.Now.AddMilliseconds(_periodDataUpdate))
+                    if (dataCashe?.TimeStamp >= DateTime.Now.AddMilliseconds(_periodDataUpdate))
                     {
                         return dataCashe.DataObject;
                     }
@@ -151,10 +166,12 @@ namespace ECMService.Manager
                 }
 
                 var response = _clientService.GetDataByServiceId(serviceId);
-                var serviceData = new ServiceDataDTO()
+
+                if (response == null)
                 {
-                    EndPointsData = new List<EndPointDataDTO>()
-                };
+                    return serviceData;
+                }
+
                 foreach (var data in response)
                 {
                     var endPointData = new EndPointDataDTO()
