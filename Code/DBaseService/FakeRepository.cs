@@ -15,13 +15,15 @@ namespace DBaseService
             //for (int i = 0; i < 300; i++)
             //for (int i = 0; i < 1; i++)
             //for (int i = 0; i < 10; i++)
+            //for (int i = 0; i < 50; i++)
             for (int i = 0; i < 50; i++)
             {
                 var ep = new ClientEndPointDTO()
                 {
                     Id = i,
                     Ip = "192.168.0.101",
-                    Port = 1800
+                    Port = 1800,
+                    NetworkName = "NetworkName"
                 };
                 clientEndPoints.Add(ep);
             }
@@ -45,7 +47,7 @@ namespace DBaseService
 
         public int[] GetMetrics(int id)
         {
-            return new int[] { 0 };
+            return new int[] { 0, 1 };
         }
     }
 }

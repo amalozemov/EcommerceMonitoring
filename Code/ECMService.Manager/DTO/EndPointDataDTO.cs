@@ -19,6 +19,8 @@ namespace ECMService.Manager
         public int EndPointId { get; internal set; }
         public int? HttpErrorsCount { get; internal set; }
         public LanDeviceStatus? StatusLanDevice { get; internal set; }
+        public int? MemoryUsage { get; internal set; }
+        public int? ProcessorTime { get; internal set; }
 
         public bool Equals(EndPointDataDTO other)
         {

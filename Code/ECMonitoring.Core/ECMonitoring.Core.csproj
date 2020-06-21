@@ -48,10 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\LanDeviceStatusEventArgs.cs" />
-    <Compile Include="Monitors\CpuMonitor.cs" />
     <Compile Include="DataObjects\HttpHeaderAttributes.cs" />
     <Compile Include="DataObjects\LanDeviceHttpStatus.cs" />
     <Compile Include="DataObjects\LanDeviceEventArgs.cs" />
+    <Compile Include="DataObjects\ResourceUsageEventArgs.cs" />
     <Compile Include="Devices\FakeLanDevice.cs" />
     <Compile Include="Devices\HttpAnalyzer.cs" />
     <Compile Include="Devices\ILanDevice.cs" />
@@ -64,7 +64,7 @@
     <Compile Include="Exceptions\DeviceAlreadyConnectedException.cs" />
     <Compile Include="Loggers\ILogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
-    <Compile Include="Monitors\MemoryMonitor.cs" />
+    <Compile Include="Monitors\ResourceMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

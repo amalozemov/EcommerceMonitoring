@@ -10,7 +10,8 @@ namespace ECMService.Core
 {
     internal enum MonitorType
     {
-        LanMonitor = 0
+        LanMonitor = 0,
+        ResourceMonitor = 1
     }
 
     internal static class ECMonitor
@@ -46,7 +47,7 @@ namespace ECMService.Core
                     var endpoints = _repository.GetEndPoints(service.Id);
                     foreach (var endpoint in endpoints)
                     {
-                        var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, _storage);
+                        var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, endpoint.NetworkName, _storage);
                         _storage.AddEndoint(ep);
                         _clientEndPoints.Add(ep);
                         ep.Start();

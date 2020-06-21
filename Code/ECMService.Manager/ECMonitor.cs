@@ -118,6 +118,8 @@ namespace ECMService.Manager
                         EndPointId = endPointId,
                         HttpErrorsCount = 0,
                         StatusLanDevice = LanDeviceStatus.Sleep,
+                        MemoryUsage = 0,
+                        ProcessorTime = 0
                     };
                 }
 
@@ -126,6 +128,8 @@ namespace ECMService.Manager
                     EndPointId = data.EndPointId,
                     HttpErrorsCount = data.HttpErrorsCount,
                     StatusLanDevice = (LanDeviceStatus)data.StatusLanDevice,
+                    MemoryUsage = data.MemoryUsage,
+                    ProcessorTime = data.ProcessorTime
                 };
 
                 var dataContainer = new DataContainer<EndPointDataDTO>()
@@ -179,6 +183,8 @@ namespace ECMService.Manager
                         EndPointId = data.EndPointId,
                         HttpErrorsCount = data.HttpErrorsCount,
                         StatusLanDevice = (LanDeviceStatus)data.StatusLanDevice,
+                        MemoryUsage = data.MemoryUsage,
+                        ProcessorTime = data.ProcessorTime
                     };
                     serviceData.EndPointsData.Add(endPointData);
                 }

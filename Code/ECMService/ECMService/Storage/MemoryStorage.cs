@@ -12,6 +12,8 @@ namespace ECMService.Storage
     {
         IDictionary<int, LanDeviceStatus> _devicesStatusesCollection;
         IDictionary<int, int> _httpErrorsCountCollection;
+        IDictionary<int, ResourceUsage> _resourceUsage;
+
         object _syncObject;
 
         public MemoryStorage()
@@ -20,6 +22,7 @@ namespace ECMService.Storage
             // AddEndoint и в дальнейшем их размеры не меняются.
             _devicesStatusesCollection = new Dictionary<int, LanDeviceStatus>();
             _httpErrorsCountCollection = new Dictionary<int, int>();
+            _resourceUsage = new Dictionary<int, ResourceUsage>();
             _syncObject = new object();
         }
 
@@ -34,23 +37,30 @@ namespace ECMService.Storage
             }
         }
 
+        /// <summary>
+        /// Извлечение данных из хранилища.
+        /// </summary>
         public EcmData ExtractData(int id)
         {
             var rez = default(EcmData);
 
             lock (_syncObject)
             {
-                if (_devicesStatusesCollection != null && _httpErrorsCountCollection != null)
+                if (_devicesStatusesCollection != null && _httpErrorsCountCollection != null && _resourceUsage != null)
                 {
                     var devicesStatus = _devicesStatusesCollection.Keys.Contains(id) ? (LanDeviceStatus?)_devicesStatusesCollection[id] : null;
                     var httpErrorsCount = _httpErrorsCountCollection.Keys.Contains(id) ? (int?)_httpErrorsCountCollection[id] : null;
-                    rez = new EcmData(id, devicesStatus, httpErrorsCount);
+                    var memoryUsage = _resourceUsage.Keys.Contains(id) ? (int?)_resourceUsage[id].MemoryUsage : null;
+                    var processorTime = _resourceUsage.Keys.Contains(id) ? (int?)_resourceUsage[id].ProcessorTime : null;
+                    rez = new EcmData(id, devicesStatus, httpErrorsCount, memoryUsage, processorTime);
                 }
             }
-
             return rez;
         }
 
+        /// <summary>
+        /// Запись в хранилище состояния TCP.
+        /// </summary>
         public void WriteData(int id, LanDeviceStatus deviceStatus)
         {
             lock (_syncObject)
@@ -60,9 +70,11 @@ namespace ECMService.Storage
                     _devicesStatusesCollection[id] = deviceStatus;
                 }
             }
-
         }
 
+        /// <summary>
+        /// Запись в хранилище количества ошибок HTTP.
+        /// </summary>
         public void WriteData(int id, int httpErrorsCount)
         {
             lock (_syncObject)
@@ -74,6 +86,23 @@ namespace ECMService.Storage
             }
         }
 
+        /// <summary>
+        /// Запись в хранилище используемых ресурсов.
+        /// </summary>
+        public void WriteData(int id, ResourceUsage resourceUsage)
+        {
+            lock (_syncObject)
+            {
+                if (_resourceUsage != null)
+                {
+                    _resourceUsage[id] = resourceUsage;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Инициализация массивов хранения данных.
+        /// </summary>
         public void AddEndoint(ClientEndPoint endPoint)
         {
             foreach (var m in endPoint.Metrics)
@@ -83,6 +112,9 @@ namespace ECMService.Storage
                     case MonitorType.LanMonitor:
                         _devicesStatusesCollection.Add(endPoint.Id, LanDeviceStatus.Sleep);
                         _httpErrorsCountCollection.Add(endPoint.Id, 0);
+                        break;
+                    case MonitorType.ResourceMonitor:
+                        _resourceUsage.Add(endPoint.Id, null);
                         break;
                     default:
                         throw new NotImplementedException("Метрика не реализована.");

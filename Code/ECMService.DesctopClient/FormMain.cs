@@ -55,7 +55,7 @@ namespace ECMService.DesctopClient
                 foreach (var ep in endpoints)
                 {
                     var data = _clientService.GetDataByEndPointId(ep.Id);
-                    Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                    Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
                 }
             }
         }
@@ -72,8 +72,7 @@ namespace ECMService.DesctopClient
             var endPointId = 0;
             var data = _esMonitor.GetEndPointData(endPointId);
 
-            Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
-
+            Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
         }
 
         bool _isDataRecieved;
@@ -103,7 +102,7 @@ namespace ECMService.DesctopClient
                     new Task(() =>
                     {
                         var data = _esMonitor.GetEndPointData(ep.Id);
-                        Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                        Console.WriteLine($"Для конечной точки с Id = {ep.Id} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
                     }).Start();
                 }
             }
@@ -116,7 +115,7 @@ namespace ECMService.DesctopClient
 
             foreach (var data in srviceData.EndPointsData)
             {
-                Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
             }
         }
 
@@ -145,7 +144,7 @@ namespace ECMService.DesctopClient
                     var srviceData = _esMonitor.GetServiceData(service.Id);
                     foreach (var data in srviceData.EndPointsData)
                     {
-                        Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}");
+                        Console.WriteLine($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
                     }
                 }).Start();
             }

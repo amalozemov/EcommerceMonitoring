@@ -77,9 +77,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="Connected Services\ServiceReference\Connectors.wsdl" />
-    <None Include="Connected Services\ServiceReference\ECMService.DesctopClient.ServiceReference.EcmData.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\ServiceReference\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -92,6 +89,7 @@
     <None Include="Connected Services\ServiceReference\item3.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\ECMService.Manager.ServiceReference.EcmData.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

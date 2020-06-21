@@ -1,5 +1,5 @@
 ﻿using ECMonitoring.Core.Devices;
-
+using System;
 
 namespace ECMonitoring.Core
 {
@@ -74,6 +74,7 @@ namespace ECMonitoring.Core
         {
             _tcpAnalyzer.Analyze(e);
             _httpAnalyzer.Analyze(e);
+            //Console.WriteLine("_lanDevice_PacketArrivalOn");
         }
 
         public void Start()

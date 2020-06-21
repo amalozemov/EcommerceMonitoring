@@ -9,87 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace ECMService.DesctopClient.ServiceReference {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="EcmData", Namespace="http://schemas.datacontract.org/2004/07/ECMService.Storage")]
-    [System.SerializableAttribute()]
-    public partial class EcmData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> HttpErrorsCountField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<ECMService.DesctopClient.ServiceReference.LanDeviceStatus> StatusLanDeviceField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> HttpErrorsCount {
-            get {
-                return this.HttpErrorsCountField;
-            }
-            set {
-                if ((this.HttpErrorsCountField.Equals(value) != true)) {
-                    this.HttpErrorsCountField = value;
-                    this.RaisePropertyChanged("HttpErrorsCount");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<ECMService.DesctopClient.ServiceReference.LanDeviceStatus> StatusLanDevice {
-            get {
-                return this.StatusLanDeviceField;
-            }
-            set {
-                if ((this.StatusLanDeviceField.Equals(value) != true)) {
-                    this.StatusLanDeviceField = value;
-                    this.RaisePropertyChanged("StatusLanDevice");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LanDeviceStatus", Namespace="http://schemas.datacontract.org/2004/07/ECMonitoring.Core")]
-    public enum LanDeviceStatus : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Sleep = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Connect = 1,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Disconnect = 2,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Break = 3,
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IConnectors")]
@@ -102,10 +22,16 @@ namespace ECMService.DesctopClient.ServiceReference {
         System.Threading.Tasks.Task<int> DoWorkAsync(int x, int y);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByEndPointId", ReplyAction="http://tempuri.org/IConnectors/GetDataByEndPointIdResponse")]
-        ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointId);
+        ECMService.Manager.ServiceReference.EcmData GetDataByEndPointId(int endPointId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByEndPointId", ReplyAction="http://tempuri.org/IConnectors/GetDataByEndPointIdResponse")]
-        System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId);
+        System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByServiceId", ReplyAction="http://tempuri.org/IConnectors/GetDataByServiceIdResponse")]
+        ECMService.Manager.ServiceReference.EcmData[] GetDataByServiceId(int serviceId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByServiceId", ReplyAction="http://tempuri.org/IConnectors/GetDataByServiceIdResponse")]
+        System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -143,12 +69,20 @@ namespace ECMService.DesctopClient.ServiceReference {
             return base.Channel.DoWorkAsync(x, y);
         }
         
-        public ECMService.DesctopClient.ServiceReference.EcmData GetDataByEndPointId(int endPointId) {
+        public ECMService.Manager.ServiceReference.EcmData GetDataByEndPointId(int endPointId) {
             return base.Channel.GetDataByEndPointId(endPointId);
         }
         
-        public System.Threading.Tasks.Task<ECMService.DesctopClient.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId) {
+        public System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData> GetDataByEndPointIdAsync(int endPointId) {
             return base.Channel.GetDataByEndPointIdAsync(endPointId);
+        }
+        
+        public ECMService.Manager.ServiceReference.EcmData[] GetDataByServiceId(int serviceId) {
+            return base.Channel.GetDataByServiceId(serviceId);
+        }
+        
+        public System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId) {
+            return base.Channel.GetDataByServiceIdAsync(serviceId);
         }
     }
 }

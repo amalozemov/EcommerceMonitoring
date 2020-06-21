@@ -11,28 +11,24 @@ namespace ECMonitoring.Core.Devices
     internal class FakeLanDevice : ILanDevice
     {
         public event PacketArrivalHandler PacketArrivalOn;
-
         public string Ip { get; private set; }
         public int Port { get; private set; }
-
         Timer _timer;
 
         public FakeLanDevice(string ip, int port)
         {
             Ip = ip;
             Port = port;
-            
         }
 
         int _rstCount;
         private void TimerOn(object state)
         {
-
-
             //Console.WriteLine("Сработал таймер........................................");
 
             //var proto =
             //    httpHeader.IndexOf("http", StringComparison.CurrentCultureIgnoreCase) >= 0 || httpHeader.IndexOf("post", StringComparison.CurrentCultureIgnoreCase) >= 0 ? "HTTP" : "TCP";
+            //return;
 
             var srcIp = "192.168.0.103";
             var dstIp = "192.168.0.101";
@@ -107,9 +103,7 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             {
                 throw new DeviceAlreadyConnectedException("Устройство уже подключено.");
             }
-
-            _timer = new Timer(TimerOn,null, 0, 1);
-
+            _timer = new Timer(TimerOn, null, 0, 1);
             //_timer.Change(0, 1000);
         }
 
@@ -118,7 +112,6 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
             _timer.Dispose();
             _timer = null;
-            //Console.WriteLine("Таймер остановлен.");
         }
     }
 }

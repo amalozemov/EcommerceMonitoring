@@ -65,6 +65,7 @@
     <Compile Include="Storage\EcmData.cs" />
     <Compile Include="Storage\IStorage.cs" />
     <Compile Include="Storage\MemoryStorage.cs" />
+    <Compile Include="Storage\ResourceUsage.cs" />
     <Compile Include="WCFService\Connectors.cs" />
     <Compile Include="WCFService\IConnectors.cs" />
     <EmbeddedResource Include="FormMain.resx">

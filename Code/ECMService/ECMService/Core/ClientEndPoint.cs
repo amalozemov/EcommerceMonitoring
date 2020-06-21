@@ -4,7 +4,6 @@ using ECMService.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ECMService.Core
@@ -15,18 +14,20 @@ namespace ECMService.Core
         public int Id { get; private set; }
         public string Ip { get; private set; }
         public int Port { get; private set; }
+        public string NetworkName { get; private set; }
         public MonitorType[] Metrics { get; private set; }
 
         IList<IECMonitor> _monitors;    // мониторы, они же метрики
         IStorage _storage;
 
-        public ClientEndPoint(IRepository repository, string ip, int port, int id, IStorage storage)
+        public ClientEndPoint(IRepository repository, string ip, int port, int id, string networkName, IStorage storage)
         {
             Ip = ip;
             Port = port;
             Id = id;
+            NetworkName = networkName;
             _storage = storage;
-
+            
             _monitors = new List<IECMonitor>();
             Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
             foreach (var m in Metrics)
@@ -38,6 +39,12 @@ namespace ECMService.Core
                         lanMonitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
                         _monitors.Add(lanMonitor);
                         break;
+                    case MonitorType.ResourceMonitor:
+                        var resourceMonitor = new ResourceMonitor(NetworkName);
+                        resourceMonitor.DeviceStatusChangedOn += ResourceMonitor_DeviceStatusChangedOn;
+                        _monitors.Add(resourceMonitor);
+                        break;
+
                     default:
                         throw new NotImplementedException("Метрика не реализована.");
                 }
@@ -62,12 +69,23 @@ namespace ECMService.Core
             }
         }
 
+        /// <summary>
+        /// Изменение состояния памяти или загрузки процессора
+        /// </summary>
+        private void ResourceMonitor_DeviceStatusChangedOn(object sender, object eventArgs)
+        {
+            var resource = (ResourceUsageEventArgs)eventArgs;
+            _storage.WriteData(Id, new ResourceUsage(resource.MemoryUsage, resource.ProcessorTime));
+            Console.WriteLine($"Ресурсы:  Используемая память: {resource.MemoryUsage}; Время процессора: {resource.ProcessorTime}");
+        }
+
         public void Start()
         {
             foreach (var m in _monitors)
             {
                 m.Start();
             }
+            //Parallel.ForEach(_monitors, m => m.Start());
         }
 
         public void Stop()

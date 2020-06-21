@@ -3,9 +3,18 @@
   <xs:import schemaLocation="http://localhost:8733/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ECMonitoring.Core" />
   <xs:complexType name="EcmData">
     <xs:sequence>
+      <xs:element minOccurs="0" name="EndPointId" type="xs:int" />
       <xs:element minOccurs="0" name="HttpErrorsCount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MemoryUsage" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProcessorTime" nillable="true" type="xs:int" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ECMonitoring.Core" minOccurs="0" name="StatusLanDevice" nillable="true" type="q1:LanDeviceStatus" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="EcmData" nillable="true" type="tns:EcmData" />
+  <xs:complexType name="ArrayOfEcmData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EcmData" nillable="true" type="tns:EcmData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEcmData" nillable="true" type="tns:ArrayOfEcmData" />
 </xs:schema>

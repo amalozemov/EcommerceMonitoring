@@ -29,6 +29,12 @@ namespace ECMService.Manager.ServiceReference {
         private System.Nullable<int> HttpErrorsCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> MemoryUsageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProcessorTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<ECMService.Manager.ServiceReference.LanDeviceStatus> StatusLanDeviceField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -63,6 +69,32 @@ namespace ECMService.Manager.ServiceReference {
                 if ((this.HttpErrorsCountField.Equals(value) != true)) {
                     this.HttpErrorsCountField = value;
                     this.RaisePropertyChanged("HttpErrorsCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> MemoryUsage {
+            get {
+                return this.MemoryUsageField;
+            }
+            set {
+                if ((this.MemoryUsageField.Equals(value) != true)) {
+                    this.MemoryUsageField = value;
+                    this.RaisePropertyChanged("MemoryUsage");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProcessorTime {
+            get {
+                return this.ProcessorTimeField;
+            }
+            set {
+                if ((this.ProcessorTimeField.Equals(value) != true)) {
+                    this.ProcessorTimeField = value;
+                    this.RaisePropertyChanged("ProcessorTime");
                 }
             }
         }
