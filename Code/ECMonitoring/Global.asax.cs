@@ -19,15 +19,15 @@ namespace ECMonitoring
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var esMonitor = new ECMonitor();
-            Application["EsMonitor"] = esMonitor;
+            Application["EcMonitor"] = esMonitor;
         }
 
         protected void Application_End()
         {
-            var esMonitor = Application["EsMonitor"] as ECMonitor;
-            if (esMonitor != null)
+            var ecMonitor = Application["EcMonitor"] as ECMonitor;
+            if (ecMonitor != null)
             {
-                esMonitor.Dispose();
+                ecMonitor.Dispose();
             }
         }
     }

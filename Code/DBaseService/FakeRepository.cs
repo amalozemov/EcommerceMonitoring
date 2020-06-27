@@ -49,5 +49,10 @@ namespace DBaseService
         {
             return new int[] { 0, 1 };
         }
+
+        public bool IsUserPresent(string userName, string password)
+        {
+            return true;
+        }
     }
 }

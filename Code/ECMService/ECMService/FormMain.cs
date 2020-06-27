@@ -22,6 +22,8 @@ namespace ECMService
             _host.Open();
 
             Console.WriteLine("ECMService started...");
+
+            _btnStart_Click(null, null);
         }
 
         private void _btnStart_Click(object sender, EventArgs e)
