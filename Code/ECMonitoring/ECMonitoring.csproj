@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\ECMService\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\ECMService\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\ECMService\packages\NLog.4.7.2\lib\net45\NLog.dll</HintPath>
@@ -124,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -135,7 +142,11 @@
     </Compile>
     <Compile Include="Infrastructure\FormAuthProvider.cs" />
     <Compile Include="Infrastructure\IAuthProvider.cs" />
+    <Compile Include="Models\EndPointModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\MetricModel.cs" />
+    <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +188,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ECM\Index.cshtml" />
     <Content Include="Views\ECM\Login.cshtml" />
+    <Content Include="Views\ECM\LeftBar.cshtml" />
+    <Content Include="Views\ECM\MainArea.cshtml" />
+    <Content Include="Views\ECM\LANMetric.cshtml" />
+    <Content Include="Views\ECM\ResourceUsageMetric.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

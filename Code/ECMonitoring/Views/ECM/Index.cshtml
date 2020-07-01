@@ -1,7 +1,19 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model ECMonitoring.Models.MainModel
 
-<h2>Index</h2>
+@*@{
+    ViewBag.Title = "Index";
+}*@
+
+@*<h2>Index</h2>*@
+
+<table>
+    <tr>
+        <td>
+            @Html.Partial("LeftBar", Model.Services)
+        </td>
+        <td>
+            @Html.Partial("MainArea", Model.EndPoints)
+        </td>
+    </tr>
+</table>
 

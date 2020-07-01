@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace DBaseService.DTO
 {
-    public class ClientEndPointDTO
+    public class ClientMetricDTO
     {
         public int Id { get; set; }
-        public string Ip { get; set; }
-        public int Port { get; set; }
-        public string NetworkName { get; set; }
         public string Name { get; set; }
-        public List<ClientMetricDTO> Metrics { get; set; }
+        public int MetricType { get; set; }
     }
 }

@@ -47,7 +47,8 @@ namespace ECMService.Core
                     var endpoints = _repository.GetEndPoints(service.Id);
                     foreach (var endpoint in endpoints)
                     {
-                        var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, endpoint.NetworkName, _storage);
+                        //var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, endpoint.NetworkName, _storage);
+                        var ep = new ClientEndPoint(endpoint, _storage);
                         _storage.AddEndoint(ep);
                         _clientEndPoints.Add(ep);
                         ep.Start();

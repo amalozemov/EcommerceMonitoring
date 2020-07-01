@@ -17,6 +17,7 @@ namespace ECMonitoring
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            AutoMapperConfig.Configure();
 
             var esMonitor = new ECMonitor();
             Application["EcMonitor"] = esMonitor;

@@ -1,4 +1,5 @@
 ﻿using DBaseService;
+using DBaseService.DTO;
 using ECMonitoring.Core;
 using ECMService.Storage;
 using System;
@@ -20,16 +21,18 @@ namespace ECMService.Core
         IList<IECMonitor> _monitors;    // мониторы, они же метрики
         IStorage _storage;
 
-        public ClientEndPoint(IRepository repository, string ip, int port, int id, string networkName, IStorage storage)
+        //public ClientEndPoint(IRepository repository, string ip, int port, int id, string networkName, IStorage storage)
+        public ClientEndPoint(ClientEndPointDTO endPoint, IStorage storage)
         {
-            Ip = ip;
-            Port = port;
-            Id = id;
-            NetworkName = networkName;
+            Ip = endPoint.Ip;
+            Port = endPoint.Port;
+            Id = endPoint.Id;
+            NetworkName = endPoint.NetworkName;
             _storage = storage;
             
             _monitors = new List<IECMonitor>();
-            Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
+            //Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
+            Metrics = endPoint.Metrics.Select(m => (MonitorType)m.MetricType).ToArray();
             foreach (var m in Metrics)
             {
                 switch (m)
@@ -51,6 +54,8 @@ namespace ECMService.Core
             }
         }
 
+
+        
         /// <summary>
         /// Изменение состояния TCP или HTTP
         /// </summary>

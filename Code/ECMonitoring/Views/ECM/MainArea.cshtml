@@ -1,0 +1,28 @@
+﻿@model IList<ECMonitoring.Models.EndPointModel>
+
+<div style="background-color:darksalmon; border: 1px solid #000000; width: 800px; height: 600px">
+
+    <h2>Основная область</h2>
+    <br />
+
+    @foreach (var endPoint in Model)
+    {
+        //@Html.ActionLink(service.Name, "Index", new { serviceId = endPoint.Id });<br />
+        @*@Html.Label(endPoint.Id.ToString())<br />*@
+        @*@Html.Label(endPoint.Name)<br />*@
+
+        <p style="margin-left: 25px;">@Html.Label(endPoint.Name)</p>
+        foreach (var metric in endPoint.Metrics)
+        {
+            @*<p style="margin-left: 75px;">@Html.Label(metric.Name)</p>*@
+            if (metric.MetricType == 0)
+            {
+                @Html.Partial("LANMetric", metric)
+            }
+            else
+            {
+                @Html.Partial("ResourceUsageMetric", metric)
+            }
+        }
+    }
+</div>

@@ -1,0 +1,16 @@
+﻿@model IList<ECMonitoring.Models.ServiceModel>
+
+
+
+<div style="background-color:lavender; border: 1px solid #000000; width: 300px; height: 600px">
+    <nav>
+        @*<h3>Navigation</h3>*@
+        <h2>Левая панель</h2>
+        <br />
+
+        @foreach (var service in Model)
+        {
+            @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id });<br />
+        }
+    </nav>
+</div>

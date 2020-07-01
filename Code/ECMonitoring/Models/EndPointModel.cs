@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DBaseService.DTO
+namespace ECMonitoring.Models
 {
-    public class ClientEndPointDTO
+    public class EndPointModel
     {
         public int Id { get; set; }
         public string Ip { get; set; }
         public int Port { get; set; }
         public string NetworkName { get; set; }
         public string Name { get; set; }
-        public List<ClientMetricDTO> Metrics { get; set; }
+        public IList<MetricModel> Metrics { get; set; }
     }
 }

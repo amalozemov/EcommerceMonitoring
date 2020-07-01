@@ -11,7 +11,7 @@ namespace DBaseService
     {
         IList<ClientServiceDTO> GetServices();
         IList<ClientEndPointDTO> GetEndPoints(int ServiceId);
-        int[] GetMetrics(int id);
+        //int[] GetMetrics(int EndPointId);
         bool IsUserPresent(string userName, string password);
     }
 }
