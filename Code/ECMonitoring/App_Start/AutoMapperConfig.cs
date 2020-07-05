@@ -22,7 +22,7 @@ namespace ECMonitoring
                 Mapper.CreateMap<ClientServiceDTO, ServiceModel>();
                 Mapper.CreateMap<IList<ClientServiceDTO>, IList<ServiceModel>>();
                 Mapper.CreateMap<ClientMetricDTO, MetricModel>();
-                Mapper.CreateMap<List<ClientMetricDTO>, List<MetricModel>>();
+                Mapper.CreateMap<IList<ClientMetricDTO>, IList<MetricModel>>();
                 Mapper.CreateMap<ClientEndPointDTO, EndPointModel>();
                 Mapper.CreateMap<IList<ClientEndPointDTO>, IList<EndPointModel>>();
             }

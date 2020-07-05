@@ -69,7 +69,7 @@ namespace ECMService.DesctopClient
 
         private void _btnGetDataFromManager_Click(object sender, EventArgs e)
         {
-            var endPointId = 0;
+            var endPointId = 1;
             var data = _esMonitor.GetEndPointData(endPointId);
 
             Console.WriteLine($"Для конечной точки с Id = {endPointId} TCP Status = {data?.StatusLanDevice};  Http Errors Count = {data?.HttpErrorsCount}; MemoryUsage = {data?.MemoryUsage}; ProcessorTime = {data?.ProcessorTime}");
@@ -110,7 +110,7 @@ namespace ECMService.DesctopClient
 
         private void _btnGetDataFromManagerByService_Click(object sender, EventArgs e)
         {
-            var srviceId = 0;
+            var srviceId = 1;
             var srviceData = _esMonitor.GetServiceData(srviceId);
 
             foreach (var data in srviceData.EndPointsData)

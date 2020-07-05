@@ -32,7 +32,7 @@ namespace ECMService.Core
             
             _monitors = new List<IECMonitor>();
             //Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
-            Metrics = endPoint.Metrics.Select(m => (MonitorType)m.MetricType).ToArray();
+            Metrics = endPoint.Metrics.Select(m => m.MetricType).ToArray();
             foreach (var m in Metrics)
             {
                 switch (m)

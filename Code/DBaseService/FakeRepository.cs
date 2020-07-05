@@ -32,9 +32,15 @@ namespace DBaseService
         {
             return new List<ClientMetricDTO>()
             {
-                new ClientMetricDTO(){ Id = 1, Name = "Метрика 1", MetricType = 0 },
-                new ClientMetricDTO(){ Id = 2, Name = "Метрика 2", MetricType = 1 }
+                new ClientMetricDTO(){ Id = 1, Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
+                new ClientMetricDTO(){ Id = 2, Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
             };
+        }
+
+        public List<ClientMetricDTO> GetMetrics(int EndPointId)
+        {
+            return GetMetrics();
+
         }
 
         public bool IsUserPresent(string userName, string password)

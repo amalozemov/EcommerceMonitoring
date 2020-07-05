@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ECMService.Core
 {
-    internal enum MonitorType
-    {
-        LanMonitor = 0,
-        ResourceMonitor = 1
-    }
+    //internal enum MonitorType
+    //{
+    //    LanMonitor = 0,
+    //    ResourceMonitor = 1
+    //}
 
     internal static class ECMonitor
     {

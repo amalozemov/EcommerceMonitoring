@@ -12,6 +12,6 @@ namespace ECMonitoring.Models
         public int Port { get; set; }
         public string NetworkName { get; set; }
         public string Name { get; set; }
-        public IList<MetricModel> Metrics { get; set; }
+        public List<MetricModel> Metrics { get; set; }
     }
 }

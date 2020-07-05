@@ -1,4 +1,5 @@
-﻿using ECMonitoring.Core;
+﻿using DBaseService.DTO;
+using ECMonitoring.Core;
 using ECMService.Core;
 using System;
 using System.Collections.Generic;

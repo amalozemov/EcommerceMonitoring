@@ -63,19 +63,37 @@ namespace ECMonitoring.Controllers
             var model = new MainModel();
             //model.Services = services.Select(s => Mapper.Map<ClientServiceDTO, ServiceModel>(s)).ToList();
             model.Services = Mapper.Map<List<ClientServiceDTO>, List<ServiceModel>>(services);
-            model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
+           model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
 
 
             var srviceData = EcMonitor.GetServiceData(serviceId.Value);
 
-            foreach (var data in srviceData.EndPointsData)
+            foreach (var endPoint in srviceData.EndPointsData)
             {
                 // тут 01.07.2020 MetricModel должна содержать такие же свойства как и EndPointDataDTO, значения этих всойств должны тут мэпиться.
                 // при выполнении Ajax запроса тип и Id метрики можно получить в БД, или вернуть в EndPointDataDTO (предпочтительно)
                 // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и метрики)
 
                 // на 01.07.2020 для начала выводить нижеполученные значения в интерфейс конечной точки (метрики)
-                Logger.Info($"Для конечной точки с Id = {data.EndPointId} TCP Status = {data.StatusLanDevice};  Http Errors Count = {data.HttpErrorsCount}; MemoryUsage = {data.MemoryUsage}; ProcessorTime = {data.ProcessorTime}");
+                Logger.Info($"Для конечной точки с Id = {endPoint.EndPointId} TCP Status = {endPoint.StatusLanDevice};  Http Errors Count = {endPoint.HttpErrorsCount}; MemoryUsage = {endPoint.MemoryUsage}; ProcessorTime = {endPoint.ProcessorTime}");
+
+                var metrics = 
+                    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
+
+                var ep = model.EndPoints.Where(e => e.Id == endPoint.EndPointId).FirstOrDefault();
+                foreach (var metric in ep.Metrics)
+                {
+                    if (metric.MetricType == (int)MonitorType.LanMonitor)
+                    {
+                        metric.StatusLanDevice = endPoint.StatusLanDevice;
+                        metric.HttpErrorsCount = endPoint.HttpErrorsCount;
+                    }
+                    else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
+                    {
+                        metric.MemoryUsage = endPoint.MemoryUsage;
+                        metric.ProcessorTime = endPoint.ProcessorTime;
+                    }
+                }
             }
 
             return View(model);
