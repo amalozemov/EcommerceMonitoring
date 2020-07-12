@@ -7,6 +7,7 @@ namespace ECMonitoring.Models
 {
     public class MainModel
     {
+        public int ServiceId { get; set; }
         public IList<ServiceModel> Services { get; set; }
         public List<EndPointModel> EndPoints { get; set; }
     }

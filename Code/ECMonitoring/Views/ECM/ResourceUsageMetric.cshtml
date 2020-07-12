@@ -1,3 +1,3 @@
 ﻿@model ECMonitoring.Models.MetricModel
 
-<p style="margin-left: 75px;">@Html.Label(Model.Name); @Html.Label(Model.MemoryUsage.ToString()); @Html.Label(Model.ProcessorTime.ToString())</p>
+<p style="margin-left: 75px;">@Html.Label(Model.Name); @Html.Label(Model.MemoryUsage.ToString(), new { id = $"memoryUsage_{Model.Id}" }); @Html.Label(Model.ProcessorTime.ToString(), new { id = $"processorTime_{Model.Id}" })</p>

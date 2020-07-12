@@ -17,3 +17,60 @@
     </tr>
 </table>
 
+<script type="text/javascript">
+
+    ECMonitoring = {
+
+        TimerStart: function () {
+            setInterval(function () {
+                //alert('TimerStart');
+                //debugger;
+                var url = "@Url.Action("GetServiceData")";
+                //var serviceId = @Model.Services
+                var data = { serviceId: @Model.ServiceId };
+
+                $.ajax({
+                    dataType: 'json',
+                    method: 'POST',
+                    url: url,
+                    async: true,
+                    data: data,
+                    success: function (result) {
+                        //if (jsonResult.Message != null && jsonResult.Message != "") {
+                        //    window.bpspat.api.dialNumber(jsonResult.Message);
+                        //}
+                        debugger;
+                        
+
+                        console.log("Success");
+
+                        result.forEach(function (item) {
+                            //alert(i + ": " + item + " (массив:" + arr + ")");
+                            if (item.metricType == 0) {
+                                ECMonitoring.UpdateLanMonitor(item);
+                            }
+                        });
+                    },
+                    error: function (jsonResult) {
+                        console.log("Error");
+                    }
+                });
+
+            }, 2000);
+        },
+
+        UpdateLanMonitor: function (data) {
+
+            debugger;
+
+            var labelStatus = document.getElementById('status_' + data.elementKey);
+            labelStatus.innerText = data.statusLanDevice;
+        },
+
+
+    };
+
+    window.onload = ECMonitoring.TimerStart;
+
+</script>
+

@@ -47,6 +47,7 @@ namespace ECMonitoring.Controllers
         }
 
         // GET: ECM
+        [AllowAnonymous]
         public ActionResult Index(int? serviceId)
         {
             //FormsAuthentication.SignOut();
@@ -63,8 +64,8 @@ namespace ECMonitoring.Controllers
             var model = new MainModel();
             //model.Services = services.Select(s => Mapper.Map<ClientServiceDTO, ServiceModel>(s)).ToList();
             model.Services = Mapper.Map<List<ClientServiceDTO>, List<ServiceModel>>(services);
-           model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
-
+            model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
+            model.ServiceId = serviceId.Value;
 
             var srviceData = EcMonitor.GetServiceData(serviceId.Value);
 
@@ -72,7 +73,7 @@ namespace ECMonitoring.Controllers
             {
                 // тут 01.07.2020 MetricModel должна содержать такие же свойства как и EndPointDataDTO, значения этих всойств должны тут мэпиться.
                 // при выполнении Ajax запроса тип и Id метрики можно получить в БД, или вернуть в EndPointDataDTO (предпочтительно)
-                // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и метрики)
+                // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и Id метрики)
 
                 // на 01.07.2020 для начала выводить нижеполученные значения в интерфейс конечной точки (метрики)
                 Logger.Info($"Для конечной точки с Id = {endPoint.EndPointId} TCP Status = {endPoint.StatusLanDevice};  Http Errors Count = {endPoint.HttpErrorsCount}; MemoryUsage = {endPoint.MemoryUsage}; ProcessorTime = {endPoint.ProcessorTime}");
@@ -81,6 +82,7 @@ namespace ECMonitoring.Controllers
                     Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
 
                 var ep = model.EndPoints.Where(e => e.Id == endPoint.EndPointId).FirstOrDefault();
+                ep.Metrics = metrics;
                 foreach (var metric in ep.Metrics)
                 {
                     if (metric.MetricType == (int)MonitorType.LanMonitor)
@@ -97,6 +99,67 @@ namespace ECMonitoring.Controllers
             }
 
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetServiceData(int serviceId)
+        {
+            var t = serviceId;
+
+            var responseData = EcMonitor.GetServiceData(serviceId);
+
+            //var serviceData = new List<object>();
+
+            //var endPointData = new List<object>();
+            var metricsData = new List<object>();
+            foreach (var endPoint in responseData.EndPointsData)
+            {
+                //var endPointData = new Dictionary<int, object>();
+                //var endPointData = new List<object>();
+                //{
+                //    {endPoint.EndPointId, new { } }
+                //};
+
+                var metrics =
+                    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
+
+                //var metricsData = new List<object>(); 
+                foreach (var metric in metrics)
+                {
+                    object metricData = null;
+                    //var elementKey = default(string); $"{endPoint.EndPointId}_{metric.Id}";
+                    if (metric.MetricType == (int)MonitorType.LanMonitor)
+                    {
+                        //metric.StatusLanDevice = endPoint.StatusLanDevice;
+                        //metric.HttpErrorsCount = endPoint.HttpErrorsCount;
+                        //metricData = new { metricType = 0, endPointId = endPoint.EndPointId, metricId = metric.Id, statusLanDevice = endPoint.StatusLanDevice, httpErrorsCount = endPoint.HttpErrorsCount };
+
+                        //var elementKey = $"{endPoint.EndPointId}_{metric.Id}";
+                        //var elementKey = $"{metric.Id}";
+                        metricData = new { metricType = 0, elementKey = $"{metric.Id}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
+                    }
+                    else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
+                    {
+                        //metric.MemoryUsage = endPoint.MemoryUsage;
+                        //metric.ProcessorTime = endPoint.ProcessorTime;
+                        metricData = new { metricType = 1, elementKey = $"{metric.Id}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
+                    }
+
+                    metricsData.Add(metricData);
+
+                }
+
+                //endPointData.Add(endPoint.EndPointId, metricsData);
+                //endPointData.Add(metricsData);
+                //serviceData.Add(endPointData);
+            }
+
+
+            //var result = Json(serviceData, JsonRequestBehavior.AllowGet);
+            //var result = Json(new { test = 1}, JsonRequestBehavior.AllowGet);
+            var result = Json(metricsData, JsonRequestBehavior.AllowGet);
+
+            return result;
         }
     }
 }

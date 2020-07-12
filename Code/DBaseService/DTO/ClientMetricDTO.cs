@@ -14,7 +14,8 @@ namespace DBaseService.DTO
 
     public class ClientMetricDTO
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public MonitorType MetricType { get; set; }
     }

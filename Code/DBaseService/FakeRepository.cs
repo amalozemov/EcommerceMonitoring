@@ -28,20 +28,20 @@ namespace DBaseService
             return _clientEndPoints[ServiceId];
         }
 
-        private List<ClientMetricDTO> GetMetrics()
+        public List<ClientMetricDTO> GetMetrics(int EndPointId)
         {
             return new List<ClientMetricDTO>()
             {
-                new ClientMetricDTO(){ Id = 1, Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
-                new ClientMetricDTO(){ Id = 2, Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
+                new ClientMetricDTO(){ Id = $"{EndPointId}_1", Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
+                new ClientMetricDTO(){ Id = $"{EndPointId}_2", Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
             };
         }
 
-        public List<ClientMetricDTO> GetMetrics(int EndPointId)
-        {
-            return GetMetrics();
+        //public List<ClientMetricDTO> GetMetrics(int EndPointId)
+        //{
+        //    return GetMetrics(EndPointId);
 
-        }
+        //}
 
         public bool IsUserPresent(string userName, string password)
         {
@@ -127,7 +127,7 @@ namespace DBaseService
                         Port = 1800,
                         NetworkName = "NetworkName",
                         Name = $"Конечная точка с Id = {endPointId + i + 1}",
-                        Metrics = GetMetrics()
+                        Metrics = GetMetrics(endPointId)
                     };
                     clientEndPointsByService.Add(ep);
                 }
