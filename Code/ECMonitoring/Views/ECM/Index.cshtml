@@ -49,6 +49,9 @@
                             if (item.metricType == 0) {
                                 ECMonitoring.UpdateLanMonitor(item);
                             }
+                            else {
+                                ECMonitoring.UpdateResourceMonitor(item);
+                            }
                         });
                     },
                     error: function (jsonResult) {
@@ -56,7 +59,7 @@
                     }
                 });
 
-            }, 2000);
+            }, 200);
         },
 
         UpdateLanMonitor: function (data) {
@@ -65,9 +68,21 @@
 
             var labelStatus = document.getElementById('status_' + data.elementKey);
             labelStatus.innerText = data.statusLanDevice;
+
+            var labelHttpErrorsCount = document.getElementById('httpErrorsCount_' + data.elementKey);
+            labelHttpErrorsCount.innerText = data.httpErrorsCount;
         },
 
+        UpdateResourceMonitor: function (data) {
 
+            debugger;
+
+            var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
+            labelMemoryUsage.innerText = data.memoryUsage;
+
+            var labelProcessorTime = document.getElementById('processorTime_' + data.elementKey);
+            labelProcessorTime.innerText = data.processorTime;
+        },
     };
 
     window.onload = ECMonitoring.TimerStart;
