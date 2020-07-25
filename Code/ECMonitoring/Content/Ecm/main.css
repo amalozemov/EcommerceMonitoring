@@ -1,0 +1,27 @@
+﻿.main_header {
+    /*color: yellow;*/
+    color: #9d9d9d;
+    font-size: 32px;
+    display: inline-block;
+    font-weight:700;
+    padding: 5px;
+}
+
+.user_header {
+    color: #9d9d9d;
+    font-size: 18px;
+    display: inline-block;
+    float: right;
+}
+
+.user_header_pad {
+    padding: 15px 0px 0 0;
+}
+
+.exit_header {
+    padding: 15px 0 0 7px;
+}
+
+.exit_header:hover {
+    color: white;
+}

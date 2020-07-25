@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	//Таймер обратного отсчета
+    //Таймер обратного отсчета
 	//Документация: http://keith-wood.name/countdown.html
 	//<div class="countdown" date-time="2015-01-07"></div>
 	var austDay = new Date($(".countdown").attr("date-time"));
@@ -83,4 +83,8 @@ $(document).ready(function() {
 		return false;
 	});
 
+    $(".main_menu_button").click(function () {
+        //alert("main_menu_button");
+        $(".main_menu ul").slideToggle();
+    });
 });

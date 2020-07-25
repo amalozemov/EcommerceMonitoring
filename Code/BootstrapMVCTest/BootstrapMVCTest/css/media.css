@@ -7,12 +7,22 @@
 
 /* Medium Devices, Desktops */
 @media only screen and (max-width : 992px) {
-
+    .main_menu ul {
+        display: none;
+        background-color: #3797BF;
+        position: absolute;
+        width: 100%;
+    }
+    .main_menu ul li {
+        /*display: block;*/
+    }
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
-
+    /*.main_menu ul {
+        display: none;
+    }*/
 }
 
 /* Extra Small Devices, Phones */
@@ -40,12 +50,17 @@
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-
+    
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
-
+    .main_menu ul {
+        display: block /*!important*/;
+    }
+    .main_menu ul li {
+        display: inline-block;
+    }
 }
 
  /* Large Devices, Wide Screens */

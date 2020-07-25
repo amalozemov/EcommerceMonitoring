@@ -154,6 +154,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Ecm\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -186,12 +187,14 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ECM\Index.cshtml" />
+    <Content Include="Views\ECM\IndexPrv.cshtml" />
     <Content Include="Views\ECM\Login.cshtml" />
     <Content Include="Views\ECM\LeftBar.cshtml" />
     <Content Include="Views\ECM\MainArea.cshtml" />
     <Content Include="Views\ECM\LANMetric.cshtml" />
     <Content Include="Views\ECM\ResourceUsageMetric.cshtml" />
+    <Content Include="Views\ECM\Index.cshtml" />
+    <Content Include="Views\Shared\_EcmLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

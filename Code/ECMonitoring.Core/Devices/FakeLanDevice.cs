@@ -103,7 +103,8 @@ Date: Mon, 04 May 2020 11:24:57 GMT" +
             {
                 throw new DeviceAlreadyConnectedException("Устройство уже подключено.");
             }
-            _timer = new Timer(TimerOn, null, 0, 1);
+            //_timer = new Timer(TimerOn, null, 0, 1);
+            _timer = new Timer(TimerOn, null, 0, Timeout.Infinite);
             //_timer.Change(0, 1000);
         }
 

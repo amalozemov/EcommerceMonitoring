@@ -23,12 +23,14 @@
     <link rel="stylesheet" href="~/libs/fancybox/jquery.fancybox.css" />
     <link rel="stylesheet" href="~/libs/owl-carousel/owl.carousel.css" />
     <link rel="stylesheet" href="~/libs/countdown/jquery.countdown.css" />
-    <link rel="stylesheet" href="~/css/fonts.css?v=3" />
-    <link rel="stylesheet" href="~/css/main.css?v=3" />
-    <link rel="stylesheet" href="~/css/media.css" />
+    <link rel="stylesheet" href="~/css/fonts.css?v=10" />
+    <link rel="stylesheet" href="~/css/main.css?v=11" />
+    <link rel="stylesheet" href="~/css/media.css?v=12" />
+
+    
 </head>
 <body>
-    
+
     <header class="top_header">
         <div class="header_topline">
 
@@ -36,13 +38,13 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="top_links">
-                            <a href="#">Вход</a> / 
+                            <a href="#">Вход</a> /
                             <a href="#">Регистрация</a>
                         </div>
                         <div class="soc_buttons">
                             @*<a href="#"><img src="~/img/vk-brands.svg" /></a>
-                            <a href="#"><img src="~/img/vk-brands.svg" /></a>
-                            <a href="#"><img src="~/img/vk-brands.svg" /></a>*@
+                                <a href="#"><img src="~/img/vk-brands.svg" /></a>
+                                <a href="#"><img src="~/img/vk-brands.svg" /></a>*@
                             <a href="#"><i class="fab fa-vk"></i></a>
                             <a href="#"><i class="fab fa-facebook-square"></i></a>
                             <a href="#"><i class="fab fa-twitter-square"></i></a>
@@ -58,6 +60,9 @@
                 <div class="row">
                     <a href="#" class="logo">moDesign</a>
                     <nav class="main_menu clearfix">
+                        <button class="main_menu_button hidden-lg">
+                            <i class="fa fa-bars"></i>
+                        </button>
                         <ul>
                             <li class="active"><a href="#">Главная</a></li>
                             <li><a href="#">Приложения</a></li>
@@ -71,31 +76,44 @@
                 </div>
             </div>
         </div>
+    </header>
+    <div class="container">
+        <div class="carusel">
+            Карусель
+        </div>
+    </div>
+        <section class="order">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-1"><div class="test_div">Колонка 1</div></div>
+                    <div class="col-md-2"><div class="test_div">Колонка 2</div></div>
+                </div>
+            </div>
+        </section>
 
-        @*половина видео*@
-</header>
-    
-    
-    <!--[if lt IE 9]>
-    <script src="libs/html5shiv/es5-shim.min.js"></script>
-    <script src="libs/html5shiv/html5shiv.min.js"></script>
-    <script src="libs/html5shiv/html5shiv-printshiv.min.js"></script>
-    <script src="libs/respond/respond.min.js"></script>
-    <![endif]-->
-    <script src="libs/jquery/jquery-1.11.1.min.js"></script>
-    <script src="libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
-    <script src="libs/fancybox/jquery.fancybox.pack.js"></script>
-    <script src="libs/waypoints/waypoints-1.6.2.min.js"></script>
-    <script src="libs/scrollto/jquery.scrollTo.min.js"></script>
-    <script src="libs/owl-carousel/owl.carousel.min.js"></script>
-    <script src="libs/countdown/jquery.plugin.js"></script>
-    <script src="libs/countdown/jquery.countdown.min.js"></script>
-    <script src="libs/countdown/jquery.countdown-ru.js"></script>
-    <script src="libs/landing-nav/navigation.js"></script>
-    <script src="js/common.js"></script>
-    <!-- Yandex.Metrika counter --><!-- /Yandex.Metrika counter -->
-    <!-- Google Analytics counter --><!-- /Google Analytics counter -->
+        @*<script>alert("Привет");</script>*@
 
-    
+        <!--[if lt IE 9]>
+        <script src="~/libs/html5shiv/es5-shim.min.js"></script>
+        <script src="~/libs/html5shiv/html5shiv.min.js"></script>
+        <script src="~/libs/html5shiv/html5shiv-printshiv.min.js"></script>
+        <script src="~/libs/respond/respond.min.js"></script>
+        <![endif]-->
+        <script src="~/libs/jquery/jquery-1.11.1.min.js"></script>
+        <script src="~/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+        <script src="~/libs/fancybox/jquery.fancybox.pack.js"></script>
+        <script src="~/libs/waypoints/waypoints-1.6.2.min.js"></script>
+        <script src="~/libs/scrollto/jquery.scrollTo.min.js"></script>
+        <script src="~/libs/owl-carousel/owl.carousel.min.js"></script>
+        <script src="~/libs/countdown/jquery.plugin.js"></script>
+        <script src="~/libs/countdown/jquery.countdown.min.js"></script>
+        <script src="~/libs/countdown/jquery.countdown-ru.js"></script>
+        <script src="~/libs/landing-nav/navigation.js"></script>
+        <script src="~/js/common.js?v=10"></script>
+        <!-- Yandex.Metrika counter --><!-- /Yandex.Metrika counter -->
+        <!-- Google Analytics counter --><!-- /Google Analytics counter -->
+
+
+
 </body>
 </html>

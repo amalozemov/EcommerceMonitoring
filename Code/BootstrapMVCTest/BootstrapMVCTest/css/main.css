@@ -97,6 +97,7 @@ body {
     padding: 0px;
     list-style-type: none;
     float: left;
+    text-transform: uppercase;
 }
 
 .main_menu li {
@@ -109,4 +110,33 @@ body {
     padding: 0 15px;
     background-color: #2787AF;
     line-height:53px;
+}
+
+.main_menu_button {
+    background-color: transparent;
+    border: medium none;
+    font-size: 26px;
+    color: #FFFFFF;
+    padding: 8px 15px 0px;
+    /*float: left;*/
+    z-index: 0;
+}
+
+.carusel {
+    height: 50px;
+    background-color: aqua;
+}
+
+section.order {
+    background-color: #EEEEEE;
+    padding: 20px 0;
+}
+
+.test_div {
+    /*width: 100px;*/
+    height: 100px;
+    background-color: red;
+    border: solid;
+    border-color: black;
+    border-width: 1px;
 }

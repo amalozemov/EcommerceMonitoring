@@ -66,6 +66,7 @@ namespace ECMonitoring.Controllers
             model.Services = Mapper.Map<List<ClientServiceDTO>, List<ServiceModel>>(services);
             model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
             model.ServiceId = serviceId.Value;
+            model.UserName = "Пушкин А.С.";//"Администратор";
 
             var srviceData = EcMonitor.GetServiceData(serviceId.Value);
 
