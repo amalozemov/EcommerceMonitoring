@@ -26,6 +26,7 @@ namespace ECMonitoring
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/Ecm/main.css"));
+            //"~/Content/site.css"));
         }
     }
 }

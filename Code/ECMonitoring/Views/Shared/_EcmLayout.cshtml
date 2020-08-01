@@ -10,26 +10,29 @@
     <title>ECM Monitor</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/Ecm/main.css?v=4" />
 </head>
 
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
+        @*<div class="navbar navbar-inverse navbar-fixed-top position_static">*@
+        @*<div class="heder_panel">*@
         <div class="container">
             @*<div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        </div>*@
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>*@
             @*<div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
-            </ul>
-        </div>*@
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
+                        <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                        <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                    </ul>
+                </div>*@
             @*<div style="color:yellow">Компас+</div>*@
             @*<div class="main_header">Компас+</div>*@
             <div class="main_header">ECM</div>
@@ -39,19 +42,37 @@
             @*<div class="navbar-brand">Компас+</div>*@
             @*Компас+*@
             @*@Html.ActionLink("Выход", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
-            @Html.ActionLink("Выход", "Index", "Home", new { area = "" }, new { @class = "user_header exit_header" })
-            <div class="user_header user_header_pad">@RenderSection("user_header", required: false)<span><b> |</b></span></div>
 
-            <div></div>
+
+            @*@Html.ActionLink("Выход", "Index", "Home", new { area = "" }, new { @class = "user_header exit_header" })
+                <div class="user_header user_header_pad">@RenderSection("user_header", required: false)<span><b> |</b></span></div>*@
+            @*<div>*@
+            @RenderSection("user_header", required: false)
+            @*</div>*@
+            @*<div></div>*@
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – Кафедра Автоматизации</p>
-        </footer>
+    <div style="z-index:0; border: 0px solid #000000;">
+        <div class="container body-content">
+
+            @*<div class="row">*@
+            @RenderBody()
+            @*</div>*@
+
+            <div id="footer" style="z-index:1000; position:static">
+                <hr style="z-index:1000" />
+                <footer style="z-index:1000;">
+                    <p>&copy; @DateTime.Now.Year – Кафедра Автоматизации</p>
+                </footer>
+            </div>
+        </div>
+
+        
     </div>
+
+    
+
+    @*<div style="background-color:antiquewhite; height:100px; position:static; top:400px; left:0px"></div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

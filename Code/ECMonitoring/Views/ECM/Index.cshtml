@@ -10,20 +10,22 @@
     Layout = "~/Views/Shared/_EcmLayout.cshtml";
 }
 
-<table>
-    <tr>
-        <td>
+@*<table>*@
+    @*<tr>*@
+        @*<td>*@
             @Html.Partial("LeftBar", Model.Services)
-        </td>
-        <td>
+        @*</td>*@
+        @*<td>*@
             @Html.Partial("MainArea", Model.EndPoints)
-        </td>
-    </tr>
-</table>
+        @*</td>*@
+    @*</tr>*@
+@*</table>*@
 
 <script type="text/javascript">
 
     ECMonitoring = {
+        LeftBarHeigfh: 0,
+
 
         TimerStart: function () {
             setInterval(function () {
@@ -43,10 +45,10 @@
                         //if (jsonResult.Message != null && jsonResult.Message != "") {
                         //    window.bpspat.api.dialNumber(jsonResult.Message);
                         //}
-                        debugger;
+                        //debugger;
 
 
-                        console.log("Success");
+                        //console.log("Success");
 
                         result.forEach(function (item) {
                             //alert(i + ": " + item + " (массив:" + arr + ")");
@@ -58,17 +60,93 @@
                             }
                         });
                     },
-                    error: function (jsonResult) {
-                        console.log("Error");
+                    error: function (result) {
+                        //console.log("Error");
                     }
                 });
 
             }, 200);
+
+            //debugger;
+
+            //$("#main_area").resize(function () {
+            $(window).resize(function () {
+                $(window).scrollTop(0);
+
+                //alert('Размеры окна браузера изменены.');
+                var mainAreaHeight = $("#main_area").outerHeight();
+                //$('#left_bar').height(mainAreaHeight);
+                console.log("window.resize");
+                var clientHeight = $(window).height() - 75;//document.body.clientHeight;
+                //$('.hei').height(clientHeight);
+                if (clientHeight < mainAreaHeight) {
+                    $('#left_bar').height(clientHeight - 0);
+                }
+                else {
+                    $('#left_bar').height(mainAreaHeight);
+                }
+
+                ECMonitoring.LeftBarHeigfh = clientHeight;//$("#left_bar").outerHeight();
+
+                //console.log(clientHeight);
+            });
+
+            //https://serblog.ru/jquery-sobytie-pri-prokrutke-do-opredelennogo-elementa-futera/
+
+            $(window).scroll(function () {
+                //debugger;
+
+                // проверка на докрутку до определенного элемента
+                var offsetLeftBar = $('#left_bar').offset().top - 1;
+                var offsetFooter = $('#footer').offset().top - 20;
+                //console.log(offsetLeftBar);
+                //console.log(offsetFooter);// выводим в консоль смещение  элемента пицца
+                console.log($(this).scrollTop());
+
+                //var mainAreaHeight = $("#main_area").outerHeight();
+                var mainAreaHeight = $(window).height() - 75;
+
+                //$('#left_bar').height(mainAreaHeight - offsetLeftBar);
+
+                //$('#left_bar').height(ECMonitoring.LeftBarHeigfh - offsetLeftBar);
+
+                //если мы докрутили до нужного элемента 
+                if ($(window).scrollTop() + $(window).height() > offsetFooter) {
+                    // создаем эффекты и анимацию
+                    //jQuery(".bottom_float_menu").show();
+                    //$('#left_bar').height(mainAreaHeight - offsetLeftBar);
+                    //$('#left_bar').height(ECMonitoring.LeftBarHeigfh - offsetLeftBar);
+
+                    var t = $(window).scrollTop() + $(window).height() - offsetFooter;
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh - t);
+                } else {
+                    //jQuery(".bottom_float_menu").hide();
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh);
+
+                }
+                //// если докрутил до низа страницы
+                //if (jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height()) {
+                //    jQuery(".bottom_float_menu").hide();
+                //}
+            });	
+
+            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
+                $(window).resize();
+            });
+
+            window.addEventListener('resize', (e) => {
+                //let width = e.target.innerWidth;
+                $(window).resize();
+            });
+
+            $(window).resize();
+
+
         },
 
         UpdateLanMonitor: function (data) {
 
-            debugger;
+            //debugger;
 
             var labelStatus = document.getElementById('status_' + data.elementKey);
             labelStatus.innerText = data.statusLanDevice;
@@ -79,7 +157,7 @@
 
         UpdateResourceMonitor: function (data) {
 
-            debugger;
+            //debugger;
 
             var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
             labelMemoryUsage.innerText = data.memoryUsage;
@@ -90,8 +168,21 @@
     };
 
     window.onload = ECMonitoring.TimerStart;
+    //$('#left_bar')
+    
 
 </script>
 
-@section user_header {<span>@Model.UserName</span>}
+@section user_header {
+    <div id="nav_login">
+        <p>
+            @*<span> | </span>*@
+            <span class="user_logout">@Model.UserName</span>
+            <span> | </span>
+            <span class="user_logout">
+                @Html.ActionLink("Выход", "Login", "ECM", new { area = "" })
+            </span>
+        </p>
+    </div>
+}
 
