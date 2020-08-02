@@ -98,3 +98,67 @@ span.user_logout a:hover {
     color: red;*/
     color: #fff;
 }
+
+.end_point_main_container {
+    background-color: lavender;
+    /*border: 1px solid #000000;*/
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,.04), 0 4px 10px 0 rgba(13,35,67,.25);
+}
+
+.services_mnu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /*background-color: #f1f1f1;*/
+    /*position: fixed;*/
+    /*height: 100%;*/
+    /*overflow: auto;*/
+}
+
+li a {
+    display: block;
+    color: #222222;
+    padding: 10px 0 10px 10px;
+    text-decoration: none;
+    background-color: #C8C8C8;
+    border: 1px solid #000000;
+    margin: 0 15px 7px 15px;
+    font-size: 21px;
+}
+
+/*li a.active {
+    background-color: #4CAF50;
+    color: white;
+}*/
+
+
+    li a:hover {
+        background-color: #FFF;
+        /*color: white;*/
+        text-decoration: none;
+    }
+
+
+/*li a:hover:not(a:active) {
+    background-color: #FFF;
+    /*color: white;*/
+    /*text-decoration: none;*/
+/*}*/
+
+li a:active {
+    background-color: #222;
+    color: #FFF;
+    text-decoration: none;
+}
+
+    
+
+    /*li a:focus {
+        background-color: #222;
+        color: #FFF;
+        text-decoration: none;
+    }*/
+

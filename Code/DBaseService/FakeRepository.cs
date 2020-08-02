@@ -88,6 +88,42 @@ namespace DBaseService
                 {
                     Id = 7,
                     Name = "Сервис 7"
+                },
+                // если будут ошибки можно убрать
+                new ClientServiceDTO()
+                {
+                    Id = 8,
+                    Name = "Сервис 8"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 9,
+                    Name = "Сервис 9"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 10,
+                    Name = "Сервис 10"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 11,
+                    Name = "Сервис 11"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 12,
+                    Name = "Сервис 12"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 13,
+                    Name = "Сервис 13"
+                },
+                new ClientServiceDTO()
+                {
+                    Id = 14,
+                    Name = "Сервис 14"
                 }
             };
             return clientServices;

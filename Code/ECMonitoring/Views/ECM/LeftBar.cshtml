@@ -18,10 +18,34 @@
             <h2>Левая панель</h2>
             <br />
 
-            @foreach (var service in Model)
-            {
-                @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id });<br />
-            }
+            @*@foreach (var service in Model)
+        {
+            @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id });<br />
+        }*@
+
+            @*<ul>
+            <li><a class="active" href="#home">Главная</a></li>
+            <li><a href="#news">Новости</a></li>
+            <li><a href="#contact">Контакты</a></li>
+            <li><a href="#about">О Нас</a></li>
+        </ul>*@
+
+            <ul class="services_mnu">
+                @foreach (var service in Model)
+                {
+                    //<li><a href="#news">Новости</a></li>
+                    <li>
+                        @*<div style="background-color: #C8C8C8; border: 1px solid #000000; padding: 10px 0 10px 0; margin: 0 15px 7px 15px">*@
+                            @*<span style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 21px; color: #222222">*@
+                                @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id })
+                            @*</span>*@
+                        @*</div>*@
+                    </li>
+        
+                }
+            </ul>
+
+
         </div>
     </div>
 @*</div>*@

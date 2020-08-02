@@ -16,7 +16,13 @@
             @Html.Partial("LeftBar", Model.Services)
         @*</td>*@
         @*<td>*@
-            @Html.Partial("MainArea", Model.EndPoints)
+
+            @*@Html.Partial("MainArea", Model.EndPoints, new ViewDataDictionary(new { ServiceName = "22345" } ))*@
+
+            @{var t = new ViewDataDictionary();
+            t["ServiceName"] = Model.ServiceId;
+            @Html.Partial("MainArea", Model.EndPoints, t);}
+
         @*</td>*@
     @*</tr>*@
 @*</table>*@
