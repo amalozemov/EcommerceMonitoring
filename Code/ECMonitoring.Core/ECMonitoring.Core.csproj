@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PacketDotNet">
-      <HintPath>..\..\..\..\..\Arhive\WinPcap\SharpPcap-4.2.0\Release\PacketDotNet.dll</HintPath>
+      <HintPath>..\Pcap\PacketDotNet.dll</HintPath>
     </Reference>
     <Reference Include="SharpPcap">
-      <HintPath>..\..\..\..\..\Arhive\WinPcap\SharpPcap-4.2.0\Release\SharpPcap.dll</HintPath>
+      <HintPath>..\Pcap\SharpPcap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
