@@ -6,6 +6,12 @@
 
 @*<h2>Index</h2>*@
 
+
+@*задник FCFCFF
+    левая панель   #F7F7FD
+    кнопки E6E6FA
+    *@ 
+
 @{
     Layout = "~/Views/Shared/_EcmLayout.cshtml";
 }
@@ -20,7 +26,7 @@
             @*@Html.Partial("MainArea", Model.EndPoints, new ViewDataDictionary(new { ServiceName = "22345" } ))*@
 
             @{var t = new ViewDataDictionary();
-            t["ServiceName"] = Model.ServiceId;
+            t["ServiceName"] = Model.ServiceName;
             @Html.Partial("MainArea", Model.EndPoints, t);}
 
         @*</td>*@

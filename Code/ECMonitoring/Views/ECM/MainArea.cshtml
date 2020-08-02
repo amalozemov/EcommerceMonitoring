@@ -2,17 +2,20 @@
 
 @*<div style="background-color:darksalmon; border: 1px solid #000000; width: 800px; height: 600px; margin: 75px 0 0 150px;">*@
 @*<div class="col-md-9">*@
-<div id="main_area" style="background-color: darksalmon; border: 1px solid #000000; margin: 75px 0 0 250px; min-height: 600px; padding: 25px; min-width: 370px">
+<div id="main_area" class="main_area">
     @*<div style="background-color:darksalmon; border: 1px solid #000000; margin: 75px 0 0 0px;display:inline-block">*@
 
     @*<h2>Основная область</h2>*@
     @*@{ViewData["ServiceName"] = "1234"; }*@
-    <h2>@ViewData["ServiceName"]</h2>
-    <br />
+    @*<h2>@ViewData["ServiceName"]</h2>
+        <br />*@
+
+    <div style="padding:0px 0 0px 0px; font-size: 21px; color: #222222; margin-bottom: 15px"><span>@ViewData["ServiceName"]</span></div>
+    
 
     @*<div class="container">*@
 
-    <div style="background-color:antiquewhite; border: 1px solid #000000; padding: 25px">
+    @*<div style="background-color:antiquewhite; border: 1px solid #000000; padding: 0px">*@
 
         <div class="row">
 
@@ -48,7 +51,7 @@
 
 
         </div>
-    </div>
+    @*</div>*@
     @*</div>*@
 </div>
 @*</div>*@
