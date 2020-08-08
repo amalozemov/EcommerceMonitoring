@@ -1,0 +1,3 @@
+ @*@{var t = new ViewDataDictionary();
+            t["ServiceName"] = Model.ServiceName;
+            @Html.Partial("MainArea", Model.EndPoints, t);}*@

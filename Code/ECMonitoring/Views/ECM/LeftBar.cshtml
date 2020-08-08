@@ -1,56 +1,15 @@
 ﻿@model IList<ECMonitoring.Models.ServiceModel>
 
-
-
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 300px; height: 600px; position: fixed;">*@
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 300px; position: fixed; min-height: 100%; overflow-y: scroll">*@
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 300px; position: fixed; height: 100px; overflow-y: auto">*@
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 300px; position: fixed; max-height: 50%; overflow-y: auto">*@
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 300px; position: fixed; height: 90%; overflow-y: auto;">*@
-@*<nav class="navbar navbar-vertical navbar-expand-xl navbar-light">*@
-    @*<nav>*@
-    @*<h3>Navigation</h3>*@
-    @*<div class="collapse navbar-collapse">*@
-        @*<div class="navbar-vertical-content perfect-scrollbar scrollbar">*@
-@*<div class="col-md-3">*@
-    <div id="left_bar" class="left_bar_fixed">
-        <div class="left_bar">
-            @*<h2>Левая панель</h2>
-            <br />*@
-
-            @*@foreach (var service in Model)
-        {
-            @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id });<br />
-        }*@
-
-            @*<ul>
-            <li><a class="active" href="#home">Главная</a></li>
-            <li><a href="#news">Новости</a></li>
-            <li><a href="#contact">Контакты</a></li>
-            <li><a href="#about">О Нас</a></li>
-        </ul>*@
-
-            <ul class="services_mnu">
-                @foreach (var service in Model)
-                {
-                    //<li><a href="#news">Новости</a></li>
-                    <li>
-                        @*<div style="background-color: #C8C8C8; border: 1px solid #000000; padding: 10px 0 10px 0; margin: 0 15px 7px 15px">*@
-                            @*<span style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 21px; color: #222222">*@
-                                @Html.ActionLink(service.Name, "Index", new { serviceId = service.Id })
-                            @*</span>*@
-                        @*</div>*@
-                    </li>
-        
-                }
-            </ul>
-
-
-        </div>
+<div id="left_bar" class="left_bar_fixed">
+    <div class="left_bar">
+        <ul class="services_mnu">
+            @foreach (var service in Model)
+            {
+            <li>
+                @Html.ActionLink(service.Name, "Index", routeValues: new { serviceId = service.Id },
+                    htmlAttributes: new { id = "mnuItem_" + service.Id })
+            </li>
+            }
+        </ul>
     </div>
-@*</div>*@
-    @*</nav>*@
-    @*</div>*@
-    @*</div>*@
-    @*</nav>*@
-    @*</div>*@
+</div>

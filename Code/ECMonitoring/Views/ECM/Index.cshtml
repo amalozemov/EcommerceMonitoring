@@ -1,50 +1,64 @@
 ﻿@model ECMonitoring.Models.MainModel
 
-@*@{
-        ViewBag.Title = "Index";
-    }*@
-
-@*<h2>Index</h2>*@
-
-
-@*задник FCFCFF
-    левая панель   #F7F7FD
-    кнопки E6E6FA
-    *@ 
 
 @{
     Layout = "~/Views/Shared/_EcmLayout.cshtml";
 }
 
-@*<table>*@
-    @*<tr>*@
-        @*<td>*@
-            @Html.Partial("LeftBar", Model.Services)
-        @*</td>*@
-        @*<td>*@
-
-            @*@Html.Partial("MainArea", Model.EndPoints, new ViewDataDictionary(new { ServiceName = "22345" } ))*@
-
-            @{var t = new ViewDataDictionary();
-            t["ServiceName"] = Model.ServiceName;
-            @Html.Partial("MainArea", Model.EndPoints, t);}
-
-        @*</td>*@
-    @*</tr>*@
-@*</table>*@
+@{
+    @Html.Partial("LeftBar", Model.Services);
+    @Html.Partial("MainArea", Model.EndPoints, new ViewDataDictionary { { "ServiceName", Model.ServiceName } });
+}
 
 <script type="text/javascript">
 
     ECMonitoring = {
         LeftBarHeigfh: 0,
 
+        OnLoad: function () {
+            $(window).resize(function () {
+                $(window).scrollTop(0);
+
+                var mainAreaHeight = $("#main_area").outerHeight();
+                var clientHeight = $(window).height() - 75;
+
+                if (clientHeight < mainAreaHeight) {
+                    $('#left_bar').height(clientHeight);
+                }
+                else {
+                    $('#left_bar').height(mainAreaHeight);
+                }
+
+                ECMonitoring.LeftBarHeigfh = clientHeight;
+            });
+
+            $(window).scroll(function () {
+                var offsetFooter = $('#footer').offset().top - 20;
+
+                if ($(window).scrollTop() + $(window).height() > offsetFooter) {
+                    var offset = $(window).scrollTop() + $(window).height() - offsetFooter;
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh - offset);
+                } else {
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh);
+                }
+            });
+
+            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
+                $(window).resize();
+            });
+
+            window.addEventListener('resize', () => {
+                $(window).resize();
+            });            
+
+            ECMonitoring.SelectMnuItem('@Model.ServiceId');
+            $(window).resize();
+            ECMonitoring.TimerStart();
+        },
 
         TimerStart: function () {
             setInterval(function () {
-                //alert('TimerStart');
-                //debugger;
                 var url = "@Url.Action("GetServiceData")";
-                //var serviceId = @Model.Services
                 var data = { serviceId: @Model.ServiceId };
 
                 $.ajax({
@@ -54,16 +68,10 @@
                     async: true,
                     data: data,
                     success: function (result) {
-                        //if (jsonResult.Message != null && jsonResult.Message != "") {
-                        //    window.bpspat.api.dialNumber(jsonResult.Message);
-                        //}
-                        //debugger;
 
-
-                        //console.log("Success");
+                        console.log("Success");
 
                         result.forEach(function (item) {
-                            //alert(i + ": " + item + " (массив:" + arr + ")");
                             if (item.metricType == 0) {
                                 ECMonitoring.UpdateLanMonitor(item);
                             }
@@ -72,94 +80,15 @@
                             }
                         });
                     },
-                    error: function (result) {
-                        //console.log("Error");
+                    error: function (error) {
+                        console.log(error);
                     }
                 });
 
             }, 200);
-
-            //debugger;
-
-            //$("#main_area").resize(function () {
-            $(window).resize(function () {
-                $(window).scrollTop(0);
-
-                //alert('Размеры окна браузера изменены.');
-                var mainAreaHeight = $("#main_area").outerHeight();
-                //$('#left_bar').height(mainAreaHeight);
-                console.log("window.resize");
-                var clientHeight = $(window).height() - 75;//document.body.clientHeight;
-                //$('.hei').height(clientHeight);
-                if (clientHeight < mainAreaHeight) {
-                    $('#left_bar').height(clientHeight - 0);
-                }
-                else {
-                    $('#left_bar').height(mainAreaHeight);
-                }
-
-                ECMonitoring.LeftBarHeigfh = clientHeight;//$("#left_bar").outerHeight();
-
-                //console.log(clientHeight);
-            });
-
-            //https://serblog.ru/jquery-sobytie-pri-prokrutke-do-opredelennogo-elementa-futera/
-
-            $(window).scroll(function () {
-                //debugger;
-
-                // проверка на докрутку до определенного элемента
-                var offsetLeftBar = $('#left_bar').offset().top - 1;
-                var offsetFooter = $('#footer').offset().top - 20;
-                //console.log(offsetLeftBar);
-                //console.log(offsetFooter);// выводим в консоль смещение  элемента пицца
-                console.log($(this).scrollTop());
-
-                //var mainAreaHeight = $("#main_area").outerHeight();
-                var mainAreaHeight = $(window).height() - 75;
-
-                //$('#left_bar').height(mainAreaHeight - offsetLeftBar);
-
-                //$('#left_bar').height(ECMonitoring.LeftBarHeigfh - offsetLeftBar);
-
-                //если мы докрутили до нужного элемента 
-                if ($(window).scrollTop() + $(window).height() > offsetFooter) {
-                    // создаем эффекты и анимацию
-                    //jQuery(".bottom_float_menu").show();
-                    //$('#left_bar').height(mainAreaHeight - offsetLeftBar);
-                    //$('#left_bar').height(ECMonitoring.LeftBarHeigfh - offsetLeftBar);
-
-                    var t = $(window).scrollTop() + $(window).height() - offsetFooter;
-                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh - t);
-                } else {
-                    //jQuery(".bottom_float_menu").hide();
-                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh);
-
-                }
-                //// если докрутил до низа страницы
-                //if (jQuery(window).scrollTop() + jQuery(window).height() >= jQuery(document).height()) {
-                //    jQuery(".bottom_float_menu").hide();
-                //}
-            });	
-
-            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
-                $(window).resize();
-            });
-
-            window.addEventListener('resize', (e) => {
-                //let width = e.target.innerWidth;
-                $(window).resize();
-            });
-
-            $(window).resize();
-
-
         },
 
         UpdateLanMonitor: function (data) {
-
-            //debugger;
-
             var labelStatus = document.getElementById('status_' + data.elementKey);
             labelStatus.innerText = data.statusLanDevice;
 
@@ -168,20 +97,20 @@
         },
 
         UpdateResourceMonitor: function (data) {
-
-            //debugger;
-
             var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
             labelMemoryUsage.innerText = data.memoryUsage;
 
             var labelProcessorTime = document.getElementById('processorTime_' + data.elementKey);
             labelProcessorTime.innerText = data.processorTime;
         },
+
+        SelectMnuItem: function (serviceId) {
+            $(".mnu_active").removeClass('mnu_active');
+            $("#mnuItem_" + serviceId).addClass('mnu_active');
+        }
     };
 
-    window.onload = ECMonitoring.TimerStart;
-    //$('#left_bar')
-    
+    window.onload = ECMonitoring.OnLoad;
 
 </script>
 
