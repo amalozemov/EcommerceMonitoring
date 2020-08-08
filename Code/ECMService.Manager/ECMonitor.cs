@@ -182,7 +182,7 @@ namespace ECMService.Manager
                     {
                         EndPointId = data.EndPointId,
                         HttpErrorsCount = data.HttpErrorsCount,
-                        StatusLanDevice = (LanDeviceStatus)data.StatusLanDevice,
+                        StatusLanDevice = (LanDeviceStatus?)data.StatusLanDevice,
                         MemoryUsage = data.MemoryUsage,
                         ProcessorTime = data.ProcessorTime
                     };
