@@ -167,7 +167,7 @@ namespace DBaseService
                         Port = 1800,
                         NetworkName = "NetworkName",
                         Name = $"Конечная точка с Id = {endPointId + i + 1}",
-                        Metrics = i == endPointsCount - 1 ? CreateMetrics(endPointId + i + 1, MonitorType.ResourceMonitor) : CreateMetrics(endPointId + i + 1, MonitorType.LanMonitor)//GetMetrics(endPointId)
+                        Metrics = (i == endPointsCount - 1) && (i != 0)  ? CreateMetrics(endPointId + i + 1, MonitorType.ResourceMonitor) : CreateMetrics(endPointId + i + 1, MonitorType.LanMonitor)//GetMetrics(endPointId)
                     };
                     clientEndPointsByService.Add(ep);
                 }
@@ -187,11 +187,11 @@ namespace DBaseService
             var metric = default(ClientMetricDTO);
             if (monitorType == MonitorType.LanMonitor)
             {
-                metric = new ClientMetricDTO() { Id = $"{endPointId}_1", Name = $"Метрика сетевой монитор {endPointId}", MetricType = MonitorType.LanMonitor };
+                metric = new ClientMetricDTO() { Id = $"{endPointId}_1", Name = $"Метрика сетевой монитор {endPointId}_1", MetricType = MonitorType.LanMonitor };
             }
             else
             {
-                metric = new ClientMetricDTO() { Id = $"{endPointId}_2", Name = $"Монитор ресурсов {endPointId}", MetricType = MonitorType.ResourceMonitor };
+                metric = new ClientMetricDTO() { Id = $"{endPointId}_2", Name = $"Монитор ресурсов {endPointId}_2", MetricType = MonitorType.ResourceMonitor };
             }
 
             var metrics = new List<ClientMetricDTO>() { metric };

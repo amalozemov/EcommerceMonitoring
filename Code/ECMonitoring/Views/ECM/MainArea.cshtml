@@ -7,26 +7,30 @@
         </span>
     </div>
 
-    <hr class="main_area_service_header_splitter"/>
+    <hr class="main_area_service_header_splitter" />
 
     <div class="row">
         @foreach (var endPoint in Model)
         {
+            var footerContent = endPoint.Metrics[0].MetricType == 0 ? $"{endPoint.Ip}:{endPoint.Port}" : endPoint.Ip;
+
             <div class="col-md-6">
                 <div class="end_point_main_container">
-                    <p style="margin-left: 15px;">@Html.Label(endPoint.Name)</p>
+                    <div class="end_point_main_container_header">@endPoint.Name</div>
 
                     @foreach (var metric in endPoint.Metrics)
                     {
                         if (metric.MetricType == 0)
                         {
-                            @Html.Partial("LANMetric", metric)
+                            @Html.Partial("LANMetric", metric, new ViewDataDictionary { { "EndPointId", endPoint.Id } })
                         }
                         else
                         {
                             @Html.Partial("ResourceUsageMetric", metric)
                         }
                     }
+
+                    <div class="end_point_main_container_footer">@footerContent</div>
 
                 </div>
             </div>

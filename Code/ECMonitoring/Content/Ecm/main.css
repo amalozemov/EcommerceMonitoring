@@ -106,14 +106,6 @@ span.user_logout a:hover {
     color: #fff;
 }
 
-.end_point_main_container {
-    background-color: lavender;
-    /*border: 1px solid #000000;*/
-    margin-bottom: 25px;
-    border-radius: 8px;
-    box-shadow: 0 0 6px 0 rgba(0,0,0,.04), 0 4px 10px 0 rgba(13,35,67,.25);
-}
-
 .services_mnu {
     list-style-type: none;
     margin: 0 0 15px 0;
@@ -206,6 +198,30 @@ li a:hover:not(.mnu_active) {
 
 .main_area_service_header_splitter {
     margin-top: 5px
+}
+
+.end_point_main_container {
+    background-color: lavender;
+    border: 1px solid #000000;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,.04), 0 4px 10px 0 rgba(13,35,67,.25);
+    padding: 0px 0 0px 0;
+    overflow: hidden; 
+}
+
+.end_point_main_container_header {
+    /*margin-left: 15px;*/
+    background-color: burlywood;
+    border: 1px solid #000000;
+    padding: 5px 0 0 15px
+}
+
+.end_point_main_container_footer {
+    /*margin-left: 15px;*/
+    background-color: darkorange;
+    border: 1px solid #000000;
+    text-align: center;
 }
 
 .footer {

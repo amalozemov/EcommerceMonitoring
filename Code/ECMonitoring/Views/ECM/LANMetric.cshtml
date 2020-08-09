@@ -1,5 +1,16 @@
 ﻿@model ECMonitoring.Models.MetricModel
 
-@*<div style="background-color:lavender; border: 1px solid #000000; width: 250px; float: left;">*@
-    <p style="margin-left: 15px;">@Html.Label(Model.Name); @Html.Label(Model.StatusLanDevice.ToString(), new { id = $"status_{Model.Id}" }); @Html.Label(Model.HttpErrorsCount.ToString(), new { id = $"httpErrorsCount_{Model.Id}" })</p>
-@*</div>*@
+<div style="background-color:aqua; border: 1px solid #000000; vertical-align:central">
+    @*width: 250px; float: left;">*@
+    @*<p style="margin-left: 15px;">@Html.Label(Model.Name); @Html.Label(Model.StatusLanDevice.ToString(), new { id = $"status_{Model.Id}" }); @Html.Label(Model.HttpErrorsCount.ToString(), new { id = $"httpErrorsCount_{Model.Id}" })</p>*@
+
+    <div style="background-color:red; display:inline-block">Состояние:</div>
+    @*@Html.Label(Model.StatusLanDevice.ToString(), new { id = $"status_{Model.Id}" });*@
+    <span style="background-color:green; float:right;" id="status_@Model.Id">@Model.StatusLanDevice.ToString()</span>
+</div>
+<div style="background-color:antiquewhite; border: 1px solid #000000;"> @*height:100px;">*@
+    <div style="background-color:red; display:inline-block; vertical-align:middle;">Кол-во ошибок:</div>
+    <span style="background-color:aliceblue; float:right; border: 1px solid #000000; font-size: 11px; vertical-align:middle;" id="btnResetErrors">Сброс</span>
+    <span style="background-color:green; float:right; vertical-align:middle;" id="httpErrorsCount_@Model.Id">@Model.HttpErrorsCount.ToString()</span>
+    @*тут 09.08.2020 вертикальное выравнивание будем делать паддингами*@
+</div>
