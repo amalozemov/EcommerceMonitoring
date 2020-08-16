@@ -29,7 +29,7 @@ h2, .h2 {
 }
 
 .login_color {
-    color :#22222C !important;
+    color: #22222C !important;
 }
 
 .main_header {
@@ -66,45 +66,45 @@ h2, .h2 {
     right: 10px;
 }
 
-#nav_login p {
-    /*font-family: "Calibri", Helvetica, Arial, sans-serif;
+    #nav_login p {
+        /*font-family: "Calibri", Helvetica, Arial, sans-serif;
     font-size: 24px;
     color: rgb(255,255,255);*/
-    font-size: 28px;
-    /*color: #9d9d9d;*/
-    color: #9D9DA7;
-}
+        font-size: 28px;
+        /*color: #9d9d9d;*/
+        color: #9D9DA7;
+    }
 
-/*#nav_login span.user_login {
+    /*#nav_login span.user_login {
     text-transform: uppercase;
 }*/
 
-#nav_login span.user_logout {
-    font-size: 21px;
-}
+    #nav_login span.user_logout {
+        font-size: 21px;
+    }
 
 span.user_logout a {
     /*color: #fff;*/
-    color: #9D9DA7;/*#9d9d9d;*/
+    color: #9D9DA7; /*#9d9d9d;*/
 }
 
-span.user_logout a:link {
-    /*text-decoration: none*/
-}
+    span.user_logout a:link {
+        /*text-decoration: none*/
+    }
 
-span.user_logout a:visited {
-    text-decoration: none
-}
+    span.user_logout a:visited {
+        text-decoration: none
+    }
 
-span.user_logout a:active {
-    text-decoration: none
-}
+    span.user_logout a:active {
+        text-decoration: none
+    }
 
-span.user_logout a:hover {
-    /*text-decoration: underline;
+    span.user_logout a:hover {
+        /*text-decoration: underline;
     color: red;*/
-    color: #fff;
-}
+        color: #fff;
+    }
 
 .services_mnu {
     list-style-type: none;
@@ -124,7 +124,7 @@ li a {
     text-decoration: none;
     /*background-color: #C8C8C8;*/
     background-color: #E6E6FA;
-    border: 1px solid #C8C8DC;/*#D2D2E6;*/ /*#000000;*/
+    border: 1px solid #C8C8DC; /*#D2D2E6;*/ /*#000000;*/
     margin: 0 15px 6px 15px;
     /*font-size: 21px;*/
     font-size: 14px;
@@ -133,27 +133,27 @@ li a {
     border-radius: 4px;
 }
 
-/*li a:hover {
+    /*li a:hover {
     background-color: #FFF;*/
     /*color: white;*/
     /*text-decoration: none;
 }*/
 
 
-li a:hover:not(.mnu_active) {
-    background-color: #FFF;
-    /*color: white;*/
-    text-decoration: none;
-}
+    li a:hover:not(.mnu_active) {
+        background-color: #FFF;
+        /*color: white;*/
+        text-decoration: none;
+    }
 
 /*li a:active {*/
-    /*background-color: #22222C;*/ /*#222*/
-    /*color: #FFF;
+/*background-color: #22222C;*/ /*#222*/
+/*color: #FFF;
     text-decoration: none;*/
 /*}*/
 
 .mnu_active {
-    background-color: #22222C; 
+    background-color: #22222C;
     color: #FFF !important;
     text-decoration: none !important;
 }
@@ -170,7 +170,7 @@ li a:hover:not(.mnu_active) {
 
 .left_bar {
     background-color: #F7F7FD; /*#F5F5FD;*/ /*#F8F8FD;*/
-    border: 1px solid #C8C8DC;/*#DCDCF0;*//*#E1E1F6;*/
+    border: 1px solid #C8C8DC; /*#DCDCF0;*/ /*#E1E1F6;*/
     height: 100%;
     overflow-y: auto;
     padding-top: 15px;
@@ -180,7 +180,7 @@ li a:hover:not(.mnu_active) {
 
 .main_area {
     background-color: #F7F7FD; /*darksalmon;*/
-    border: 1px solid #C8C8DC;/*#DCDCF0;*/ /*#000000;*/
+    border: 1px solid #C8C8DC; /*#DCDCF0;*/ /*#000000;*/
     margin: 75px 0 0 215px;
     min-height: 600px;
     padding: 7px 15px 15px 15px;
@@ -201,32 +201,118 @@ li a:hover:not(.mnu_active) {
 }
 
 .end_point_main_container {
-    background-color: lavender;
-    border: 1px solid #000000;
+    background-color: #E6E6FA; /*lavender;*/ /*aliceblue;*/
     margin-bottom: 25px;
     border-radius: 8px;
     box-shadow: 0 0 6px 0 rgba(0,0,0,.04), 0 4px 10px 0 rgba(13,35,67,.25);
     padding: 0px 0 0px 0;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .end_point_main_container_header {
     /*margin-left: 15px;*/
-    background-color: burlywood;
-    border: 1px solid #000000;
-    padding: 5px 0 0 15px
+    background-color: #E6E6FA;/*lavender;*//*#F0F0F6;*/
+    /*border: 1px solid #000000;*/
+    padding: 5px 0 0 15px;
+    height: 30px;
+}
+
+.end_point_status_container {
+    /*background-color: aqua;*/
+    background-color: #EBEBFF;
+    /*vertical-align: central;*/
+    /*padding-left: 50px;
+    padding-right: 50px;*/
+    padding-top: 10px;
+    height: 40px;
+}
+
+.end_point_status_label {
+    /*background-color: red;*/
+    display: inline-block;
+    margin-left: 50px;
+    /*padding-left: 60px;
+    padding-right: 60px;*/
+}
+
+.end_point_status_value {
+    /*background-color: green;*/
+    float: right;
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 50px;
+    text-align: right;
+}
+
+.end_poiny_info_separator {
+    margin: 0;
+    padding: 0;
+    /*background-color: lavender;*/
+    /*background-color: aliceblue;*/
+    height: 1px;
+    background-color: aliceblue;
+}
+
+.end_point_errors_container {
+    background-color: #EBEBFF;
+    /*padding-top: 9px;*/
+    height: 40px;
+    /*background-color: green;*/
+}
+
+.end_point_errors_label {
+    margin-top: 10px;
+    display: inline-block;
+    margin-left: 50px;
+}
+
+.end_point_errors_value_container {
+    /*background-color: green;*/
+    display: inline-block;
+    float: right;
+    /*vertical-align: middle;*/
+    margin-right: 50px;
+    /*border: 1px solid #000000;*/
+    padding: 0px;
+    /*height: 30px;*/
+    /*overflow: hidden;*/
+    margin-top: 3px;
+}
+
+.end_point_errors_value {
+    display: inline-block;
+    /*margin-right: 5px;*/
+    font-weight: bold;
+    font-size: 18px;
+    text-align: right;
+    margin: 0px 0px 0 0;
+    position: relative;
+    top: 3px;
+    left: 0px;
+}
+
+.end_point_errors_button {
+    display: inline-block;
+    background-color: aliceblue;
+    /*background-color: lavender;*/
+    /*border: 1px solid #000000;*/
+    border-radius: 3px;
+    /*box-shadow: 0 0 0px 0 rgba(0,0,0,.04), 0 4px 10px 0 rgba(13,35,67,.25);*/
+    box-shadow: 0px 0px 5px 0 rgba(0,0,0,0.5);
+    font-size: 11px;
+    padding: 2px 3px 2px 3px;
+    margin: 0 0 0 5px;
 }
 
 .end_point_main_container_footer {
     /*margin-left: 15px;*/
-    background-color: darkorange;
-    border: 1px solid #000000;
+    background-color: #E6E6FA; /*lavender;*/ /*#F0F0F6;*/
+    /*border: 1px solid #000000;*/
     text-align: center;
+    padding: 5px 0 0 15px;
+    height: 30px;
 }
 
 .footer {
     margin-bottom: 20px;
 }
-
-
-
