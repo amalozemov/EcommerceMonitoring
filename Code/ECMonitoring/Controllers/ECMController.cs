@@ -69,34 +69,54 @@ namespace ECMonitoring.Controllers
             model.ServiceName = services.Where(s => s.Id == serviceId).FirstOrDefault().Name;
             model.UserName = "Администратор"; //"Пушкин А.С.";//
 
-            var srviceData = EcMonitor.GetServiceData(serviceId.Value);
+            var serviceData = EcMonitor.GetServiceData(serviceId.Value);
 
-            foreach (var endPoint in srviceData.EndPointsData)
+            ////foreach (var endPoint in serviceData.EndPointsData)
+            ////{
+            ////    // тут 01.07.2020 MetricModel должна содержать такие же свойства как и EndPointDataDTO, значения этих всойств должны тут мэпиться.
+            ////    // при выполнении Ajax запроса тип и Id метрики можно получить в БД, или вернуть в EndPointDataDTO (предпочтительно)
+            ////    // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и Id метрики)
+
+            ////    // на 01.07.2020 для начала выводить нижеполученные значения в интерфейс конечной точки (метрики)
+            ////    Logger.Info($"Для конечной точки с Id = {endPoint.EndPointId} TCP Status = {endPoint.StatusLanDevice};  Http Errors Count = {endPoint.HttpErrorsCount}; MemoryUsage = {endPoint.MemoryUsage}; ProcessorTime = {endPoint.ProcessorTime}");
+
+            ////    //var metrics = 
+            ////    //    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
+
+            ////    var ep = model.EndPoints.Where(e => e.Id == endPoint.EndPointId).FirstOrDefault();
+            ////    //ep.Metrics = metrics;
+            ////    foreach (var metric in ep.Metrics)
+            ////    {
+            ////        if (metric.MetricType == (int)MonitorType.LanMonitor)
+            ////        {
+            ////            metric.StatusLanDevice = endPoint.StatusLanDevice;
+            ////            metric.HttpErrorsCount = endPoint.HttpErrorsCount;
+            ////        }
+            ////        else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
+            ////        {
+            ////            metric.MemoryUsage = endPoint.MemoryUsage;
+            ////            metric.ProcessorTime = endPoint.ProcessorTime;
+            ////        }
+            ////    }
+            ////}
+
+            foreach (var endPoint in model.EndPoints)
             {
-                // тут 01.07.2020 MetricModel должна содержать такие же свойства как и EndPointDataDTO, значения этих всойств должны тут мэпиться.
-                // при выполнении Ajax запроса тип и Id метрики можно получить в БД, или вернуть в EndPointDataDTO (предпочтительно)
-                // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и Id метрики)
-
-                // на 01.07.2020 для начала выводить нижеполученные значения в интерфейс конечной точки (метрики)
-                Logger.Info($"Для конечной точки с Id = {endPoint.EndPointId} TCP Status = {endPoint.StatusLanDevice};  Http Errors Count = {endPoint.HttpErrorsCount}; MemoryUsage = {endPoint.MemoryUsage}; ProcessorTime = {endPoint.ProcessorTime}");
-
-                var metrics = 
-                    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
-
-                var ep = model.EndPoints.Where(e => e.Id == endPoint.EndPointId).FirstOrDefault();
-                ep.Metrics = metrics;
-                foreach (var metric in ep.Metrics)
+                var endPointData = 
+                    serviceData.EndPointsData.Where(p => p.EndPointId == endPoint.Id).FirstOrDefault();
+                if (endPoint.TypeMonitor == MonitorType.LanMonitor)
                 {
-                    if (metric.MetricType == (int)MonitorType.LanMonitor)
-                    {
-                        metric.StatusLanDevice = endPoint.StatusLanDevice;
-                        metric.HttpErrorsCount = endPoint.HttpErrorsCount;
-                    }
-                    else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
-                    {
-                        metric.MemoryUsage = endPoint.MemoryUsage;
-                        metric.ProcessorTime = endPoint.ProcessorTime;
-                    }
+                    endPoint.StatusLanDevice = endPointData.StatusLanDevice;
+                    endPoint.HttpErrorsCount = endPointData.HttpErrorsCount;
+                }
+                else if (endPoint.TypeMonitor == MonitorType.ResourceMonitor)
+                {
+                    endPoint.ProcessorTime = endPointData.ProcessorTime;
+                    endPoint.MemoryUsage = endPointData.MemoryUsage;
+                }
+                else
+                {
+                    throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
                 }
             }
 
@@ -106,59 +126,49 @@ namespace ECMonitoring.Controllers
         [AllowAnonymous]
         public JsonResult GetServiceData(int serviceId)
         {
-            var t = serviceId;
-
             var responseData = EcMonitor.GetServiceData(serviceId);
-
-            //var serviceData = new List<object>();
-
-            //var endPointData = new List<object>();
             var metricsData = new List<object>();
+            //foreach (var endPoint in responseData.EndPointsData)
+            //{
+            //    var metrics =
+            //        Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
+
+            //    foreach (var metric in metrics)
+            //    {
+            //        object metricData = null;
+
+            //        if (metric.MetricType == (int)MonitorType.LanMonitor)
+            //        {
+            //            metricData = new { metricType = 0, elementKey = $"{metric.Id}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
+            //        }
+            //        else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
+            //        {
+            //            metricData = new { metricType = 1, elementKey = $"{metric.Id}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
+            //        }
+
+            //        metricsData.Add(metricData);
+            //    }
+            //}
             foreach (var endPoint in responseData.EndPointsData)
             {
-                //var endPointData = new Dictionary<int, object>();
-                //var endPointData = new List<object>();
-                //{
-                //    {endPoint.EndPointId, new { } }
-                //};
+                object metricData = null;
 
-                var metrics =
-                    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
-
-                //var metricsData = new List<object>(); 
-                foreach (var metric in metrics)
+                if (endPoint.TypeMonitor == MetricType.LanMonitor)
                 {
-                    object metricData = null;
-                    //var elementKey = default(string); $"{endPoint.EndPointId}_{metric.Id}";
-                    if (metric.MetricType == (int)MonitorType.LanMonitor)
-                    {
-                        //metric.StatusLanDevice = endPoint.StatusLanDevice;
-                        //metric.HttpErrorsCount = endPoint.HttpErrorsCount;
-                        //metricData = new { metricType = 0, endPointId = endPoint.EndPointId, metricId = metric.Id, statusLanDevice = endPoint.StatusLanDevice, httpErrorsCount = endPoint.HttpErrorsCount };
-
-                        //var elementKey = $"{endPoint.EndPointId}_{metric.Id}";
-                        //var elementKey = $"{metric.Id}";
-                        metricData = new { metricType = 0, elementKey = $"{metric.Id}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
-                    }
-                    else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
-                    {
-                        //metric.MemoryUsage = endPoint.MemoryUsage;
-                        //metric.ProcessorTime = endPoint.ProcessorTime;
-                        metricData = new { metricType = 1, elementKey = $"{metric.Id}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
-                    }
-
-                    metricsData.Add(metricData);
-
+                    metricData = new { metricType = 0, elementKey = $"{endPoint.EndPointId}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
+                }
+                else if (endPoint.TypeMonitor == MetricType.ResourceMonitor)
+                {
+                    metricData = new { metricType = 1, elementKey = $"{endPoint.EndPointId}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
+                }
+                else
+                {
+                    throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
                 }
 
-                //endPointData.Add(endPoint.EndPointId, metricsData);
-                //endPointData.Add(metricsData);
-                //serviceData.Add(endPointData);
+                metricsData.Add(metricData);
             }
 
-
-            //var result = Json(serviceData, JsonRequestBehavior.AllowGet);
-            //var result = Json(new { test = 1}, JsonRequestBehavior.AllowGet);
             var result = Json(metricsData, JsonRequestBehavior.AllowGet);
 
             return result;

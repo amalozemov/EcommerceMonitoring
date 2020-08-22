@@ -51,6 +51,23 @@
                 $(window).resize();
             });            
 
+            $('.end_point_errors_button').click(function () {
+                //debugger;
+                
+                var buttonId = this.attributes['id'];
+                console.log(buttonId.value);
+                //$(".mnu_active").removeClass('mnu_active');
+                //$("#mnuItem_" + serviceId).addClass('mnu_active');
+
+                //$("#mnu_active").removeClass('mnu_active');
+
+                // вызов метода очистки счётчика ошибок и блокировка нажатия кнопки (попробовать переменную прям в кнопке определить)
+                $("#" + buttonId.value).addClass('end_point_errors_active_button');
+                setTimeout(function () {
+                    $("#" + buttonId.value).removeClass('end_point_errors_active_button');
+                }, 100)
+            });
+
             ECMonitoring.SelectMnuItem('@Model.ServiceId');
             $(window).resize();
             ECMonitoring.TimerStart();
@@ -68,7 +85,6 @@
                     async: true,
                     data: data,
                     success: function (result) {
-
                         console.log("Success");
 
                         result.forEach(function (item) {
@@ -98,10 +114,10 @@
 
         UpdateResourceMonitor: function (data) {
             var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
-            labelMemoryUsage.innerText = data.memoryUsage;
+            labelMemoryUsage.innerText = data.memoryUsage + "%";
 
             var labelProcessorTime = document.getElementById('processorTime_' + data.elementKey);
-            labelProcessorTime.innerText = data.processorTime;
+            labelProcessorTime.innerText = data.processorTime + "%";
         },
 
         SelectMnuItem: function (serviceId) {

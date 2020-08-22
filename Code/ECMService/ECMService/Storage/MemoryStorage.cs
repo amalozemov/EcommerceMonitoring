@@ -106,9 +106,9 @@ namespace ECMService.Storage
         /// </summary>
         public void AddEndoint(ClientEndPoint endPoint)
         {
-            foreach (var m in endPoint.Metrics)
-            {
-                switch (m)
+            //foreach (var m in endPoint.Metrics)
+            //{
+                switch (endPoint.TypeMonitor)
                 {
                     case MonitorType.LanMonitor:
                         _devicesStatusesCollection.Add(endPoint.Id, LanDeviceStatus.Sleep);
@@ -118,9 +118,9 @@ namespace ECMService.Storage
                         _resourceUsage.Add(endPoint.Id, null);
                         break;
                     default:
-                        throw new NotImplementedException("Метрика не реализована.");
+                        throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
                 }
-            }
+            //}
         }
     }
 }

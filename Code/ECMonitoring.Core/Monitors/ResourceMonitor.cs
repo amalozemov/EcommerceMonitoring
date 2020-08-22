@@ -35,7 +35,7 @@ namespace ECMonitoring.Core
 
         private void GetResources(object o)
         {
-            var result = new ResourceUsageEventArgs(300000, 34);
+            var result = new ResourceUsageEventArgs(71, 34);
             DeviceStatusChangedOn?.Invoke(this, result);
         }
     }

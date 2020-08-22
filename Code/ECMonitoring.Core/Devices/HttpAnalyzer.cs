@@ -28,30 +28,30 @@ namespace ECMonitoring.Core.Devices
         {
             lock (_syncObject)
             {
-                //// тут 25.07.2020 ВОССТАНОВИТЬ ЭТОТ КОД !!!!!!!!!!!!!!!!!!!!!!!!!!
-                //if (e.IsHttpPresent)
-                //{
-                //    string errorMessage;
-                //    var httpStatusCode = GetHttpStatus(e.HttpContent.HttpHeader, out errorMessage);
+                //тут 25.07.2020 ВОССТАНОВИТЬ ЭТОТ КОД !!!!!!!!!!!!!!!!!!!!!!!!!!
+                if (e.IsHttpPresent)
+                {
+                    string errorMessage;
+                    var httpStatusCode = GetHttpStatus(e.HttpContent.HttpHeader, out errorMessage);
 
-                //    if (httpStatusCode != 200)
-                //    {
-                //        _httpErrorsCount++;
-                //        var httpStatus =
-                //            new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
-                //            "methodServiceSignature", errorMessage,
-                //            httpStatusCode, _httpErrorsCount);
-                //        HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
-                //    }
-                //}
+                    if (httpStatusCode != 200)
+                    {
+                        _httpErrorsCount++;
+                        var httpStatus =
+                            new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
+                            "methodServiceSignature", errorMessage,
+                            httpStatusCode, _httpErrorsCount);
+                        HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
+                    }
+                }
                 //
-                // УБРАТЬ ЭТОТ КОД
-                //
-                var httpStatus =
-                    new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
-                    "methodServiceSignature", "Тестовая ошибка",
-                    402, 456);
-                HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
+                ////// УБРАТЬ ЭТОТ КОД
+                //////
+                ////var httpStatus =
+                ////    new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
+                ////    "methodServiceSignature", "Тестовая ошибка",
+                ////    402, 456);
+                ////HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
 
             }
         }

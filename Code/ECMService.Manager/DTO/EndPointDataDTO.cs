@@ -14,6 +14,12 @@ namespace ECMService.Manager
         Break = 3,
     }
 
+    public enum MetricType
+    {
+        LanMonitor = 0,
+        ResourceMonitor = 1
+    }
+
     public class EndPointDataDTO : IEquatable<EndPointDataDTO>
     {
         public int EndPointId { get; internal set; }
@@ -21,7 +27,10 @@ namespace ECMService.Manager
         public LanDeviceStatus? StatusLanDevice { get; internal set; }
         public int? MemoryUsage { get; internal set; }
         public int? ProcessorTime { get; internal set; }
+        public MetricType TypeMonitor { get; set; }
 
+
+        // УБРАТЬ !!!!!!!!!!!!!
         public bool Equals(EndPointDataDTO other)
         {
             if (other == null)

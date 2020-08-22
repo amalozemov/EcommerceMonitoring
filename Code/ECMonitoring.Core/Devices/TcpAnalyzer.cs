@@ -89,49 +89,49 @@ namespace ECMonitoring.Core.Devices
             lock (_syncObject)
             {
 
-                //// тут 25.07.2020 ВОССТАНОВИТЬ ЭТОТ КОД !!!!!!!!!!!!!!!!!!!!!!!!!!
-                ////
-                //if (_isDisposed)
-                //{
-                //    return;
-                //}
-
-                //_singleShot.Start();
-                //_pingGenerator.Stop();
-
-                //if (!device.IsRst)
-                //{
-                //    _rstCount = 0;
-
-                //    if (_prvStatus != LanDeviceStatus.Connect)
-                //    {
-                //        _prvStatus = LanDeviceStatus.Connect;
-                //        TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Connect);
-                //    }
-                //}
-                //else
-                //{
-                //    if (_prvStatus != LanDeviceStatus.Disconnect)
-                //    {
-                //        if (_rstCount == 0)
-                //        {
-                //            _rstCount++;
-                //            return;
-                //        }
-                //        else
-                //        {
-                //            _rstCount = 0;
-                //            _prvStatus = LanDeviceStatus.Disconnect;
-                //            TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Disconnect);
-                //        }
-                //    }
-                //}
-                //return;
+                // тут 25.07.2020 ВОССТАНОВИТЬ ЭТОТ КОД !!!!!!!!!!!!!!!!!!!!!!!!!!
                 //
-                // УБРАТЬ ЭТОТ КОД
-                //
-                TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Connect);
+                if (_isDisposed)
+                {
+                    return;
+                }
+
+                _singleShot.Start();
+                _pingGenerator.Stop();
+
+                if (!device.IsRst)
+                {
+                    _rstCount = 0;
+
+                    if (_prvStatus != LanDeviceStatus.Connect)
+                    {
+                        _prvStatus = LanDeviceStatus.Connect;
+                        TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Connect);
+                    }
+                }
+                else
+                {
+                    if (_prvStatus != LanDeviceStatus.Disconnect)
+                    {
+                        if (_rstCount == 0)
+                        {
+                            _rstCount++;
+                            return;
+                        }
+                        else
+                        {
+                            _rstCount = 0;
+                            _prvStatus = LanDeviceStatus.Disconnect;
+                            TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Disconnect);
+                        }
+                    }
+                }
                 return;
+                //
+                //// УБРАТЬ ЭТОТ КОД
+                ////
+                //TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Connect);
+                //return;
             }
         }
     }

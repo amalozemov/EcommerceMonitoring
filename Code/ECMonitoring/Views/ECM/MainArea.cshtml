@@ -12,22 +12,19 @@
     <div class="row">
         @foreach (var endPoint in Model)
         {
-            var footerContent = endPoint.Metrics[0].MetricType == 0 ? $"{endPoint.Ip}:{endPoint.Port}" : endPoint.Ip;
+            var footerContent = endPoint.TypeMonitor == 0 ? $"{endPoint.Ip}:{endPoint.Port}" : endPoint.Ip;
 
             <div class="col-md-6">
                 <div class="end_point_main_container">
                     <div class="end_point_main_container_header">@endPoint.Name</div>
 
-                    @foreach (var metric in endPoint.Metrics)
+                    @if (endPoint.TypeMonitor == 0)
                     {
-                        if (metric.MetricType == 0)
-                        {
-                            @Html.Partial("LANMetric", metric, new ViewDataDictionary { { "EndPointId", endPoint.Id } })
-                        }
-                        else
-                        {
-                            @Html.Partial("ResourceUsageMetric", metric)
-                        }
+                        @Html.Partial("LANMetric", endPoint, new ViewDataDictionary { { "EndPointId", endPoint.Id } })
+                    }
+                    else
+                    {
+                        @Html.Partial("ResourceUsageMetric", endPoint)
                     }
 
                     <div class="end_point_main_container_footer">@footerContent</div>

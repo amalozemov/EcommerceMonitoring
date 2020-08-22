@@ -37,6 +37,9 @@ namespace ECMService.Manager.ServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<ECMService.Manager.ServiceReference.LanDeviceStatus> StatusLanDeviceField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TypeMonitorField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -108,6 +111,19 @@ namespace ECMService.Manager.ServiceReference {
                 if ((this.StatusLanDeviceField.Equals(value) != true)) {
                     this.StatusLanDeviceField = value;
                     this.RaisePropertyChanged("StatusLanDevice");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TypeMonitor {
+            get {
+                return this.TypeMonitorField;
+            }
+            set {
+                if ((this.TypeMonitorField.Equals(value) != true)) {
+                    this.TypeMonitorField = value;
+                    this.RaisePropertyChanged("TypeMonitor");
                 }
             }
         }

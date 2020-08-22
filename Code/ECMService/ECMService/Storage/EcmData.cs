@@ -21,6 +21,8 @@ namespace ECMService.Storage
         public int? MemoryUsage { get; private set; }
         [DataMember]
         public int? ProcessorTime { get; private set; }
+        [DataMember]
+        public int TypeMonitor { get; set; }
 
         public EcmData(int endPointId, LanDeviceStatus? lanDeviceStatus, int? httpErrorsCount, int? memoryUsage, int? processorTime)
         {

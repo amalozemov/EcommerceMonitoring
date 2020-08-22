@@ -8,6 +8,7 @@
       <xs:element minOccurs="0" name="MemoryUsage" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="ProcessorTime" nillable="true" type="xs:int" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ECMonitoring.Core" minOccurs="0" name="StatusLanDevice" nillable="true" type="q1:LanDeviceStatus" />
+      <xs:element minOccurs="0" name="TypeMonitor" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="EcmData" nillable="true" type="tns:EcmData" />

@@ -12,50 +12,59 @@ namespace ECMService.Core
 
     internal class ClientEndPoint
     {
+        public int ServiceId { get; private set; }
         public int Id { get; private set; }
         public string Ip { get; private set; }
         public int Port { get; private set; }
         public string NetworkName { get; private set; }
-        public MonitorType[] Metrics { get; private set; }
+        //public MonitorType[] Metrics { get; private set; }
+        public MonitorType TypeMonitor { get; private set; }
 
-        IList<IECMonitor> _monitors;    // мониторы, они же метрики
+        //IList<IECMonitor> _monitors;    // мониторы, они же метрики
+
+        IECMonitor _monitor;
         IStorage _storage;
 
         //public ClientEndPoint(IRepository repository, string ip, int port, int id, string networkName, IStorage storage)
         public ClientEndPoint(ClientEndPointDTO endPoint, IStorage storage)
         {
+            ServiceId = endPoint.ServiceId;
             Ip = endPoint.Ip;
             Port = endPoint.Port;
             Id = endPoint.Id;
             NetworkName = endPoint.NetworkName;
+            TypeMonitor = endPoint.TypeMonitor;
             _storage = storage;
             
-            _monitors = new List<IECMonitor>();
+            //_monitors = new List<IECMonitor>();
             //Metrics = repository.GetMetrics(id).Select(m => (MonitorType)m).ToArray();
-            Metrics = endPoint.Metrics.Select(m => m.MetricType).ToArray();
-            foreach (var m in Metrics)
+            //Metrics = endPoint.Metrics.Select(m => m.MetricType).ToArray();
+            //foreach (var m in Metrics)
+            //{
+            switch (TypeMonitor)
             {
-                switch (m)
-                {
-                    case MonitorType.LanMonitor:
-                        var lanMonitor = new LanMonitor(Ip, Port);
-                        lanMonitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
-                        _monitors.Add(lanMonitor);
-                        break;
-                    case MonitorType.ResourceMonitor:
-                        var resourceMonitor = new ResourceMonitor(NetworkName);
-                        resourceMonitor.DeviceStatusChangedOn += ResourceMonitor_DeviceStatusChangedOn;
-                        _monitors.Add(resourceMonitor);
-                        break;
+                case MonitorType.LanMonitor:
+                    //var lanMonitor = new LanMonitor(Ip, Port);
+                    //lanMonitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
+                    //_monitors.Add(lanMonitor);
+                    _monitor = new LanMonitor(Ip, Port);
+                    _monitor.DeviceStatusChangedOn += _lanMonitor_DeviceStatusChangedOn;
+                    break;
+                case MonitorType.ResourceMonitor:
+                    ////var resourceMonitor = new ResourceMonitor(NetworkName);
+                    ////resourceMonitor.DeviceStatusChangedOn += ResourceMonitor_DeviceStatusChangedOn;
+                    ////_monitors.Add(resourceMonitor);
+                    _monitor = new ResourceMonitor(NetworkName);
+                    _monitor.DeviceStatusChangedOn += ResourceMonitor_DeviceStatusChangedOn;
 
-                    default:
-                        throw new NotImplementedException("Метрика не реализована.");
-                }
+                    break;
+
+                default:
+                    throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
             }
+            //}
         }
 
-
-        
         /// <summary>
         /// Изменение состояния TCP или HTTP
         /// </summary>
@@ -86,19 +95,21 @@ namespace ECMService.Core
 
         public void Start()
         {
-            foreach (var m in _monitors)
-            {
-                m.Start();
-            }
+            ////foreach (var m in _monitors)
+            ////{
+            ////    m.Start();
+            ////}
             //Parallel.ForEach(_monitors, m => m.Start());
+            _monitor.Start();
         }
 
         public void Stop()
         {
-            foreach (var m in _monitors)
-            {
-                m.Stop();
-            }
+            //foreach (var m in _monitors)
+            //{
+            //    m.Stop();
+            //}
+            _monitor.Stop();
         }
     }
 }

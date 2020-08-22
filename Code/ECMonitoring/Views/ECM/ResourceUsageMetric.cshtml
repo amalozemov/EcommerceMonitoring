@@ -1,3 +1,17 @@
-﻿@model ECMonitoring.Models.MetricModel
+﻿@model ECMonitoring.Models.EndPointModel
 
-<p style="margin-left: 15px;">@Html.Label(Model.Name); @Html.Label(Model.MemoryUsage.ToString(), new { id = $"memoryUsage_{Model.Id}" }); @Html.Label(Model.ProcessorTime.ToString(), new { id = $"processorTime_{Model.Id}" })</p>
+@*<p style="margin-left: 15px;">
+        @Html.Label(Model.Name);
+        @Html.Label(Model.MemoryUsage.ToString(), new { id = $"memoryUsage_{Model.Id}" });
+        @Html.Label(Model.ProcessorTime.ToString(), new { id = $"processorTime_{Model.Id}" })
+    </p>*@
+
+<div class="end_point_resource_usage_container">
+    <div class="end_point_resource_usage_label">Загрузка ЦП:</div>
+    <div class="end_point_resource_usage_value" id="processorTime_@Model.Id">@($"{Model.ProcessorTime.ToString()}%")</div>
+</div>
+<div class="end_poiny_info_separator"></div>
+<div class="end_point_resource_usage_container">
+    <div class="end_point_resource_usage_label">Физическая память:</div>
+    <div class="end_point_resource_usage_value" id="memoryUsage_@Model.Id">@($"{Model.MemoryUsage}%")</div>
+</div>

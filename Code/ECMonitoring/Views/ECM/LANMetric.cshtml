@@ -1,16 +1,14 @@
-﻿@model ECMonitoring.Models.MetricModel
+﻿@model ECMonitoring.Models.EndPointModel
 
 <div class="end_point_status_container">
     <div class="end_point_status_label">Состояние:</div>
     <div class="end_point_status_value" id="status_@Model.Id">@Model.StatusLanDevice.ToString()</div>
 </div>
-@*<hr class="end_poiny_info_separator"/>*@
 <div class="end_poiny_info_separator"></div>
 <div class="end_point_errors_container">
     <div class="end_point_errors_label">Кол-во ошибок:</div>
     <div class="end_point_errors_value_container">
         <div class="end_point_errors_value" id="httpErrorsCount_@Model.Id">@Model.HttpErrorsCount.ToString()</div>
-        <div class="end_point_errors_button" id="btnResetErrors">Сброс</div>
+        <div class="end_point_errors_button unselectable" id="btnResetErrors_@Model.Id">Сброс</div>
     </div>
-    @*тут 09.08.2020 вертикальное выравнивание будем делать паддингами*@
 </div>

@@ -11,11 +11,11 @@ namespace DBaseService
     {
         IList<ClientServiceDTO> _clientServices;
         IDictionary<int, IList<ClientEndPointDTO>> _clientEndPoints;
-        IDictionary<int, List<ClientMetricDTO>> _endPointsMetrics;
+        //IDictionary<int, List<ClientMetricDTO>> _endPointsMetrics;
 
         public FakeRepository()
         {
-            _endPointsMetrics = new Dictionary<int, List<ClientMetricDTO>>();
+            //_endPointsMetrics = new Dictionary<int, List<ClientMetricDTO>>();
             _clientServices = CreateServices();
             _clientEndPoints = CreateEndPoints(_clientServices);
         }
@@ -30,16 +30,16 @@ namespace DBaseService
             return _clientEndPoints[ServiceId];
         }
 
-        public List<ClientMetricDTO> GetMetrics(int EndPointId)
-        {
-            //return new List<ClientMetricDTO>()
-            //{
-            //    new ClientMetricDTO(){ Id = $"{EndPointId}_1", Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
-            //    new ClientMetricDTO(){ Id = $"{EndPointId}_2", Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
-            //};
-            return
-                _endPointsMetrics[EndPointId];
-        }
+        ////public List<ClientMetricDTO> GetMetrics(int EndPointId)
+        ////{
+        ////    //return new List<ClientMetricDTO>()
+        ////    //{
+        ////    //    new ClientMetricDTO(){ Id = $"{EndPointId}_1", Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
+        ////    //    new ClientMetricDTO(){ Id = $"{EndPointId}_2", Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
+        ////    //};
+        ////    return
+        ////        _endPointsMetrics[EndPointId];
+        ////}
 
         //public List<ClientMetricDTO> GetMetrics(int EndPointId)
         //{
@@ -162,12 +162,14 @@ namespace DBaseService
                 {
                     var ep = new ClientEndPointDTO()
                     {
+                        ServiceId = service.Id,
                         Id = endPointId + i + 1,
                         Ip = "192.168.0.101",
                         Port = 1800,
                         NetworkName = "NetworkName",
                         Name = $"Конечная точка с Id = {endPointId + i + 1}",
-                        Metrics = (i == endPointsCount - 1) && (i != 0)  ? CreateMetrics(endPointId + i + 1, MonitorType.ResourceMonitor) : CreateMetrics(endPointId + i + 1, MonitorType.LanMonitor)//GetMetrics(endPointId)
+                        //Metrics = (i == endPointsCount - 1) && (i != 0)  ? CreateMetrics(endPointId + i + 1, MonitorType.ResourceMonitor) : CreateMetrics(endPointId + i + 1, MonitorType.LanMonitor)//GetMetrics(endPointId)
+                        TypeMonitor = (i == endPointsCount - 1) && (i != 0) ? MonitorType.ResourceMonitor : MonitorType.LanMonitor
                     };
                     clientEndPointsByService.Add(ep);
                 }
@@ -177,28 +179,28 @@ namespace DBaseService
             return clientEndPoints;
         }
 
-        private List<ClientMetricDTO> CreateMetrics(int endPointId, MonitorType monitorType)
-        {
+        //private List<ClientMetricDTO> CreateMetrics(int endPointId, MonitorType monitorType)
+        //{
 
-            //    new ClientMetricDTO(){ Id = $"{EndPointId}_1", Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
-            //    new ClientMetricDTO(){ Id = $"{EndPointId}_2", Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
-            //};
+        //    //    new ClientMetricDTO(){ Id = $"{EndPointId}_1", Name = "Метрика 1", MetricType = MonitorType.LanMonitor },
+        //    //    new ClientMetricDTO(){ Id = $"{EndPointId}_2", Name = "Метрика 2", MetricType = MonitorType.ResourceMonitor }
+        //    //};
 
-            var metric = default(ClientMetricDTO);
-            if (monitorType == MonitorType.LanMonitor)
-            {
-                metric = new ClientMetricDTO() { Id = $"{endPointId}_1", Name = $"Метрика сетевой монитор {endPointId}_1", MetricType = MonitorType.LanMonitor };
-            }
-            else
-            {
-                metric = new ClientMetricDTO() { Id = $"{endPointId}_2", Name = $"Монитор ресурсов {endPointId}_2", MetricType = MonitorType.ResourceMonitor };
-            }
+        //    var metric = default(ClientMetricDTO);
+        //    if (monitorType == MonitorType.LanMonitor)
+        //    {
+        //        metric = new ClientMetricDTO() { Id = $"{endPointId}_1", Name = $"Метрика сетевой монитор {endPointId}_1", MetricType = MonitorType.LanMonitor };
+        //    }
+        //    else
+        //    {
+        //        metric = new ClientMetricDTO() { Id = $"{endPointId}_2", Name = $"Монитор ресурсов {endPointId}_2", MetricType = MonitorType.ResourceMonitor };
+        //    }
 
-            var metrics = new List<ClientMetricDTO>() { metric };
-            _endPointsMetrics.Add(endPointId, metrics);
+        //    var metrics = new List<ClientMetricDTO>() { metric };
+        //    _endPointsMetrics.Add(endPointId, metrics);
 
-            return metrics;
-        }
+        //    return metrics;
+        //}
 
         #endregion
     }
