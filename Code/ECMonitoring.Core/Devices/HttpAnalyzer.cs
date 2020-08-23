@@ -68,5 +68,21 @@ namespace ECMonitoring.Core.Devices
             }
             return errorCode;
         }
+
+        /// <summary>
+        /// Сброс кол-ва ошибок.
+        /// </summary>
+        public void HttpErrorsReset()
+        {
+            lock (_syncObject)
+            {
+                _httpErrorsCount = 0;
+                var httpStatus =
+                    new LanDeviceHttpStatus(string.Empty, ServerHttpResponseStatus.OK,
+                    "methodServiceSignature", string.Empty,
+                    200, _httpErrorsCount);
+                HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
+            }
+        }
     }
 }

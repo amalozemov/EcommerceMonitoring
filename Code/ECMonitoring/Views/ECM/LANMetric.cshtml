@@ -9,6 +9,6 @@
     <div class="end_point_errors_label">Кол-во ошибок:</div>
     <div class="end_point_errors_value_container">
         <div class="end_point_errors_value" id="httpErrorsCount_@Model.Id">@Model.HttpErrorsCount.ToString()</div>
-        <div class="end_point_errors_button unselectable" id="btnResetErrors_@Model.Id">Сброс</div>
+        <div class="end_point_errors_button unselectable" id="btnResetErrors_@Model.Id" data-end_point_id="@Model.Id">Сброс</div>
     </div>
 </div>

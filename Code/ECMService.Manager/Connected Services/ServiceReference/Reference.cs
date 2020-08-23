@@ -176,6 +176,12 @@ namespace ECMService.Manager.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/GetDataByServiceId", ReplyAction="http://tempuri.org/IConnectors/GetDataByServiceIdResponse")]
         System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/HttpErrorsReset", ReplyAction="http://tempuri.org/IConnectors/HttpErrorsResetResponse")]
+        void HttpErrorsReset(int EndPointId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConnectors/HttpErrorsReset", ReplyAction="http://tempuri.org/IConnectors/HttpErrorsResetResponse")]
+        System.Threading.Tasks.Task HttpErrorsResetAsync(int EndPointId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -227,6 +233,14 @@ namespace ECMService.Manager.ServiceReference {
         
         public System.Threading.Tasks.Task<ECMService.Manager.ServiceReference.EcmData[]> GetDataByServiceIdAsync(int serviceId) {
             return base.Channel.GetDataByServiceIdAsync(serviceId);
+        }
+        
+        public void HttpErrorsReset(int EndPointId) {
+            base.Channel.HttpErrorsReset(EndPointId);
+        }
+        
+        public System.Threading.Tasks.Task HttpErrorsResetAsync(int EndPointId) {
+            return base.Channel.HttpErrorsResetAsync(EndPointId);
         }
     }
 }

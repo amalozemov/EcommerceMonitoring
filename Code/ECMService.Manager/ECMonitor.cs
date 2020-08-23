@@ -200,5 +200,13 @@ namespace ECMService.Manager
                 return serviceData;
             }
         }
+
+        /// <summary>
+        /// Сброс кол-ва ошибок http анализатора LAN монитора.
+        /// </summary>
+        public void HttpErrorsReset(int endPointId)
+        {
+            _clientService.HttpErrorsReset(endPointId);
+        }
     }
 }

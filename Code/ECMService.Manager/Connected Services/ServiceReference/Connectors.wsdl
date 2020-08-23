@@ -26,6 +26,12 @@
   <wsdl:message name="IConnectors_GetDataByServiceId_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataByServiceIdResponse" />
   </wsdl:message>
+  <wsdl:message name="IConnectors_HttpErrorsReset_InputMessage">
+    <wsdl:part name="parameters" element="tns:HttpErrorsReset" />
+  </wsdl:message>
+  <wsdl:message name="IConnectors_HttpErrorsReset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:HttpErrorsResetResponse" />
+  </wsdl:message>
   <wsdl:portType name="IConnectors">
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/IConnectors/DoWork" message="tns:IConnectors_DoWork_InputMessage" />
@@ -38,6 +44,10 @@
     <wsdl:operation name="GetDataByServiceId">
       <wsdl:input wsaw:Action="http://tempuri.org/IConnectors/GetDataByServiceId" message="tns:IConnectors_GetDataByServiceId_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IConnectors/GetDataByServiceIdResponse" message="tns:IConnectors_GetDataByServiceId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="HttpErrorsReset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IConnectors/HttpErrorsReset" message="tns:IConnectors_HttpErrorsReset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IConnectors/HttpErrorsResetResponse" message="tns:IConnectors_HttpErrorsReset_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IConnectors" type="tns:IConnectors">
@@ -62,6 +72,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDataByServiceId">
       <soap:operation soapAction="http://tempuri.org/IConnectors/GetDataByServiceId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HttpErrorsReset">
+      <soap:operation soapAction="http://tempuri.org/IConnectors/HttpErrorsReset" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

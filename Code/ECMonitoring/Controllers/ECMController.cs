@@ -62,7 +62,6 @@ namespace ECMonitoring.Controllers
             var endPoints = Repository.GetEndPoints(serviceId.Value).ToList();
 
             var model = new MainModel();
-            //model.Services = services.Select(s => Mapper.Map<ClientServiceDTO, ServiceModel>(s)).ToList();
             model.Services = Mapper.Map<List<ClientServiceDTO>, List<ServiceModel>>(services);
             model.EndPoints = Mapper.Map<List<ClientEndPointDTO>, List<EndPointModel>>(endPoints);
             model.ServiceId = serviceId.Value;
@@ -70,35 +69,6 @@ namespace ECMonitoring.Controllers
             model.UserName = "Администратор"; //"Пушкин А.С.";//
 
             var serviceData = EcMonitor.GetServiceData(serviceId.Value);
-
-            ////foreach (var endPoint in serviceData.EndPointsData)
-            ////{
-            ////    // тут 01.07.2020 MetricModel должна содержать такие же свойства как и EndPointDataDTO, значения этих всойств должны тут мэпиться.
-            ////    // при выполнении Ajax запроса тип и Id метрики можно получить в БД, или вернуть в EndPointDataDTO (предпочтительно)
-            ////    // на клиенте на странице сервиса 2 типа процедур: 1. для TCP/HTTP и 2. для ресурсов. В параметры этих процедур передаётся Id конечной точки и Id метрики)
-
-            ////    // на 01.07.2020 для начала выводить нижеполученные значения в интерфейс конечной точки (метрики)
-            ////    Logger.Info($"Для конечной точки с Id = {endPoint.EndPointId} TCP Status = {endPoint.StatusLanDevice};  Http Errors Count = {endPoint.HttpErrorsCount}; MemoryUsage = {endPoint.MemoryUsage}; ProcessorTime = {endPoint.ProcessorTime}");
-
-            ////    //var metrics = 
-            ////    //    Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
-
-            ////    var ep = model.EndPoints.Where(e => e.Id == endPoint.EndPointId).FirstOrDefault();
-            ////    //ep.Metrics = metrics;
-            ////    foreach (var metric in ep.Metrics)
-            ////    {
-            ////        if (metric.MetricType == (int)MonitorType.LanMonitor)
-            ////        {
-            ////            metric.StatusLanDevice = endPoint.StatusLanDevice;
-            ////            metric.HttpErrorsCount = endPoint.HttpErrorsCount;
-            ////        }
-            ////        else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
-            ////        {
-            ////            metric.MemoryUsage = endPoint.MemoryUsage;
-            ////            metric.ProcessorTime = endPoint.ProcessorTime;
-            ////        }
-            ////    }
-            ////}
 
             foreach (var endPoint in model.EndPoints)
             {
@@ -128,27 +98,7 @@ namespace ECMonitoring.Controllers
         {
             var responseData = EcMonitor.GetServiceData(serviceId);
             var metricsData = new List<object>();
-            //foreach (var endPoint in responseData.EndPointsData)
-            //{
-            //    var metrics =
-            //        Mapper.Map<List<ClientMetricDTO>, List<MetricModel>>(Repository.GetMetrics(endPoint.EndPointId));
-
-            //    foreach (var metric in metrics)
-            //    {
-            //        object metricData = null;
-
-            //        if (metric.MetricType == (int)MonitorType.LanMonitor)
-            //        {
-            //            metricData = new { metricType = 0, elementKey = $"{metric.Id}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
-            //        }
-            //        else if (metric.MetricType == (int)MonitorType.ResourceMonitor)
-            //        {
-            //            metricData = new { metricType = 1, elementKey = $"{metric.Id}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
-            //        }
-
-            //        metricsData.Add(metricData);
-            //    }
-            //}
+            
             foreach (var endPoint in responseData.EndPointsData)
             {
                 object metricData = null;
@@ -170,6 +120,16 @@ namespace ECMonitoring.Controllers
             }
 
             var result = Json(metricsData, JsonRequestBehavior.AllowGet);
+
+            return result;
+        }
+
+        [AllowAnonymous]
+        public JsonResult HttpErrorsReset(int endPointId)
+        {
+            EcMonitor.HttpErrorsReset(endPointId);
+
+            var result = Json(new { sucess = true }, JsonRequestBehavior.AllowGet);
 
             return result;
         }

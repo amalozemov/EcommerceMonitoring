@@ -86,5 +86,13 @@ namespace ECMonitoring.Core
         {
             Dispose();
         }
+
+        /// <summary>
+        /// Сброс кол-ва ошибок http анализатора.
+        /// </summary>
+        public void HttpErrorsReset()
+        {
+            _httpAnalyzer.HttpErrorsReset();
+        }
     }
 }

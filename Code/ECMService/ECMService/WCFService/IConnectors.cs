@@ -21,5 +21,8 @@ namespace ECMService
 
         [OperationContract]
         IList<EcmData> GetDataByServiceId(int serviceId);
+
+        [OperationContract]
+        void HttpErrorsReset(int EndPointId);
     }
 }

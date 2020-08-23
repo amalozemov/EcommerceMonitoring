@@ -14,6 +14,7 @@
 
     ECMonitoring = {
         LeftBarHeigfh: 0,
+        IsButtonPressed: false,
 
         OnLoad: function () {
             $(window).resize(function () {
@@ -49,23 +50,25 @@
 
             window.addEventListener('resize', () => {
                 $(window).resize();
-            });            
+            });
 
             $('.end_point_errors_button').click(function () {
-                //debugger;
-                
-                var buttonId = this.attributes['id'];
-                console.log(buttonId.value);
-                //$(".mnu_active").removeClass('mnu_active');
-                //$("#mnuItem_" + serviceId).addClass('mnu_active');
+                if (ECMonitoring.IsButtonPressed == true) {
+                    return;
+                }
+                ECMonitoring.IsButtonPressed = true;
 
-                //$("#mnu_active").removeClass('mnu_active');
+                var buttonId = this.attributes['id'].value;
+                var endPointId = this.attributes['data-end_point_id'].value;
 
-                // вызов метода очистки счётчика ошибок и блокировка нажатия кнопки (попробовать переменную прям в кнопке определить)
-                $("#" + buttonId.value).addClass('end_point_errors_active_button');
+                $("#" + buttonId).addClass('end_point_errors_active_button');
+
+                ECMonitoring.HttpErrorsReset(endPointId);
+
                 setTimeout(function () {
-                    $("#" + buttonId.value).removeClass('end_point_errors_active_button');
-                }, 100)
+                    $("#" + buttonId).removeClass('end_point_errors_active_button');
+                    ECMonitoring.IsButtonPressed = false;
+                }, 200)
             });
 
             ECMonitoring.SelectMnuItem('@Model.ServiceId');
@@ -123,6 +126,25 @@
         SelectMnuItem: function (serviceId) {
             $(".mnu_active").removeClass('mnu_active');
             $("#mnuItem_" + serviceId).addClass('mnu_active');
+        },
+
+        HttpErrorsReset: function (endPointId) {
+            var url = "@Url.Action("HttpErrorsReset")";
+            var data = { endPointId: endPointId };
+
+            $.ajax({
+                dataType: 'json',
+                method: 'POST',
+                url: url,
+                async: true,
+                data: data,
+                success: function (result) {
+                    console.log("Success");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         }
     };
 

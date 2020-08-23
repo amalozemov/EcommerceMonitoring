@@ -117,8 +117,13 @@ namespace ECMService.Core
             }
         }
 
-        public static void HttpErrorsReset(int id)
+        /// <summary>
+        /// Сброс кол-ва ошибок http анализатора.
+        /// </summary>
+        public static void HttpErrorsReset(int endPointId)
         {
+            var endPoint = _clientEndPoints.Where(e => e.Id == endPointId).FirstOrDefault();
+            endPoint.HttpErrorsReset();
         }
     }
 }

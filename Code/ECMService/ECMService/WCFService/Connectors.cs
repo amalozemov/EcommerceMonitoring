@@ -28,5 +28,10 @@ namespace ECMService
             var data = ECMonitor.GetDataByServiceId(serviceId);
             return data;
         }
+
+        public void HttpErrorsReset(int EndPointId)
+        {
+            ECMonitor.HttpErrorsReset(EndPointId);
+        }
     }
 }
