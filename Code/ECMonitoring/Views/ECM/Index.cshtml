@@ -59,10 +59,9 @@
                 ECMonitoring.IsButtonPressed = true;
 
                 var buttonId = this.attributes['id'].value;
-                var endPointId = this.attributes['data-end_point_id'].value;
-
                 $("#" + buttonId).addClass('end_point_errors_active_button');
 
+                var endPointId = this.attributes['data-end_point_id'].value;
                 ECMonitoring.HttpErrorsReset(endPointId);
 
                 setTimeout(function () {
