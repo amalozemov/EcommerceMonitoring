@@ -17,11 +17,13 @@ namespace EntityFramework.DataFirst
     public partial class FormMain : Form
     {
         string _connectionString;
+        IUnitOfWorkFactory _unitOfWorkFactory;
 
         public FormMain()
         {
             InitializeComponent();
             _connectionString = ConfigurationManager.ConnectionStrings["TEST_DB"].ConnectionString;
+            _unitOfWorkFactory = new UnitOfWorkFactory(_connectionString);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -66,7 +68,7 @@ namespace EntityFramework.DataFirst
 
         private void _btnAddProduct2_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 repository.Add(new Product()
@@ -85,7 +87,7 @@ namespace EntityFramework.DataFirst
 
         private void _btnViewProducts2_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var products = repository.GetEntities<Product>();
@@ -99,7 +101,7 @@ namespace EntityFramework.DataFirst
 
         private void _btnDeleteProduct2_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var product = repository.GetEntities<Product>().FirstOrDefault();
@@ -110,7 +112,7 @@ namespace EntityFramework.DataFirst
 
         private void _btnChangProduct2_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var product = repository.GetEntities<Product>().FirstOrDefault();
@@ -121,7 +123,7 @@ namespace EntityFramework.DataFirst
 
         private void _btnRollback_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 repository.Add(new Product()
@@ -140,12 +142,12 @@ namespace EntityFramework.DataFirst
 
         private void _btnCommit_Click(object sender, EventArgs e)
         {
-            using (var uow = new UnitOfWork())
+            using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var product = repository.GetEntities<Product>().FirstOrDefault();
                 repository.Delete(product);
-                uow.Commit();
+                
 
                 repository.Add(new Product()
                 {
@@ -153,7 +155,7 @@ namespace EntityFramework.DataFirst
                     Cost = 500.23m
                 });
 
-                product = repository.GetEntities<Product>().FirstOrDefault();
+                product = repository.GetEntities<Product>().ToList()[1];
                 product.Name = "Груша";
 
                 uow.Commit();

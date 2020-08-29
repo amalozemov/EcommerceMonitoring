@@ -73,7 +73,9 @@
     <Compile Include="Repository\Entity.cs" />
     <Compile Include="Repository\ICommonRepository.cs" />
     <Compile Include="Repository\IUnitOfWork.cs" />
+    <Compile Include="Repository\IUnitOfWorkFactory.cs" />
     <Compile Include="Repository\UnitOfWork.cs" />
+    <Compile Include="Repository\UnitOfWorkFactory.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
