@@ -39,6 +39,8 @@ namespace EntityFramework.DataFirst.Repository
 
         public IEnumerable<T> GetEntities<T>() where T : Entity
         {
+            //_dbContext.Products.Include(
+            //_dbContext.Set<T>().re
             return _dbContext.Set<T>().Select(p => p);
         }
 
@@ -51,7 +53,5 @@ namespace EntityFramework.DataFirst.Repository
         {
             throw new NotImplementedException();
         }
-
-       
     }
 }

@@ -38,6 +38,8 @@
             this._btnChangProduct2 = new System.Windows.Forms.Button();
             this._btnRollback = new System.Windows.Forms.Button();
             this._btnCommit = new System.Windows.Forms.Button();
+            this._btnViewProductsByOrders = new System.Windows.Forms.Button();
+            this._btnProductGroupDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -140,11 +142,33 @@
             this._btnCommit.UseVisualStyleBackColor = true;
             this._btnCommit.Click += new System.EventHandler(this._btnCommit_Click);
             // 
+            // _btnViewProductsByOrders
+            // 
+            this._btnViewProductsByOrders.Location = new System.Drawing.Point(522, 109);
+            this._btnViewProductsByOrders.Name = "_btnViewProductsByOrders";
+            this._btnViewProductsByOrders.Size = new System.Drawing.Size(146, 39);
+            this._btnViewProductsByOrders.TabIndex = 10;
+            this._btnViewProductsByOrders.Text = "Просмотреть Продукты по Заказам";
+            this._btnViewProductsByOrders.UseVisualStyleBackColor = true;
+            this._btnViewProductsByOrders.Click += new System.EventHandler(this._btnViewProductsByOrders_Click);
+            // 
+            // _btnProductGroupDelete
+            // 
+            this._btnProductGroupDelete.Location = new System.Drawing.Point(661, 262);
+            this._btnProductGroupDelete.Name = "_btnProductGroupDelete";
+            this._btnProductGroupDelete.Size = new System.Drawing.Size(152, 23);
+            this._btnProductGroupDelete.TabIndex = 11;
+            this._btnProductGroupDelete.Text = "Удалить Группу продуктов";
+            this._btnProductGroupDelete.UseVisualStyleBackColor = true;
+            this._btnProductGroupDelete.Click += new System.EventHandler(this._btnProductGroupDelete_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(837, 450);
+            this.Controls.Add(this._btnProductGroupDelete);
+            this.Controls.Add(this._btnViewProductsByOrders);
             this.Controls.Add(this._btnCommit);
             this.Controls.Add(this._btnRollback);
             this.Controls.Add(this._btnChangProduct2);
@@ -173,6 +197,8 @@
         private System.Windows.Forms.Button _btnChangProduct2;
         private System.Windows.Forms.Button _btnRollback;
         private System.Windows.Forms.Button _btnCommit;
+        private System.Windows.Forms.Button _btnViewProductsByOrders;
+        private System.Windows.Forms.Button _btnProductGroupDelete;
     }
 }
 

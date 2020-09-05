@@ -13,5 +13,8 @@ namespace EntityFramework.DataFirst.Data.Models
         public string Name { get; set; }
         public decimal? Cost { get; set; }
         public long? OrderId { get; set; }
+        public long? ProductTypeId { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual ProductType ProductType { get; set; }
     }
 }
