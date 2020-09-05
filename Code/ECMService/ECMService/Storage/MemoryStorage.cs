@@ -104,7 +104,7 @@ namespace ECMService.Storage
         /// <summary>
         /// Инициализация массивов хранения данных.
         /// </summary>
-        public void AddEndoint(ClientEndPoint endPoint)
+        public void AddEndoint(Connector endPoint)
         {
             //foreach (var m in endPoint.Metrics)
             //{

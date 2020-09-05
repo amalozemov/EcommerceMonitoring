@@ -10,6 +10,7 @@ namespace ECMService
     {
         System.Threading.Timer _timer { get; set; }
         ServiceHost _host;
+        Dispatcher _dispatcher;
 
         public FormMain()
         {
@@ -18,7 +19,9 @@ namespace ECMService
 
             _timer = new System.Threading.Timer(GetEcmData);
 
-            _host = new ServiceHost(typeof(Connectors));
+            _dispatcher = new Dispatcher();
+            var connectors = new Connectors(_dispatcher);
+            _host = new ServiceHost(connectors);
             _host.Open();
 
             Console.WriteLine("ECMService started...");
@@ -28,26 +31,26 @@ namespace ECMService
 
         private void _btnStart_Click(object sender, EventArgs e)
         {
-            if (ECMonitor.IsConnected)
+            if (_dispatcher.IsConnected)
             {
                 Console.WriteLine("Устройство уже подключено.");
                 return;
             }
 
-            ECMonitor.Start();
+            _dispatcher.Start();
 
             Console.WriteLine("Устройство подключено.");
         }
 
         private void _btnStop_Click(object sender, EventArgs e)
         {
-            if (!ECMonitor.IsConnected)
+            if (!_dispatcher.IsConnected)
             {
                 Console.WriteLine("Устройство ещё не подключено.");
                 return;
             }
 
-            ECMonitor.Stop();
+            _dispatcher.Stop();
 
             Console.WriteLine("Устройство отключено.");
         }
@@ -61,7 +64,7 @@ namespace ECMService
 
         private void _btnGetData_Click(object sender, EventArgs e)
         {
-            if (!ECMonitor.IsConnected)
+            if (!_dispatcher.IsConnected)
             {
                 Console.WriteLine("Устройство ещё не подключено.");
                 return;
@@ -72,7 +75,7 @@ namespace ECMService
 
         void GetEcmData(object o)
         {
-            if (!ECMonitor.IsConnected)
+            if (!_dispatcher.IsConnected)
             {
                 return;
             }
@@ -84,7 +87,7 @@ namespace ECMService
                 var endpoints = _repository.GetEndPoints(service.Id);
                 foreach (var ep in endpoints)
                 {
-                    var data = ECMonitor.GetDataByEndPointId(ep.Id);
+                    var data = _dispatcher.GetDataByEndPointId(ep.Id);
                     Console.WriteLine($"Для конечной точки с Id = {ep.Id} состояние = {data?.StatusLanDevice}");
                 }
             }

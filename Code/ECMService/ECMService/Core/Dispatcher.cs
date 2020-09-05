@@ -14,23 +14,22 @@ namespace ECMService.Core
     //    ResourceMonitor = 1
     //}
 
-    internal static class ECMonitor
+    internal class Dispatcher
     {
-        static IList<ClientEndPoint> _clientEndPoints;
-        static IRepository _repository;
-        static IStorage _storage;
-        static object _syncObject;
-        public static bool IsConnected { get; private set; }
+        IList<Connector> _clientEndPoints;
+        IRepository _repository;
+        IStorage _storage;
+        object _syncObject;
+        public bool IsConnected { get; private set; }
 
-
-        static ECMonitor()
+        internal Dispatcher()
         {
-            _clientEndPoints = new List<ClientEndPoint>();
+            _clientEndPoints = new List<Connector>();
             _repository = new FakeRepository();
             _syncObject = new object();
         }
 
-        public static void Start()
+        public void Start()
         {
             lock (_syncObject)
             {
@@ -48,7 +47,7 @@ namespace ECMService.Core
                     foreach (var endpoint in endpoints)
                     {
                         //var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, endpoint.NetworkName, _storage);
-                        var ep = new ClientEndPoint(endpoint, _storage);
+                        var ep = new Connector(endpoint, _storage);
                         _storage.AddEndoint(ep);
                         _clientEndPoints.Add(ep);
                         ep.Start();
@@ -59,7 +58,7 @@ namespace ECMService.Core
             }
         }
 
-        public static void Stop()
+        public void Stop()
         {
             lock (_syncObject)
             {
@@ -79,7 +78,7 @@ namespace ECMService.Core
             }
         }
 
-        public static EcmData GetDataByEndPointId(int endPointid)
+        public EcmData GetDataByEndPointId(int endPointid)
         {
             lock (_syncObject)
             {
@@ -96,7 +95,7 @@ namespace ECMService.Core
         /// Данные по конечным точкам сервиса можно получить не меняя сруктуру приложения, 
         /// для этого нужно получить из БД все конечные точки сервиса и получить данные для ним.
         /// </summary>
-        public static IList<EcmData> GetDataByServiceId(int serviceId)
+        public IList<EcmData> GetDataByServiceId(int serviceId)
         {
             lock (_syncObject)
             {
@@ -120,7 +119,7 @@ namespace ECMService.Core
         /// <summary>
         /// Сброс кол-ва ошибок http анализатора.
         /// </summary>
-        public static void HttpErrorsReset(int endPointId)
+        public void HttpErrorsReset(int endPointId)
         {
             var endPoint = _clientEndPoints.Where(e => e.Id == endPointId).FirstOrDefault();
             endPoint.HttpErrorsReset();

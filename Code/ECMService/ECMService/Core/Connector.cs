@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 namespace ECMService.Core
 {
 
-    internal class ClientEndPoint
+    /// <summary>
+    /// Подключение к Онечным точкам (они же Мониторы).
+    /// </summary>
+    internal class Connector
     {
         public int ServiceId { get; private set; }
         public int Id { get; private set; }
@@ -21,7 +24,7 @@ namespace ECMService.Core
         IECMonitor _monitor;
         IStorage _storage;
 
-        public ClientEndPoint(ClientEndPointDTO endPoint, IStorage storage)
+        public Connector(ClientEndPointDTO endPoint, IStorage storage)
         {
             ServiceId = endPoint.ServiceId;
             Ip = endPoint.Ip;

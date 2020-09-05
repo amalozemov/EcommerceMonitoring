@@ -14,7 +14,7 @@ namespace ECMService.Storage
         void WriteData(int id, int httpErrorsCount);
         void WriteData(int id, ResourceUsage resourceUsage);
         EcmData ExtractData(int id);
-        void AddEndoint(ClientEndPoint endPoint);
+        void AddEndoint(Connector endPoint);
         void Dispose();
     }
 }
