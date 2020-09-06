@@ -60,6 +60,8 @@ namespace ECMonitoring.Service.Forms
                 _lblCoreStatus.ForeColor = Color.FromArgb(0, 128, 0);
                 _lblAmountEndPoints.Text = _dispatcher.GetEndPointsCount().ToString();
                 _lblAmountEndPointsDes.Visible = true;
+                _lblAmountEndServices.Text = _dispatcher.GetServicesCount().ToString();
+                _lblAmountEndServicesDes.Visible = true;
                 _mnuRun.Enabled = false;
                 _mnuStop.Enabled = true;
                 Console.WriteLine("ECMonitor стартован...");
@@ -70,6 +72,8 @@ namespace ECMonitoring.Service.Forms
                 _lblCoreStatus.ForeColor = Color.FromArgb(192, 0, 0);
                 _lblAmountEndPoints.Text = string.Empty;
                 _lblAmountEndPointsDes.Visible = false;
+                _lblAmountEndServices.Text = string.Empty;
+                _lblAmountEndServicesDes.Visible = false;
                 _mnuRun.Enabled = true;
                 _mnuStop.Enabled = false;
                 Console.WriteLine("ECMonitor остановлен.");

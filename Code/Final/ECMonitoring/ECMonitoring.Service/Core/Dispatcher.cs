@@ -153,5 +153,10 @@ namespace ECMonitoring.Service.Core
         {
             return _monitors.Count;
         }
+
+        internal object GetServicesCount()
+        {
+            return _monitors.GroupBy(m => m.ServiceId).Count();
+        }
     }
 }

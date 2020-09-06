@@ -49,10 +49,14 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this._lblHostStatus = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this._lblAmountEndServices = new System.Windows.Forms.Label();
+            this._lblAmountEndServicesDes = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -78,7 +82,7 @@
             // _mnuAppExit
             // 
             this._mnuAppExit.Name = "_mnuAppExit";
-            this._mnuAppExit.Size = new System.Drawing.Size(180, 22);
+            this._mnuAppExit.Size = new System.Drawing.Size(107, 22);
             this._mnuAppExit.Text = "Выход";
             this._mnuAppExit.Click += new System.EventHandler(this._mnuAppExit_Click);
             // 
@@ -99,38 +103,38 @@
             this._mnuRun,
             this._mnuStop});
             this.сервисToolStripMenuItem.Name = "сервисToolStripMenuItem";
-            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.сервисToolStripMenuItem.Text = "Ядро";
             // 
             // _mnuRun
             // 
             this._mnuRun.Name = "_mnuRun";
-            this._mnuRun.Size = new System.Drawing.Size(180, 22);
+            this._mnuRun.Size = new System.Drawing.Size(99, 22);
             this._mnuRun.Text = "Пуск";
             this._mnuRun.Click += new System.EventHandler(this._mnuRun_Click);
             // 
             // _mnuStop
             // 
             this._mnuStop.Name = "_mnuStop";
-            this._mnuStop.Size = new System.Drawing.Size(180, 22);
+            this._mnuStop.Size = new System.Drawing.Size(99, 22);
             this._mnuStop.Text = "Стоп";
             this._mnuStop.Click += new System.EventHandler(this._mnuStop_Click);
             // 
             // _mnuServices
             // 
             this._mnuServices.Name = "_mnuServices";
-            this._mnuServices.Size = new System.Drawing.Size(180, 22);
+            this._mnuServices.Size = new System.Drawing.Size(146, 22);
             this._mnuServices.Text = "Сервисы";
             // 
             // разделительToolStripMenuItem
             // 
             this.разделительToolStripMenuItem.Name = "разделительToolStripMenuItem";
-            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(177, 6);
+            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(143, 6);
             // 
             // _mnuUsers
             // 
             this._mnuUsers.Name = "_mnuUsers";
-            this._mnuUsers.Size = new System.Drawing.Size(180, 22);
+            this._mnuUsers.Size = new System.Drawing.Size(146, 22);
             this._mnuUsers.Text = "Пользователи";
             // 
             // оПрограммеToolStripMenuItem
@@ -199,7 +203,7 @@
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this._lblCoreStatus);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(13, 55);
+            this.panel1.Location = new System.Drawing.Point(13, 64);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(176, 27);
             this.panel1.TabIndex = 5;
@@ -209,9 +213,9 @@
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
             this.panel2.Controls.Add(this._lblAmountEndPoints);
             this.panel2.Controls.Add(this._lblAmountEndPointsDes);
-            this.panel2.Location = new System.Drawing.Point(13, 83);
+            this.panel2.Location = new System.Drawing.Point(13, 124);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(176, 32);
+            this.panel2.Size = new System.Drawing.Size(176, 27);
             this.panel2.TabIndex = 6;
             // 
             // panel3
@@ -220,7 +224,7 @@
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
             this.panel3.Controls.Add(this._lblHostStatus);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(13, 29);
+            this.panel3.Location = new System.Drawing.Point(13, 34);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(176, 27);
             this.panel3.TabIndex = 7;
@@ -248,11 +252,45 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Хост:";
             // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.SystemColors.Control;
+            this.panel4.Controls.Add(this._lblAmountEndServices);
+            this.panel4.Controls.Add(this._lblAmountEndServicesDes);
+            this.panel4.Location = new System.Drawing.Point(13, 94);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(176, 27);
+            this.panel4.TabIndex = 8;
+            // 
+            // _lblAmountEndServices
+            // 
+            this._lblAmountEndServices.AutoSize = true;
+            this._lblAmountEndServices.Dock = System.Windows.Forms.DockStyle.Right;
+            this._lblAmountEndServices.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._lblAmountEndServices.Location = new System.Drawing.Point(149, 0);
+            this._lblAmountEndServices.Name = "_lblAmountEndServices";
+            this._lblAmountEndServices.Size = new System.Drawing.Size(27, 20);
+            this._lblAmountEndServices.TabIndex = 4;
+            this._lblAmountEndServices.Text = "45";
+            this._lblAmountEndServices.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // _lblAmountEndServicesDes
+            // 
+            this._lblAmountEndServicesDes.AutoSize = true;
+            this._lblAmountEndServicesDes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._lblAmountEndServicesDes.Location = new System.Drawing.Point(-4, 0);
+            this._lblAmountEndServicesDes.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this._lblAmountEndServicesDes.Name = "_lblAmountEndServicesDes";
+            this._lblAmountEndServicesDes.Size = new System.Drawing.Size(86, 20);
+            this._lblAmountEndServicesDes.TabIndex = 2;
+            this._lblAmountEndServicesDes.Text = "Сервисов:";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 191);
+            this.ClientSize = new System.Drawing.Size(488, 158);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -272,6 +310,8 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -300,5 +340,8 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label _lblHostStatus;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label _lblAmountEndServices;
+        private System.Windows.Forms.Label _lblAmountEndServicesDes;
     }
 }
