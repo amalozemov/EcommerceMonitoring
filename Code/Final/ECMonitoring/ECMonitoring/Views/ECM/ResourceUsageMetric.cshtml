@@ -1,0 +1,11 @@
+﻿@model ECMonitoring.Models.EndPointModel
+
+<div class="end_point_resource_usage_container">
+    <div class="end_point_resource_usage_label">Загрузка ЦП:</div>
+    <div class="end_point_resource_usage_value" id="processorTime_@Model.Id">@($"{Model.ProcessorTime.ToString()}%")</div>
+</div>
+<div class="end_poiny_info_separator"></div>
+<div class="end_point_resource_usage_container">
+    <div class="end_point_resource_usage_label">Физическая память:</div>
+    <div class="end_point_resource_usage_value" id="memoryUsage_@Model.Id">@($"{Model.MemoryUsage}%")</div>
+</div>

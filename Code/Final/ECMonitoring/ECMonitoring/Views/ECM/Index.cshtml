@@ -1,0 +1,166 @@
+﻿@model ECMonitoring.Models.MainModel
+
+
+@{
+    Layout = "~/Views/Shared/_EcmLayout.cshtml";
+}
+
+@{
+    @Html.Partial("LeftBar", Model.Services);
+    @Html.Partial("MainArea", Model.EndPoints, new ViewDataDictionary { { "ServiceName", Model.ServiceName } });
+}
+
+<script type="text/javascript">
+
+    ECMonitoring = {
+        LeftBarHeigfh: 0,
+        IsButtonPressed: false,
+
+        OnLoad: function () {
+            $(window).resize(function () {
+                $(window).scrollTop(0);
+
+                var mainAreaHeight = $("#main_area").outerHeight();
+                var clientHeight = $(window).height() - 75;
+
+                if (clientHeight < mainAreaHeight) {
+                    $('#left_bar').height(clientHeight);
+                }
+                else {
+                    $('#left_bar').height(mainAreaHeight);
+                }
+
+                ECMonitoring.LeftBarHeigfh = clientHeight;
+            });
+
+            $(window).scroll(function () {
+                var offsetFooter = $('#footer').offset().top - 20;
+
+                if ($(window).scrollTop() + $(window).height() > offsetFooter) {
+                    var offset = $(window).scrollTop() + $(window).height() - offsetFooter;
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh - offset);
+                } else {
+                    $('#left_bar').height(ECMonitoring.LeftBarHeigfh);
+                }
+            });
+
+            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
+                $(window).resize();
+            });
+
+            window.addEventListener('resize', () => {
+                $(window).resize();
+            });
+
+            $('.end_point_errors_button').click(function () {
+                if (ECMonitoring.IsButtonPressed == true) {
+                    return;
+                }
+                ECMonitoring.IsButtonPressed = true;
+
+                var buttonId = this.attributes['id'].value;
+                $("#" + buttonId).addClass('end_point_errors_active_button');
+
+                var endPointId = this.attributes['data-end_point_id'].value;
+                ECMonitoring.HttpErrorsReset(endPointId);
+
+                setTimeout(function () {
+                    $("#" + buttonId).removeClass('end_point_errors_active_button');
+                    ECMonitoring.IsButtonPressed = false;
+                }, 200)
+            });
+
+            ECMonitoring.SelectMnuItem('@Model.ServiceId');
+            $(window).resize();
+            ECMonitoring.TimerStart();
+        },
+
+        TimerStart: function () {
+            setInterval(function () {
+                var url = "@Url.Action("GetServiceData")";
+                var data = { serviceId: @Model.ServiceId };
+
+                $.ajax({
+                    dataType: 'json',
+                    method: 'POST',
+                    url: url,
+                    async: true,
+                    data: data,
+                    success: function (result) {
+                        console.log("Success");
+
+                        result.forEach(function (item) {
+                            if (item.metricType == 0) {
+                                ECMonitoring.UpdateLanMonitor(item);
+                            }
+                            else {
+                                ECMonitoring.UpdateResourceMonitor(item);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+            }, 200);
+        },
+
+        UpdateLanMonitor: function (data) {
+            var labelStatus = document.getElementById('status_' + data.elementKey);
+            labelStatus.innerText = data.statusLanDevice;
+
+            var labelHttpErrorsCount = document.getElementById('httpErrorsCount_' + data.elementKey);
+            labelHttpErrorsCount.innerText = data.httpErrorsCount;
+        },
+
+        UpdateResourceMonitor: function (data) {
+            var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
+            labelMemoryUsage.innerText = data.memoryUsage + "%";
+
+            var labelProcessorTime = document.getElementById('processorTime_' + data.elementKey);
+            labelProcessorTime.innerText = data.processorTime + "%";
+        },
+
+        SelectMnuItem: function (serviceId) {
+            $(".mnu_active").removeClass('mnu_active');
+            $("#mnuItem_" + serviceId).addClass('mnu_active');
+        },
+
+        HttpErrorsReset: function (endPointId) {
+            var url = "@Url.Action("HttpErrorsReset")";
+            var data = { endPointId: endPointId };
+
+            $.ajax({
+                dataType: 'json',
+                method: 'POST',
+                url: url,
+                async: true,
+                data: data,
+                success: function (result) {
+                    console.log("Success");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    };
+
+    window.onload = ECMonitoring.OnLoad;
+
+</script>
+
+@section user_header {
+    <div id="nav_login">
+        <p>
+            @*<span> | </span>*@
+            <span class="user_logout">@Model.UserName</span>
+            <span> | </span>
+            <span class="user_logout">
+                @Html.ActionLink("Выход", "Login", "ECM", new { area = "" })
+            </span>
+        </p>
+    </div>
+}
+

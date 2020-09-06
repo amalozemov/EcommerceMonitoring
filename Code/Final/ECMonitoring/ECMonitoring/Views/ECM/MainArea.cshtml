@@ -1,0 +1,37 @@
+﻿@model IList<ECMonitoring.Models.EndPointModel>
+
+<div id="main_area" class="main_area">
+    <div class="main_area_service_header">
+        <span>
+            @ViewData["ServiceName"]
+        </span>
+    </div>
+
+    <hr class="main_area_service_header_splitter" />
+
+    <div class="row">
+        @foreach (var endPoint in Model)
+        {
+            var footerContent = endPoint.TypeMonitor == 0 ? $"{endPoint.Ip}:{endPoint.Port}" : endPoint.Ip;
+
+            <div class="col-md-6">
+                <div class="end_point_main_container">
+                    <div class="end_point_main_container_header">@endPoint.Name</div>
+
+                    @if (endPoint.TypeMonitor == 0)
+                    {
+                        @Html.Partial("LANMetric", endPoint, new ViewDataDictionary { { "EndPointId", endPoint.Id } })
+                    }
+                    else
+                    {
+                        @Html.Partial("ResourceUsageMetric", endPoint)
+                    }
+
+                    <div class="end_point_main_container_footer">@footerContent</div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

@@ -17,5 +17,14 @@ namespace ECMonitoring.Data
 
         public virtual EndPointType EndPointType { get; set; }
         public virtual Service Service { get; set; }
+
+        public TypeEndPoint TypeMonitor
+        {
+            get
+            {
+                return (TypeEndPoint)EndPointType.Value;
+            }
+        }
+
     }
 }

@@ -1,7 +1,6 @@
-﻿using DBaseService;
-using ECMonitoring.Data;
+﻿using ECMonitoring.Data;
 using ECMonitoring.Data.Fake;
-using ECMService.Storage;
+using ECMonitoring.Service.Storage;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -21,20 +20,16 @@ namespace ECMonitoring.Service.Core
     {
         IUnitOfWorkFactory _unitOfWorkFactory;
         IList<ECMonitor> _monitors;
-        //IRepository _repository;
         IStorage _storage;
         object _syncObject;
         public bool IsConnected { get; private set; }
 
         internal Dispatcher()
         {
-            _monitors = new List<ECMonitor>();
-            //_repository = new FakeRepository();
-
-            // тут надо читать пользовательскую конфигурацию
-            var connectionString = ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
+            var connectionString = 
+                ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
             _unitOfWorkFactory = new FakeUnitOfWorkFactory(connectionString);
-
+            _monitors = new List<ECMonitor>();
             _syncObject = new object();
         }
 
@@ -83,7 +78,7 @@ namespace ECMonitoring.Service.Core
                     }
                 }
 
-                    IsConnected = true;
+                IsConnected = true;
             }
         }
 
@@ -107,7 +102,7 @@ namespace ECMonitoring.Service.Core
             }
         }
 
-        public EcmData GetDataByEndPointId(int endPointid)
+        public EcmData GetDataByEndPointId(long endPointid)
         {
             lock (_syncObject)
             {
@@ -124,7 +119,7 @@ namespace ECMonitoring.Service.Core
         /// Данные по конечным точкам сервиса можно получить не меняя сруктуру приложения, 
         /// для этого нужно получить из БД все конечные точки сервиса и получить данные по ним.
         /// </summary>
-        public IList<EcmData> GetDataByServiceId(int serviceId)
+        public IList<EcmData> GetDataByServiceId(long serviceId)
         {
             lock (_syncObject)
             {
@@ -148,10 +143,15 @@ namespace ECMonitoring.Service.Core
         /// <summary>
         /// Сброс кол-ва ошибок http анализатора.
         /// </summary>
-        public void HttpErrorsReset(int endPointId)
+        public void HttpErrorsReset(long endPointId)
         {
             var monitor = _monitors.Where(e => e.Id == endPointId).FirstOrDefault();
             monitor.HttpErrorsReset();
+        }
+
+        public int GetEndPointsCount()
+        {
+            return _monitors.Count;
         }
     }
 }

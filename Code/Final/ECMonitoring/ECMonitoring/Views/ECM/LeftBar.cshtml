@@ -1,0 +1,15 @@
+﻿@model IList<ECMonitoring.Models.ServiceModel>
+
+<div id="left_bar" class="left_bar_fixed">
+    <div class="left_bar">
+        <ul class="services_mnu">
+            @foreach (var service in Model)
+            {
+            <li>
+                @Html.ActionLink(service.Name, "Index", routeValues: new { serviceId = service.Id },
+                    htmlAttributes: new { id = "mnuItem_" + service.Id })
+            </li>
+            }
+        </ul>
+    </div>
+</div>

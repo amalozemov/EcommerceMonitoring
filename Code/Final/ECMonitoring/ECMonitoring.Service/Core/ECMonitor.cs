@@ -1,8 +1,6 @@
-﻿using DBaseService;
-using DBaseService.DTO;
-using ECMonitoring.Core;
+﻿using ECMonitoring.Core;
 using ECMonitoring.Data;
-using ECMService.Storage;
+using ECMonitoring.Service.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ECMonitoring.Service.Core
 {
-
     /// <summary>
     /// Подключение к Конечным точкам (они же Мониторы).
     /// </summary>

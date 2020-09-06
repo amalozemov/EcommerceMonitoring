@@ -10,13 +10,14 @@ namespace ECMonitoring.Data.Fake
     internal class FakeCommonRepository : ICommonRepository
     {
         IList<Service> _clientServices;
-        //IDictionary<long, IList<EndPoint>> _clientEndPoints;
         IList<EndPoint> _clientEndPoints;
+        IList<User> _users;
 
         public FakeCommonRepository() 
         {
             _clientServices = CreateServices();
             _clientEndPoints = CreateEndPoints(_clientServices);
+            _users = CreateUsers();
         }
 
         public void Add<T>(T entity) where T : Entity
@@ -31,7 +32,6 @@ namespace ECMonitoring.Data.Fake
 
         public T FindById<T>(long id) where T : Entity
         {
-            //return _dbContext.Set<T>().Where(p => p.Id == id).FirstOrDefault(); 
             if (typeof(T) == typeof(Service))
             {
                 return _clientServices.Where(p => p.Id == id).FirstOrDefault() as T; 
@@ -50,18 +50,15 @@ namespace ECMonitoring.Data.Fake
         {
             if (typeof(T) == typeof(Service))
             {
-                //var ret = new List<T>();
                 return _clientServices.Select(p => p as T);
-
-                //foreach (var s in _clientServices)
-                //{
-                //    ret.Add(s as T);
-                //}
-                //return ret;
             }
             else if (typeof(T) == typeof(EndPoint))
             {
                 return _clientEndPoints.Select(p => p as T);
+            }
+            else if (typeof(T) == typeof(User))
+            {
+                return _users.Select(p => p as T);
             }
             else
             {
@@ -194,6 +191,18 @@ namespace ECMonitoring.Data.Fake
             return clientEndPoints;
         }
 
+
+        private IList<User> CreateUsers()
+        {
+            _users = new List<User>();
+            _users.Add(new User()
+            {
+                Id = 1,
+                Login = "1",
+                Password="1"
+            });
+            return _users;
+        }
         #endregion
     }
 }

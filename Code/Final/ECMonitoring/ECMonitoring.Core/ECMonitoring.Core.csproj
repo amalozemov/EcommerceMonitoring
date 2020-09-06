@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2905C279-B1C5-46A0-9CFC-3511C31AC0BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ECMonitoring.Core</RootNamespace>
+    <AssemblyName>ECMonitoring.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PacketDotNet">
+      <HintPath>..\..\..\..\..\Arhive\WinPcap\SharpPcap-4.2.0\Release\PacketDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpPcap">
+      <HintPath>..\..\..\..\..\Arhive\WinPcap\SharpPcap-4.2.0\Release\SharpPcap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataObjects\LanDeviceStatusEventArgs.cs" />
+    <Compile Include="DataObjects\HttpHeaderAttributes.cs" />
+    <Compile Include="DataObjects\LanDeviceHttpStatus.cs" />
+    <Compile Include="DataObjects\LanDeviceEventArgs.cs" />
+    <Compile Include="DataObjects\ResourceUsageEventArgs.cs" />
+    <Compile Include="Devices\FakeLanDevice.cs" />
+    <Compile Include="Devices\HttpAnalyzer.cs" />
+    <Compile Include="Devices\ILanDevice.cs" />
+    <Compile Include="Devices\LanDevice.cs" />
+    <Compile Include="Devices\PingGenerator.cs" />
+    <Compile Include="Devices\SingleShot.cs" />
+    <Compile Include="Devices\TcpAnalyzer.cs" />
+    <Compile Include="Monitors\IECMonitor.cs" />
+    <Compile Include="Monitors\LanMonitor.cs" />
+    <Compile Include="Exceptions\DeviceAlreadyConnectedException.cs" />
+    <Compile Include="Loggers\ILogger.cs" />
+    <Compile Include="Loggers\FileLogger.cs" />
+    <Compile Include="Monitors\ResourceMonitor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,14 @@
+﻿@model ECMonitoring.Models.EndPointModel
+
+<div class="end_point_status_container">
+    <div class="end_point_status_label">Состояние:</div>
+    <div class="end_point_status_value" id="status_@Model.Id">@Model.StatusLanDevice.ToString()</div>
+</div>
+<div class="end_poiny_info_separator"></div>
+<div class="end_point_errors_container">
+    <div class="end_point_errors_label">Кол-во ошибок:</div>
+    <div class="end_point_errors_value_container">
+        <div class="end_point_errors_value" id="httpErrorsCount_@Model.Id">@Model.HttpErrorsCount.ToString()</div>
+        <div class="end_point_errors_button unselectable" id="btnResetErrors_@Model.Id" data-end_point_id="@Model.Id">Сброс</div>
+    </div>
+</div>
