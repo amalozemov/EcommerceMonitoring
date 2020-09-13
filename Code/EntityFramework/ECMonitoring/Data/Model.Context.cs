@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ECMonitoring
+namespace ECMonitoring.Data
 {
     using System;
     using System.Data.Entity;
@@ -27,6 +27,7 @@ namespace ECMonitoring
     
         public DbSet<EndPoint> EndPoints { get; set; }
         public DbSet<EndPointType> EndPointTypes { get; set; }
+        public DbSet<RequestContentsType> RequestContentsTypes { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<User> Users { get; set; }
     }

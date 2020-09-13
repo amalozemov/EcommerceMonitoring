@@ -51,6 +51,7 @@
     <Compile Include="Entities\EndPoint.cs" />
     <Compile Include="Entities\EndPointType.cs" />
     <Compile Include="Entities\Enumerators.cs" />
+    <Compile Include="Entities\RequestContentsType.cs" />
     <Compile Include="Entities\Service.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

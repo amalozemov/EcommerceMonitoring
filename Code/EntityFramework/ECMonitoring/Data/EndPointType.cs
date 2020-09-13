@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ECMonitoring
+namespace ECMonitoring.Data
 {
     using System;
     using System.Collections.Generic;

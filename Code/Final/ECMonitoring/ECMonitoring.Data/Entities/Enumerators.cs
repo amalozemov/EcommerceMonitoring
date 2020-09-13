@@ -12,5 +12,10 @@ namespace ECMonitoring.Data
         LanMonitor = 0,
         ResourceMonitor = 1
     }
-    
+
+    public enum TypeRequestContents : int
+    {
+        Json = 0,
+        Xml = 1
+    }
 }

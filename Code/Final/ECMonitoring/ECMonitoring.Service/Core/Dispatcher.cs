@@ -24,11 +24,9 @@ namespace ECMonitoring.Service.Core
         object _syncObject;
         public bool IsConnected { get; private set; }
 
-        internal Dispatcher()
+        internal Dispatcher(IUnitOfWorkFactory unitOfWorkFactory)
         {
-            var connectionString = 
-                ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
-            _unitOfWorkFactory = new FakeUnitOfWorkFactory(connectionString);
+            _unitOfWorkFactory = unitOfWorkFactory;
             _monitors = new List<ECMonitor>();
             _syncObject = new object();
         }
@@ -44,20 +42,6 @@ namespace ECMonitoring.Service.Core
 
                 _storage = new MemoryStorage();
 
-                //var datas = _repository.GetServices();
-                //foreach (var service in datas)
-                //{
-                //    var endpoints = _repository.GetEndPoints(service.Id);
-                //    foreach (var endpoint in endpoints)
-                //    {
-                //        //var ep = new ClientEndPoint(_repository, endpoint.Ip, endpoint.Port, endpoint.Id, endpoint.NetworkName, _storage);
-                //        var ep = new ECMonitor(endpoint, _storage);
-                //        _storage.AddEndoint(ep);
-                //        _clientEndPoints.Add(ep);
-                //        ep.Start();
-                //    }
-                //}
-
                 using (var uow = _unitOfWorkFactory.Create())
                 {
                     var repository = uow.GetRepository();
@@ -67,7 +51,7 @@ namespace ECMonitoring.Service.Core
                     foreach (var service in services)
                     {
                         var endpoints = 
-                            repository.GetEntities<EndPoint>().Where(p => p.ServiceId == service.Id);//.GetEndPoints(service.Id);
+                            repository.GetEntities<EndPoint>().Where(p => p.ServiceId == service.Id);
                         foreach (var endpoint in endpoints)
                         {
                             var ecm = new ECMonitor(endpoint, _storage);

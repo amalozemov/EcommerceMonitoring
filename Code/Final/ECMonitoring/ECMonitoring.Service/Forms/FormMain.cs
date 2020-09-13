@@ -1,7 +1,10 @@
-﻿using ECMonitoring.Service.Core;
+﻿using ECMonitoring.Data;
+using ECMonitoring.Data.EF;
+using ECMonitoring.Service.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +17,7 @@ namespace ECMonitoring.Service.Forms
 {
     public partial class FormMain : Form
     {
+        IUnitOfWorkFactory _unitOfWorkFactory;
         Dispatcher _dispatcher;
         ServiceHost _host;
 
@@ -22,8 +26,10 @@ namespace ECMonitoring.Service.Forms
             InitializeComponent();
             Text = Application.ProductName;
 
-            _dispatcher = new Dispatcher();
-
+            var connectionString =
+                ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
+            _unitOfWorkFactory = new UnitOfWorkFactory(connectionString);
+            _dispatcher = new Dispatcher(_unitOfWorkFactory);
             var ecmService = new ECMService(_dispatcher);
             _host = new ServiceHost(ecmService);
             _host.Open();
@@ -31,7 +37,7 @@ namespace ECMonitoring.Service.Forms
             SetHostStatus();
             SetCoreStatus();
 
-            _mnuRun_Click(null, null);
+            //_mnuRun_Click(null, null);
         }
 
         private void SetHostStatus()
@@ -113,6 +119,20 @@ namespace ECMonitoring.Service.Forms
         private void _mnuAppExit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void _mnuServices_Click(object sender, EventArgs e)
+        {
+            if (_dispatcher.IsConnected)
+            {
+                MessageBox.Show("Для настройки приложения необходимо остановить ядро.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var form = new FormServicesList(_unitOfWorkFactory);
+            form.ShowDialog();
         }
     }
 }

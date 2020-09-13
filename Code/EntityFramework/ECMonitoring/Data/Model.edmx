@@ -16,8 +16,18 @@
           <Property Name="Port" Type="int" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="NetworkName" Type="nvarchar(max)" />
+          <Property Name="SequenceNumber" Type="int" />
+          <Property Name="RequestContentsTypeId" Type="bigint" />
         </EntityType>
         <EntityType Name="EndPointTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Value" Type="int" />
+        </EntityType>
+        <EntityType Name="RequestContentsTypes">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -31,6 +41,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="SequenceNumber" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -52,6 +63,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EndPoints_RequestContentsTypes">
+          <End Role="RequestContentsTypes" Type="Self.RequestContentsTypes" Multiplicity="0..1" />
+          <End Role="EndPoints" Type="Self.EndPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestContentsTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EndPoints">
+              <PropertyRef Name="RequestContentsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EndPoints_Services">
           <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
           <End Role="EndPoints" Type="Self.EndPoints" Multiplicity="*" />
@@ -67,10 +90,15 @@
         <EntityContainer Name="Хранилище ECMonitoringModelContainer">
           <EntitySet Name="EndPoints" EntityType="Self.EndPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EndPointTypes" EntityType="Self.EndPointTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestContentsTypes" EntityType="Self.RequestContentsTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_EndPoints_EndPointTypes" Association="Self.FK_EndPoints_EndPointTypes">
             <End Role="EndPointTypes" EntitySet="EndPointTypes" />
+            <End Role="EndPoints" EntitySet="EndPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EndPoints_RequestContentsTypes" Association="Self.FK_EndPoints_RequestContentsTypes">
+            <End Role="RequestContentsTypes" EntitySet="RequestContentsTypes" />
             <End Role="EndPoints" EntitySet="EndPoints" />
           </AssociationSet>
           <AssociationSet Name="FK_EndPoints_Services" Association="Self.FK_EndPoints_Services">
@@ -94,7 +122,10 @@
           <Property Name="Port" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NetworkName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SequenceNumber" Type="Int32" />
+          <Property Name="RequestContentsTypeId" Type="Int64" />
           <NavigationProperty Name="EndPointType" Relationship="Self.FK_EndPoints_EndPointTypes" FromRole="EndPoints" ToRole="EndPointTypes" />
+          <NavigationProperty Name="RequestContentsType" Relationship="Self.FK_EndPoints_RequestContentsTypes" FromRole="EndPoints" ToRole="RequestContentsTypes" />
           <NavigationProperty Name="Service" Relationship="Self.FK_EndPoints_Services" FromRole="EndPoints" ToRole="Services" />
         </EntityType>
         <EntityType Name="EndPointType">
@@ -106,12 +137,22 @@
           <Property Name="Value" Type="Int32" />
           <NavigationProperty Name="EndPoints" Relationship="Self.FK_EndPoints_EndPointTypes" FromRole="EndPointTypes" ToRole="EndPoints" />
         </EntityType>
+        <EntityType Name="RequestContentsType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="Int32" />
+          <NavigationProperty Name="EndPoints" Relationship="Self.FK_EndPoints_RequestContentsTypes" FromRole="RequestContentsTypes" ToRole="EndPoints" />
+        </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SequenceNumber" Type="Int32" />
           <NavigationProperty Name="EndPoints" Relationship="Self.FK_EndPoints_Services" FromRole="Services" ToRole="EndPoints" />
         </EntityType>
         <EntityType Name="User">
@@ -134,6 +175,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EndPoints_RequestContentsTypes">
+          <End Role="RequestContentsTypes" Type="Self.RequestContentsType" Multiplicity="0..1" />
+          <End Role="EndPoints" Type="Self.EndPoint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestContentsTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EndPoints">
+              <PropertyRef Name="RequestContentsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EndPoints_Services">
           <End Role="Services" Type="Self.Service" Multiplicity="0..1" />
           <End Role="EndPoints" Type="Self.EndPoint" Multiplicity="*" />
@@ -149,10 +202,15 @@
         <EntityContainer Name="ECMonitoringEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="EndPoints" EntityType="Self.EndPoint" />
           <EntitySet Name="EndPointTypes" EntityType="Self.EndPointType" />
+          <EntitySet Name="RequestContentsTypes" EntityType="Self.RequestContentsType" />
           <EntitySet Name="Services" EntityType="Self.Service" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_EndPoints_EndPointTypes" Association="Self.FK_EndPoints_EndPointTypes">
             <End Role="EndPointTypes" EntitySet="EndPointTypes" />
+            <End Role="EndPoints" EntitySet="EndPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EndPoints_RequestContentsTypes" Association="Self.FK_EndPoints_RequestContentsTypes">
+            <End Role="RequestContentsTypes" EntitySet="RequestContentsTypes" />
             <End Role="EndPoints" EntitySet="EndPoints" />
           </AssociationSet>
           <AssociationSet Name="FK_EndPoints_Services" Association="Self.FK_EndPoints_Services">
@@ -176,6 +234,8 @@
                 <ScalarProperty Name="Port" ColumnName="Port" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="NetworkName" ColumnName="NetworkName" />
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
+                <ScalarProperty Name="RequestContentsTypeId" ColumnName="RequestContentsTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -188,11 +248,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RequestContentsTypes">
+            <EntityTypeMapping TypeName="ECMonitoringModel.RequestContentsType">
+              <MappingFragment StoreEntitySet="RequestContentsTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Services">
             <EntityTypeMapping TypeName="ECMonitoringModel.Service">
               <MappingFragment StoreEntitySet="Services">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

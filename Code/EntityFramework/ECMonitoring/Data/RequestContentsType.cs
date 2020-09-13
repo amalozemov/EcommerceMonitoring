@@ -7,15 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ECMonitoring
+namespace ECMonitoring.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class RequestContentsType
     {
+        public RequestContentsType()
+        {
+            this.EndPoints = new HashSet<EndPoint>();
+        }
+    
         public long Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> Value { get; set; }
+    
+        public virtual ICollection<EndPoint> EndPoints { get; set; }
     }
 }

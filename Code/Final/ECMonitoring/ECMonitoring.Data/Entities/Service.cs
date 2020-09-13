@@ -14,6 +14,7 @@ namespace ECMonitoring.Data
         }
 
         public string Name { get; set; }
+        public int? SequenceNumber { get; set; }
 
         public virtual ICollection<EndPoint> EndPoints { get; set; }
     }

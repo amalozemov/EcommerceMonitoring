@@ -125,6 +125,7 @@
             this._mnuServices.Name = "_mnuServices";
             this._mnuServices.Size = new System.Drawing.Size(146, 22);
             this._mnuServices.Text = "Сервисы";
+            this._mnuServices.Click += new System.EventHandler(this._mnuServices_Click);
             // 
             // разделительToolStripMenuItem
             // 
@@ -299,6 +300,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "FormMain";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormMain";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);

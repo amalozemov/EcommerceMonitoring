@@ -7,22 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ECMonitoring
+namespace ECMonitoring.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class EndPoint
+    public partial class Service
     {
-        public long Id { get; set; }
-        public Nullable<long> ServiceId { get; set; }
-        public Nullable<long> EndPointTypeId { get; set; }
-        public string Ip { get; set; }
-        public Nullable<int> Port { get; set; }
-        public string Name { get; set; }
-        public string NetworkName { get; set; }
+        public Service()
+        {
+            this.EndPoints = new HashSet<EndPoint>();
+        }
     
-        public virtual EndPointType EndPointType { get; set; }
-        public virtual Service Service { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> SequenceNumber { get; set; }
+    
+        public virtual ICollection<EndPoint> EndPoints { get; set; }
     }
 }
