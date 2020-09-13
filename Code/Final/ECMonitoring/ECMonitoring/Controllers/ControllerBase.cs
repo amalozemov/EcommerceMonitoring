@@ -2,6 +2,7 @@
 using System.Web.Configuration;
 using System.Web.Mvc;
 using ECMonitoring.Data;
+using ECMonitoring.Data.EF;
 using ECMonitoring.Data.Fake;
 using ECMonitoring.Infrastructure;
 using ECMonitoring.Manager;
@@ -20,7 +21,7 @@ namespace ECMonitoring.Controllers
         {
             var connectionString =
                 WebConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
-            UnitOfWorkFactory = new FakeUnitOfWorkFactory(connectionString);
+            UnitOfWorkFactory = new UnitOfWorkFactory(connectionString); ;// new FakeUnitOfWorkFactory(connectionString);
             Logger = LogManager.GetLogger("ECMonitoring");
             EcmManager = (ECMManager)System.Web.HttpContext.Current.Application["ECMManager"];
             AuthProvider = new FormAuthProvider(UnitOfWorkFactory);

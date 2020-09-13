@@ -57,8 +57,8 @@ namespace ECMonitoring.Controllers
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
-                var services = repository.GetEntities<Data.Service>().ToList();
-                serviceId = serviceId ?? services.OrderBy(s => s.Id).FirstOrDefault().Id;
+                var services = repository.GetEntities<Data.Service>().OrderBy(s => s.SequenceNumber).ToList();
+                serviceId = serviceId ?? services[0].Id;
                 //Logger.Info($"Количество сервисов = {services.Count}; Запрошенный сервис: {serviceId}");
                 var endPoints = 
                     repository.GetEntities<Data.EndPoint>().Where(e => e.ServiceId == serviceId.Value).ToList();
@@ -77,13 +77,13 @@ namespace ECMonitoring.Controllers
                         serviceData.EndPointsData.Where(p => p.EndPointId == endPoint.Id).FirstOrDefault();
                     if (endPoint.TypeMonitor == Data.TypeEndPoint.LanMonitor)
                     {
-                        endPoint.StatusLanDevice = endPointData.StatusLanDevice;
-                        endPoint.HttpErrorsCount = endPointData.HttpErrorsCount;
+                        endPoint.StatusLanDevice = endPointData?.StatusLanDevice;
+                        endPoint.HttpErrorsCount = endPointData?.HttpErrorsCount;
                     }
                     else if (endPoint.TypeMonitor == Data.TypeEndPoint.ResourceMonitor)
                     {
-                        endPoint.ProcessorTime = endPointData.ProcessorTime;
-                        endPoint.MemoryUsage = endPointData.MemoryUsage;
+                        endPoint.ProcessorTime = endPointData?.ProcessorTime;
+                        endPoint.MemoryUsage = endPointData?.MemoryUsage;
                     }
                     else
                     {

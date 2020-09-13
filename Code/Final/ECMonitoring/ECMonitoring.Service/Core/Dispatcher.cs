@@ -46,12 +46,12 @@ namespace ECMonitoring.Service.Core
                 {
                     var repository = uow.GetRepository();
                     var services = 
-                        repository.GetEntities<Data.Service>();
+                        repository.GetEntities<Data.Service>().ToList();
 
                     foreach (var service in services)
                     {
                         var endpoints = 
-                            repository.GetEntities<EndPoint>().Where(p => p.ServiceId == service.Id);
+                            repository.GetEntities<EndPoint>().Where(p => p.ServiceId == service.Id).ToList();
                         foreach (var endpoint in endpoints)
                         {
                             var ecm = new ECMonitor(endpoint, _storage);
@@ -130,7 +130,7 @@ namespace ECMonitoring.Service.Core
         public void HttpErrorsReset(long endPointId)
         {
             var monitor = _monitors.Where(e => e.Id == endPointId).FirstOrDefault();
-            monitor.HttpErrorsReset();
+            monitor?.HttpErrorsReset();
         }
 
         public int GetEndPointsCount()
