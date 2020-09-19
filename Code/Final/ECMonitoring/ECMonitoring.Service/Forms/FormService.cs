@@ -17,10 +17,9 @@ namespace ECMonitoring.Service.Forms
         BindingSource _endPointBinding { get; set; }
         IUnitOfWorkFactory _unitOfWorkFactory;
 
-        public FormService()
+        private FormService()
         {
             InitializeComponent();
-
             DgvEndPointsFill();
         }
 
@@ -30,6 +29,8 @@ namespace ECMonitoring.Service.Forms
             _unitOfWorkFactory = unitOfWorkFactory;
             //_service = new Data.Service();
             _endPointBinding = new BindingSource();
+            _endPointBinding.DataSource = new List<EndPointGridRow>();
+            _dgvEndPointsList.DataSource = _endPointBinding;
         }
 
         public FormService(IUnitOfWorkFactory unitOfWorkFactory, Data.Service service) : this(unitOfWorkFactory)
@@ -43,7 +44,21 @@ namespace ECMonitoring.Service.Forms
             {
                 var repository = uow.GetRepository();
                 _endPointBinding.DataSource = 
-                    repository.GetEntities<EndPoint>().Where(e => e.ServiceId == _service?.Id).ToList();
+                    repository.GetEntities<EndPoint>().Where(e => e.ServiceId == _service?.Id).ToList().Select(p => 
+                    new EndPointGridRow() {
+                        Id = p.Id,
+                        Name = p.Name,
+                        EndPointType = p.EndPointType,
+                        EndPointTypeId = p.EndPointTypeId,
+                        Ip = p.Ip,
+                        NetworkName = p.NetworkName,
+                        Port = p.Port,
+                        RequestContentsType = p.RequestContentsType,
+                        RequestContentsTypeId = p.RequestContentsTypeId,
+                        RowStatus = (int)EndPointGridRowStatus.Unchanged,
+                        Service = p.Service,
+                        ServiceId = p.ServiceId
+                    }).ToList();
                 _dgvEndPointsList.DataSource = _endPointBinding;
             }
         }
@@ -55,21 +70,63 @@ namespace ECMonitoring.Service.Forms
                 return;
             }
 
+            _service.SequenceNumber = Convert.ToInt32(_txtSequnceNumber.Text);
+            _service.Name = _txtServiceName.Text;
+
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var service = repository.FindById<Data.Service>(_service.Id);
 
-                _service.SequenceNumber = Convert.ToInt32(_txtSequnceNumber.Text);
-                _service.Name = _txtServiceName.Text;
-
                 service.SequenceNumber = _service.SequenceNumber;
                 service.Name = _service.Name;
+
+                CreateEndPoints(service, repository);
+                UpdateEndPoints(repository);
 
                 uow.Commit();
             }
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void CreateEndPoints(Data.Service service, ICommonRepository repository)
+        {
+            var addedRows =
+                ((List<EndPointGridRow>)((BindingSource)_dgvEndPointsList.DataSource).DataSource).Where(p => p.RowStatus == EndPointGridRowStatus.Added);
+            foreach (var templateEndPoint in addedRows)
+            {
+                repository.Add(new EndPoint()
+                {
+                    Service = service,
+                    Name = templateEndPoint.Name,
+                    NetworkName = templateEndPoint.NetworkName,
+                    Ip = templateEndPoint.Ip,
+                    Port = templateEndPoint.Port,
+                    EndPointType =
+                        repository.FindById<EndPointType>(templateEndPoint.EndPointType.Id),
+                    RequestContentsType =
+                        repository.FindById<RequestContentsType>(templateEndPoint.RequestContentsType.Id)
+                });
+            }
+        }
+
+        private void UpdateEndPoints(ICommonRepository repository)
+        {
+            var modifiedRows = 
+                ((List<EndPointGridRow>)((BindingSource)_dgvEndPointsList.DataSource).DataSource).Where(p => p.RowStatus == EndPointGridRowStatus.Modified);
+            foreach (var templateEndPoint in modifiedRows)
+            {
+                var updatedEndPoint = repository.FindById<EndPoint>(templateEndPoint.Id);
+                updatedEndPoint.Name = templateEndPoint.Name;
+                updatedEndPoint.NetworkName = templateEndPoint.NetworkName;
+                updatedEndPoint.Ip = templateEndPoint.Ip;
+                updatedEndPoint.Port = templateEndPoint.Port;
+                updatedEndPoint.EndPointType =
+                    repository.FindById<EndPointType>(templateEndPoint.EndPointType.Id);
+                updatedEndPoint.RequestContentsType =
+                   repository.FindById<RequestContentsType>(templateEndPoint.RequestContentsType.Id);
+            }
         }
 
         private bool CheckFieldsValue()
@@ -103,14 +160,37 @@ namespace ECMonitoring.Service.Forms
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message,
-                       Application.ProductName, MessageBoxButtons.OK,
-                       MessageBoxIcon.Exclamation);
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
                 return false;
             }
             return true;
         }
 
-        #region
+        private void _btnEditEndPoint_Click(object sender, EventArgs e)
+        {
+            var form = new FormEndPoint(_unitOfWorkFactory, (EndPointGridRow)_endPointBinding.Current);
+            form.ShowDialog();
+
+            if (form.DialogResult == DialogResult.OK)
+            {
+                _endPointBinding.ResetBindings(false);
+            }
+        }
+
+        private void _btnAddEndPoint_Click(object sender, EventArgs e)
+        {
+            var form = new FormEndPoint(_unitOfWorkFactory, (List<EndPointGridRow>)_endPointBinding.DataSource);
+            form.ShowDialog();
+
+            if (form.DialogResult == DialogResult.OK)
+            {
+                _endPointBinding.MoveLast();
+                _endPointBinding.ResetBindings(false);
+            }
+        }
+
+        #region Грид
 
         private void DgvEndPointsFill()
         {
@@ -134,13 +214,13 @@ namespace ECMonitoring.Service.Forms
             DataGridViewCellStyle cellStyle =
                 new DataGridViewCellStyle(_dgvEndPointsList.RowsDefaultCellStyle);
             cellStyle.Font = font;
-            cellStyle.Padding = new Padding(2, 0, 2, 0);
+            cellStyle.Padding = new Padding(2, 2, 2, 2);
             _dgvEndPointsList.RowsDefaultCellStyle = cellStyle;
 
             // настройки заголовков столбцов
             _dgvEndPointsList.ColumnHeadersDefaultCellStyle.WrapMode =
                 DataGridViewTriState.False;
-
+ 
             // столбцы
             _dgvEndPointsList.Columns.Add("Название", "Название");
             _dgvEndPointsList.Columns["Название"].DataPropertyName = "Name";
@@ -159,24 +239,62 @@ namespace ECMonitoring.Service.Forms
             _dgvEndPointsList.Columns.Add("Ip", "Ip");
             _dgvEndPointsList.Columns["Ip"].DataPropertyName = "Ip";
             _dgvEndPointsList.Columns["Ip"].AutoSizeMode =
-                DataGridViewAutoSizeColumnMode.DisplayedCells;
+                DataGridViewAutoSizeColumnMode.AllCells;
             _dgvEndPointsList.Columns["Ip"].ReadOnly = true;
-            _dgvEndPointsList.Columns["Ip"].MinimumWidth = 120;
+            _dgvEndPointsList.Columns["Ip"].Resizable = DataGridViewTriState.False;
             //
             _dgvEndPointsList.Columns.Add("Порт", "Порт");
             _dgvEndPointsList.Columns["Порт"].DataPropertyName = "Port";
             _dgvEndPointsList.Columns["Порт"].AutoSizeMode =
-                DataGridViewAutoSizeColumnMode.DisplayedCells;
+                DataGridViewAutoSizeColumnMode.AllCells;
             _dgvEndPointsList.Columns["Порт"].ReadOnly = true;
-            _dgvEndPointsList.Columns["Порт"].MinimumWidth = 120;
+            _dgvEndPointsList.Columns["Порт"].Resizable = DataGridViewTriState.False;
+            //
+            _dgvEndPointsList.Columns.Add("Тип монитора", "Тип монитора");
+            _dgvEndPointsList.Columns["Тип монитора"].DataPropertyName = "EndPointType";
+            _dgvEndPointsList.Columns["Тип монитора"].ReadOnly = true;
+            _dgvEndPointsList.Columns["Тип монитора"].Resizable = DataGridViewTriState.False;
+            _dgvEndPointsList.Columns["Тип монитора"].AutoSizeMode =
+              DataGridViewAutoSizeColumnMode.AllCells;
+            //
+            _dgvEndPointsList.Columns.Add("Тип запроса", "Тип запроса");
+            _dgvEndPointsList.Columns["Тип запроса"].DataPropertyName = "RequestContentsType";
+            _dgvEndPointsList.Columns["Тип запроса"].ReadOnly = true;
+            _dgvEndPointsList.Columns["Тип запроса"].Resizable = DataGridViewTriState.False;
+            _dgvEndPointsList.Columns["Тип запроса"].AutoSizeMode =
+              DataGridViewAutoSizeColumnMode.AllCells;
+            //
+            _dgvEndPointsList.Columns.Add("Состояние", "Состояние");
+            _dgvEndPointsList.Columns["Состояние"].ReadOnly = true;
+            _dgvEndPointsList.Columns["Состояние"].DataPropertyName = "RowStatus";
+            _dgvEndPointsList.Columns["Состояние"].Resizable = DataGridViewTriState.False;
+            _dgvEndPointsList.Columns["Состояние"].AutoSizeMode =
+              DataGridViewAutoSizeColumnMode.AllCells;
+            
 
             // тут 13.09.2020 
-            //1) привязывать столбцы-списки (смотри проекты CallCounter и Архивариус)
+
             //2) Конечные точки - изменение
             //3) Добавление и Удаление всех итемов
 
+            _dgvEndPointsList.CellFormatting += _dgvEndPointsList_CellFormatting;
+        }
+
+        private void _dgvEndPointsList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (_dgvEndPointsList.Columns[e.ColumnIndex].Name == "Тип монитора")
+            {
+                var val = (EndPointType)e.Value;
+                e.Value = val.Description;
+            }
+            else if (_dgvEndPointsList.Columns[e.ColumnIndex].Name == "Тип запроса")
+            {
+                var val = (RequestContentsType)e.Value ;
+                e.Value = val.Description;
+            }
         }
 
         #endregion
+
     }
 }

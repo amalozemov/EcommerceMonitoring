@@ -54,6 +54,13 @@
   <ItemGroup>
     <Compile Include="Core\ECMonitor.cs" />
     <Compile Include="Core\Dispatcher.cs" />
+    <Compile Include="Forms\EndPointGridRow.cs" />
+    <Compile Include="Forms\FormEndPoint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEndPoint.Designer.cs">
+      <DependentUpon>FormEndPoint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +87,9 @@
     <Compile Include="Storage\ResourceUsage.cs" />
     <Compile Include="WCFService\ECMService.cs" />
     <Compile Include="WCFService\IECMService.cs" />
+    <EmbeddedResource Include="Forms\FormEndPoint.resx">
+      <DependentUpon>FormEndPoint.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

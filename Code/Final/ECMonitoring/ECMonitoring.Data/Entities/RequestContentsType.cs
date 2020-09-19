@@ -12,14 +12,13 @@ namespace ECMonitoring.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class RequestContentsType
+    public partial class RequestContentsType : Entity
     {
         public RequestContentsType()
         {
             this.EndPoints = new HashSet<EndPoint>();
         }
     
-        public long Id { get; set; }
         public string Description { get; set; }
         public TypeRequestContents? Value { get; set; }
     

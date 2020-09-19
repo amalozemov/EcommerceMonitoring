@@ -59,7 +59,7 @@ namespace ECMonitoring.Service.Forms
             DataGridViewCellStyle cellStyle =
                 new DataGridViewCellStyle(_dgvServices.RowsDefaultCellStyle);
             cellStyle.Font = font;
-            cellStyle.Padding = new Padding(2, 0, 2, 0);
+            cellStyle.Padding = new Padding(2, 2, 2, 2);
             _dgvServices.RowsDefaultCellStyle = cellStyle;
 
             // настройки заголовков столбцов
