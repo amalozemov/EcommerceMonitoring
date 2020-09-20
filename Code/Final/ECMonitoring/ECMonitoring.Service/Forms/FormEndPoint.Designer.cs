@@ -30,7 +30,7 @@
         {
             this._panControlls = new System.Windows.Forms.Panel();
             this._btnCancel = new System.Windows.Forms.Button();
-            this._btnApplay = new System.Windows.Forms.Button();
+            this._btnOk = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this._txtEndPointName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@
             // _panControlls
             // 
             this._panControlls.Controls.Add(this._btnCancel);
-            this._panControlls.Controls.Add(this._btnApplay);
+            this._panControlls.Controls.Add(this._btnOk);
             this._panControlls.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._panControlls.Location = new System.Drawing.Point(0, 191);
             this._panControlls.Name = "_panControlls";
@@ -69,16 +69,16 @@
             this._btnCancel.Text = "Отменить";
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
-            // _btnApplay
+            // _btnOk
             // 
-            this._btnApplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnApplay.Location = new System.Drawing.Point(175, 15);
-            this._btnApplay.Name = "_btnApplay";
-            this._btnApplay.Size = new System.Drawing.Size(75, 23);
-            this._btnApplay.TabIndex = 0;
-            this._btnApplay.Text = "Применить";
-            this._btnApplay.UseVisualStyleBackColor = true;
-            this._btnApplay.Click += new System.EventHandler(this._btnApplay_Click);
+            this._btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnOk.Location = new System.Drawing.Point(175, 15);
+            this._btnOk.Name = "_btnOk";
+            this._btnOk.Size = new System.Drawing.Size(75, 23);
+            this._btnOk.TabIndex = 0;
+            this._btnOk.Text = "OK";
+            this._btnOk.UseVisualStyleBackColor = true;
+            this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
             // 
             // label1
             // 
@@ -204,7 +204,7 @@
             // 
             // FormEndPoint
             // 
-            this.AcceptButton = this._btnApplay;
+            this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
@@ -242,7 +242,7 @@
 
         private System.Windows.Forms.Panel _panControlls;
         private System.Windows.Forms.Button _btnCancel;
-        private System.Windows.Forms.Button _btnApplay;
+        private System.Windows.Forms.Button _btnOk;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox _txtEndPointName;
         private System.Windows.Forms.Label label2;

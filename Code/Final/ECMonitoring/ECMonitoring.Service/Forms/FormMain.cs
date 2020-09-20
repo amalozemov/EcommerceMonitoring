@@ -134,5 +134,19 @@ namespace ECMonitoring.Service.Forms
             var form = new FormServicesList(_unitOfWorkFactory);
             form.ShowDialog();
         }
+
+        private void _mnuUsers_Click(object sender, EventArgs e)
+        {
+            if (_dispatcher.IsConnected)
+            {
+                MessageBox.Show("Для настройки приложения необходимо остановить ядро.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var form = new FormUsers(_unitOfWorkFactory);
+            form.ShowDialog();
+        }
     }
 }

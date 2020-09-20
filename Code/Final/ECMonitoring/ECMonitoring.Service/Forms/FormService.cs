@@ -14,12 +14,15 @@ namespace ECMonitoring.Service.Forms
     public partial class FormService : Form
     {
         Data.Service _service;
+        List<Data.Service> _servicesColection;
         BindingSource _endPointBinding { get; set; }
         IUnitOfWorkFactory _unitOfWorkFactory;
+        List<EndPointGridRow> _deletedRows;
 
         private FormService()
         {
             InitializeComponent();
+            _deletedRows = new List<EndPointGridRow>();
             DgvEndPointsFill();
         }
 
@@ -27,10 +30,16 @@ namespace ECMonitoring.Service.Forms
         {
             Text = "Создание сервиса";
             _unitOfWorkFactory = unitOfWorkFactory;
-            //_service = new Data.Service();
+
             _endPointBinding = new BindingSource();
             _endPointBinding.DataSource = new List<EndPointGridRow>();
             _dgvEndPointsList.DataSource = _endPointBinding;
+        }
+
+        public FormService(IUnitOfWorkFactory unitOfWorkFactory, List<Data.Service> services) : this(unitOfWorkFactory)
+        {
+            _service = new Data.Service();
+            _servicesColection = services;
         }
 
         public FormService(IUnitOfWorkFactory unitOfWorkFactory, Data.Service service) : this(unitOfWorkFactory)
@@ -77,17 +86,37 @@ namespace ECMonitoring.Service.Forms
             {
                 var repository = uow.GetRepository();
                 var service = repository.FindById<Data.Service>(_service.Id);
+                if (service == null)
+                {
+                    service = new Data.Service();
+                    repository.Add(service);
+                }
 
                 service.SequenceNumber = _service.SequenceNumber;
                 service.Name = _service.Name;
 
+                DeleteEndPoints(repository);
                 CreateEndPoints(service, repository);
                 UpdateEndPoints(repository);
 
                 uow.Commit();
+
+                if (_servicesColection != null)
+                {
+                    _servicesColection.Add(service);
+                }
             }
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void DeleteEndPoints(ICommonRepository repository)
+        {
+            foreach (var templateEndPoint in _deletedRows)
+            {
+                var deletedEndPoint = repository.FindById<EndPoint>(templateEndPoint.Id);
+                repository.Delete(deletedEndPoint);
+            }
         }
 
         private void CreateEndPoints(Data.Service service, ICommonRepository repository)
@@ -129,6 +158,71 @@ namespace ECMonitoring.Service.Forms
             }
         }
 
+        private void _btnEditEndPoint_Click(object sender, EventArgs e)
+        {
+            var currentEndPoint = _endPointBinding.Current as EndPointGridRow;
+            if (currentEndPoint == null)
+            {
+                MessageBox.Show($"Выберите конечную точку.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var form = 
+                new FormEndPoint(_unitOfWorkFactory, currentEndPoint);
+            form.ShowDialog();
+
+            if (form.DialogResult == DialogResult.OK)
+            {
+                _endPointBinding.ResetBindings(false);
+            }
+        }
+
+        private void _btnAddEndPoint_Click(object sender, EventArgs e)
+        {
+            var form = 
+                new FormEndPoint(_unitOfWorkFactory, (List<EndPointGridRow>)_endPointBinding.DataSource);
+            form.ShowDialog();
+
+            if (form.DialogResult == DialogResult.OK)
+            {
+                _endPointBinding.MoveLast();
+                _endPointBinding.ResetBindings(false);
+            }
+        }
+
+        private void btnDeleteEndPoint_Click(object sender, EventArgs e)
+        {
+            var currentEndPoint = _endPointBinding.Current as EndPointGridRow;
+            if (currentEndPoint == null)
+            {
+                MessageBox.Show($"Выберите конечную точку.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var res = MessageBox.Show($"Вы уверены, что хотите удалить конечную точку '{currentEndPoint.Name}'?",
+                    Application.ProductName, MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+            if (res != DialogResult.Yes)
+            {
+                return;
+            }
+
+            if (currentEndPoint.RowStatus != EndPointGridRowStatus.Added)
+            {
+                if (_deletedRows.Where(p => p.Id == currentEndPoint.Id).FirstOrDefault() == null)
+                {
+                    _deletedRows.Add(currentEndPoint);
+                }
+            }
+            
+            _endPointBinding.Remove(currentEndPoint);
+            _endPointBinding.ResetBindings(false);
+        }
+
         private bool CheckFieldsValue()
         {
             try
@@ -143,11 +237,6 @@ namespace ECMonitoring.Service.Forms
                     throw new Exception("Заполните поле ввода 'Название'.");
                 }
 
-                if (_dgvEndPointsList.Rows.Count == 0)
-                {
-                    throw new Exception("Добавьте хотя бы одну конечную точку.");
-                }
-
                 try
                 {
                     var test = Convert.ToInt32(_txtSequnceNumber.Text);
@@ -157,7 +246,7 @@ namespace ECMonitoring.Service.Forms
                     throw new Exception("В поле ввода 'Порядок' указаны некорректные значения.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message,
                     Application.ProductName, MessageBoxButtons.OK,
@@ -165,29 +254,6 @@ namespace ECMonitoring.Service.Forms
                 return false;
             }
             return true;
-        }
-
-        private void _btnEditEndPoint_Click(object sender, EventArgs e)
-        {
-            var form = new FormEndPoint(_unitOfWorkFactory, (EndPointGridRow)_endPointBinding.Current);
-            form.ShowDialog();
-
-            if (form.DialogResult == DialogResult.OK)
-            {
-                _endPointBinding.ResetBindings(false);
-            }
-        }
-
-        private void _btnAddEndPoint_Click(object sender, EventArgs e)
-        {
-            var form = new FormEndPoint(_unitOfWorkFactory, (List<EndPointGridRow>)_endPointBinding.DataSource);
-            form.ShowDialog();
-
-            if (form.DialogResult == DialogResult.OK)
-            {
-                _endPointBinding.MoveLast();
-                _endPointBinding.ResetBindings(false);
-            }
         }
 
         #region Грид
@@ -270,12 +336,7 @@ namespace ECMonitoring.Service.Forms
             _dgvEndPointsList.Columns["Состояние"].Resizable = DataGridViewTriState.False;
             _dgvEndPointsList.Columns["Состояние"].AutoSizeMode =
               DataGridViewAutoSizeColumnMode.AllCells;
-            
-
-            // тут 13.09.2020 
-
-            //2) Конечные точки - изменение
-            //3) Добавление и Удаление всех итемов
+            _dgvEndPointsList.Columns["Состояние"].Visible = false;
 
             _dgvEndPointsList.CellFormatting += _dgvEndPointsList_CellFormatting;
         }
@@ -296,5 +357,6 @@ namespace ECMonitoring.Service.Forms
 
         #endregion
 
+        
     }
 }

@@ -84,13 +84,64 @@ namespace ECMonitoring.Service.Forms
 
         private void _btnServiceEdit_Click(object sender, EventArgs e)
         {
-            var form = new FormService(_unitOfWorkFactory, (Data.Service)_dataBinding.Current);
+            var form = 
+                new FormService(_unitOfWorkFactory, (Data.Service)_dataBinding.Current);
             form.ShowDialog();
 
             if (form.DialogResult == DialogResult.OK)
             {
                 _dataBinding.ResetBindings(false);
             }
+        }
+
+        private void _btnServiceCreate_Click(object sender, EventArgs e)
+        {
+            var form =
+                new FormService(_unitOfWorkFactory, (List<Data.Service>)_dataBinding.DataSource);
+            form.ShowDialog();
+
+            if (form.DialogResult == DialogResult.OK)
+            {
+                _dataBinding.MoveLast();
+                _dataBinding.ResetBindings(false);
+            }
+        }
+
+        private void _btnRemoveService_Click(object sender, EventArgs e)
+        {
+            var currentService = _dataBinding.Current as Data.Service;
+            if (currentService == null)
+            {
+                MessageBox.Show($"Выберите сервис.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var res = MessageBox.Show($"Вы уверены, что хотите удалить сервис '{currentService.Name}' и все его конечные точки?",
+                Application.ProductName, MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+            if (res != DialogResult.Yes)
+            {
+                return;
+            }
+            using (var uow = _unitOfWorkFactory.Create())
+            {
+                var repository = uow.GetRepository();
+                var endPoints = repository.GetEntities<EndPoint>().Where(p => p.ServiceId == currentService.Id);
+                foreach (var endPoint in endPoints)
+                {
+                    repository.Delete(endPoint);
+                }
+
+                var service = repository.FindById<Data.Service>(currentService.Id);
+                repository.Delete(service);
+
+                uow.Commit();
+            }
+
+            _dataBinding.Remove(currentService);
+            _dataBinding.ResetBindings(false);
         }
     }
 }

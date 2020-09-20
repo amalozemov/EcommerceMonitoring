@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -58,8 +59,13 @@ namespace ECMonitoring.Service.Forms
             _endPointsCollection = endPointsCollection;
         }
 
-        private void _btnApplay_Click(object sender, EventArgs e)
+        private void _btnOk_Click(object sender, EventArgs e)
         {
+            if (!CheckFieldsValue())
+            {
+                return;
+            }
+
             using (var uow = _unitOfWorkFactory.Create())
             {
                 _endPoint.Name = _txtEndPointName.Text.Trim();
@@ -68,11 +74,14 @@ namespace ECMonitoring.Service.Forms
                 _endPoint.Port = Convert.ToInt32(_txtPort.Text.Trim());
 
                 var repository = uow.GetRepository();
-                _endPoint.EndPointType = 
+                _endPoint.EndPointType =
                     repository.GetEntities<EndPointType>().Where(p => p.Value == (TypeEndPoint?)_cmbMonitorType.SelectedValue).FirstOrDefault();
                 _endPoint.RequestContentsType =
                     repository.GetEntities<RequestContentsType>().Where(p => p.Value == (TypeRequestContents?)_cmbRequesType.SelectedValue).FirstOrDefault();
-                _endPoint.RowStatus = EndPointGridRowStatus.Modified;
+                if (_endPoint.RowStatus != EndPointGridRowStatus.Added)
+                {
+                    _endPoint.RowStatus = EndPointGridRowStatus.Modified;
+                }
 
                 if (_endPointsCollection != null)
                 {
@@ -81,6 +90,64 @@ namespace ECMonitoring.Service.Forms
                 }
 
                 DialogResult = DialogResult.OK;
+            }
+        }
+
+        private bool CheckFieldsValue()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_txtEndPointName.Text.Trim()))
+                {
+                    throw new Exception("Заполните поле ввода 'Название'.");
+                }
+
+                if (string.IsNullOrWhiteSpace(_txtNetworkName.Text.Trim()) && 
+                    (TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.ResourceMonitor)
+                {
+                    throw new Exception("Заполните поле ввода 'Сетевое имя'.");
+                }
+
+                CheckIPAddress(_txtIp.Text);
+
+                if (string.IsNullOrWhiteSpace(_txtPort.Text.Trim()))
+                {
+                    throw new Exception("Заполните поле ввода 'Port'.");
+                }
+
+                try
+                {
+                    var test = Convert.ToInt32(_txtPort.Text);
+                }
+                catch
+                {
+                    throw new Exception("В поле ввода 'Port' указаны некорректные значения.");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return false;
+            }
+            return true;
+        }
+
+        private void CheckIPAddress(string addr)
+        {
+            addr = addr.Trim();
+            if (string.IsNullOrWhiteSpace(addr))
+            {
+                throw new NullReferenceException("Заполните поле ввода 'Ip'.");
+            }
+
+            string pattern = "^(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[0-9]{2}|[0-9])(.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[0-9]{2}|[0-9])){3}$";
+            var ret = Regex.IsMatch(addr, pattern);
+            if (ret == false)
+            {
+                throw new FormatException("Форма записи IP адреса не соответствует заданному.");
             }
         }
     }

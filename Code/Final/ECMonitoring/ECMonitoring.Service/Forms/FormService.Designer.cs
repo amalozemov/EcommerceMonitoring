@@ -43,7 +43,7 @@
             this._dgvEndPointsList = new System.Windows.Forms.DataGridView();
             this.panInboundStreamsControls = new System.Windows.Forms.Panel();
             this._btnEditEndPoint = new System.Windows.Forms.Button();
-            this.btnStopAllInboundStream = new System.Windows.Forms.Button();
+            this.btnDeleteEndPoint = new System.Windows.Forms.Button();
             this._btnAddEndPoint = new System.Windows.Forms.Button();
             this._panControlls.SuspendLayout();
             this._panServiceAttributes.SuspendLayout();
@@ -187,7 +187,7 @@
             // 
             this.panInboundStreamsControls.BackColor = System.Drawing.SystemColors.Control;
             this.panInboundStreamsControls.Controls.Add(this._btnEditEndPoint);
-            this.panInboundStreamsControls.Controls.Add(this.btnStopAllInboundStream);
+            this.panInboundStreamsControls.Controls.Add(this.btnDeleteEndPoint);
             this.panInboundStreamsControls.Controls.Add(this._btnAddEndPoint);
             this.panInboundStreamsControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.panInboundStreamsControls.Location = new System.Drawing.Point(0, 0);
@@ -211,20 +211,21 @@
             this._btnEditEndPoint.UseVisualStyleBackColor = true;
             this._btnEditEndPoint.Click += new System.EventHandler(this._btnEditEndPoint_Click);
             // 
-            // btnStopAllInboundStream
+            // btnDeleteEndPoint
             // 
-            this.btnStopAllInboundStream.AutoSize = true;
-            this.btnStopAllInboundStream.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnStopAllInboundStream.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
-            this.btnStopAllInboundStream.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStopAllInboundStream.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStopAllInboundStream.Location = new System.Drawing.Point(195, 9);
-            this.btnStopAllInboundStream.Name = "btnStopAllInboundStream";
-            this.btnStopAllInboundStream.Size = new System.Drawing.Size(87, 25);
-            this.btnStopAllInboundStream.TabIndex = 3;
-            this.btnStopAllInboundStream.TabStop = false;
-            this.btnStopAllInboundStream.Text = "Удалить";
-            this.btnStopAllInboundStream.UseVisualStyleBackColor = true;
+            this.btnDeleteEndPoint.AutoSize = true;
+            this.btnDeleteEndPoint.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnDeleteEndPoint.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnDeleteEndPoint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnDeleteEndPoint.Location = new System.Drawing.Point(195, 9);
+            this.btnDeleteEndPoint.Name = "btnDeleteEndPoint";
+            this.btnDeleteEndPoint.Size = new System.Drawing.Size(87, 25);
+            this.btnDeleteEndPoint.TabIndex = 3;
+            this.btnDeleteEndPoint.TabStop = false;
+            this.btnDeleteEndPoint.Text = "Удалить";
+            this.btnDeleteEndPoint.UseVisualStyleBackColor = true;
+            this.btnDeleteEndPoint.Click += new System.EventHandler(this.btnDeleteEndPoint_Click);
             // 
             // _btnAddEndPoint
             // 
@@ -285,7 +286,7 @@
         private System.Windows.Forms.Panel _panGridWrapper;
         private System.Windows.Forms.Panel panInboundStreamsControls;
         private System.Windows.Forms.Button _btnEditEndPoint;
-        private System.Windows.Forms.Button btnStopAllInboundStream;
+        private System.Windows.Forms.Button btnDeleteEndPoint;
         private System.Windows.Forms.Button _btnAddEndPoint;
         private System.Windows.Forms.DataGridView _dgvEndPointsList;
         private System.Windows.Forms.Label label3;

@@ -59,6 +59,7 @@
             this._btnServiceCreate.Name = "_btnServiceCreate";
             this._btnServiceCreate.Size = new System.Drawing.Size(54, 22);
             this._btnServiceCreate.Text = "Создать";
+            this._btnServiceCreate.Click += new System.EventHandler(this._btnServiceCreate_Click);
             // 
             // _btnServiceEdit
             // 
@@ -74,6 +75,7 @@
             this._btnRemoveService.Name = "_btnRemoveService";
             this._btnRemoveService.Size = new System.Drawing.Size(55, 22);
             this._btnRemoveService.Text = "Удалить";
+            this._btnRemoveService.Click += new System.EventHandler(this._btnRemoveService_Click);
             // 
             // panel1
             // 
