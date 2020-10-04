@@ -107,5 +107,35 @@ namespace ECMonitoring.Service.Forms
                 _dataBinding.ResetBindings(false);
             }
         }
+
+        private void btnUserDelete_Click(object sender, EventArgs e)
+        {
+            var currentUser = _dataBinding.Current as User;
+            if (currentUser == null)
+            {
+                MessageBox.Show($"Выберите пользователя.",
+                    Application.ProductName, MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var res = MessageBox.Show($"Вы уверены, что хотите удалить пользователя '{currentUser.Login}'?",
+                Application.ProductName, MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+            if (res != DialogResult.Yes)
+            {
+                return;
+            }
+            using (var uow = _unitOfWorkFactory.Create())
+            {
+                var repository = uow.GetRepository();
+                var user = repository.FindById<User>(currentUser.Id);
+                repository.Delete(user);
+                uow.Commit();
+            }
+
+            _dataBinding.Remove(currentUser);
+            _dataBinding.ResetBindings(false);
+        }
     }
 }

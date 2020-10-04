@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cryptography\SHA1Encryption.cs" />
     <Compile Include="Entities\EndPoint.cs" />
     <Compile Include="Entities\EndPointType.cs" />
     <Compile Include="Entities\Enumerators.cs" />

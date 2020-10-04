@@ -85,6 +85,7 @@
             this.btnUserDelete.Name = "btnUserDelete";
             this.btnUserDelete.Size = new System.Drawing.Size(55, 22);
             this.btnUserDelete.Text = "Удалить";
+            this.btnUserDelete.Click += new System.EventHandler(this.btnUserDelete_Click);
             // 
             // groupBox1
             // 
@@ -118,7 +119,7 @@
             this.Name = "FormUsers";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Пользователи";
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

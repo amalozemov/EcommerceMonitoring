@@ -154,11 +154,12 @@
 @section user_header {
     <div id="nav_login">
         <p>
-            @*<span> | </span>*@
             <span class="user_logout">@Model.UserName</span>
             <span> | </span>
             <span class="user_logout">
-                @Html.ActionLink("Выход", "Login", "ECM", new { area = "" })
+                @*@Html.ActionLink("Выход", "Login", "ECM", new { area = "" })*@
+                
+                @Html.ActionLink("Выход", "Login", "ECM", routeValues: new { isSignOut = true }, htmlAttributes: new {})
             </span>
         </p>
     </div>

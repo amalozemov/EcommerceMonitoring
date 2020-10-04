@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this._panControlls = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this._btnCancel = new System.Windows.Forms.Button();
             this._btnApplay = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this._txtNewPassword = new System.Windows.Forms.TextBox();
             this._lblNewPassword = new System.Windows.Forms.Label();
@@ -38,8 +40,6 @@
             this._lblName = new System.Windows.Forms.Label();
             this._lblPassword = new System.Windows.Forms.Label();
             this._txtName = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this._panControlls.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +55,15 @@
             this._panControlls.Name = "_panControlls";
             this._panControlls.Size = new System.Drawing.Size(450, 50);
             this._panControlls.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(450, 1);
+            this.panel1.TabIndex = 9;
             // 
             // _btnCancel
             // 
@@ -77,6 +86,15 @@
             this._btnApplay.Text = "Применить";
             this._btnApplay.UseVisualStyleBackColor = true;
             this._btnApplay.Click += new System.EventHandler(this._btnApplay_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(450, 1);
+            this.panel3.TabIndex = 10;
             // 
             // tlpMain
             // 
@@ -108,6 +126,7 @@
             this._txtNewPassword.Name = "_txtNewPassword";
             this._txtNewPassword.Size = new System.Drawing.Size(351, 20);
             this._txtNewPassword.TabIndex = 2;
+            this._txtNewPassword.UseSystemPasswordChar = true;
             // 
             // _lblNewPassword
             // 
@@ -123,12 +142,15 @@
             // 
             // _txtPassword
             // 
+            this._txtPassword.AcceptsReturn = true;
+            this._txtPassword.CausesValidation = false;
             this._txtPassword.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtPassword.Location = new System.Drawing.Point(94, 35);
             this._txtPassword.Margin = new System.Windows.Forms.Padding(5);
             this._txtPassword.Name = "_txtPassword";
             this._txtPassword.Size = new System.Drawing.Size(351, 20);
             this._txtPassword.TabIndex = 1;
+            this._txtPassword.UseSystemPasswordChar = true;
             // 
             // _lblName
             // 
@@ -162,24 +184,6 @@
             this._txtName.Name = "_txtName";
             this._txtName.Size = new System.Drawing.Size(351, 20);
             this._txtName.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 1);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(450, 1);
-            this.panel1.TabIndex = 9;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(450, 1);
-            this.panel3.TabIndex = 10;
             // 
             // FormUser
             // 

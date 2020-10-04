@@ -197,6 +197,7 @@
     <Content Include="Views\Shared\_EcmLayout.cshtml" />
     <Content Include="Views\ECM\IndexNew.cshtml" />
     <Content Include="Views\Shared\_EcmLayoutNew.cshtml" />
+    <Content Include="Views\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

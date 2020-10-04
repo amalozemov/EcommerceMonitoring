@@ -18,16 +18,22 @@ namespace ECMonitoring.Controllers
     [Authorize]
     public class ECMController : ControllerBase
     {
-
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(bool? isSignOut)
         {
+            //TempData["ErrorMessage"] = "Тестовая ошибка";
+            //throw new Exception("Тестовая ошибка 1234");
+
+            if (isSignOut.HasValue && isSignOut.Value)
+            {
+                AuthProvider.SignOut();
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginModel model)//, string returnUrl)
+        public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +52,8 @@ namespace ECMonitoring.Controllers
         }
 
         // GET: ECM
-        [AllowAnonymous] // убрать для появления окна Входа
+        //[AllowAnonymous] // убрать для появления окна Входа
+        [OutputCache(NoStore = true, Location = System.Web.UI.OutputCacheLocation.None)]
         public ActionResult Index(long? serviceId)
         {
             //FormsAuthentication.SignOut();
@@ -68,7 +75,7 @@ namespace ECMonitoring.Controllers
                 model.EndPoints = Mapper.Map<List<Data.EndPoint>, List<EndPointModel>>(endPoints);
                 model.ServiceId = serviceId.Value;
                 model.ServiceName = services.Where(s => s.Id == serviceId).FirstOrDefault().Name;
-                model.UserName = "Администратор"; //"Пушкин А.С.";//
+                model.UserName = HttpContext.User.Identity.Name; //"Пушкин А.С.";//
 
                 var serviceData = EcmManager.GetServiceData(serviceId.Value);
                 foreach (var endPoint in model.EndPoints)
@@ -94,6 +101,11 @@ namespace ECMonitoring.Controllers
                 return View(model);
             }
         }
+
+
+        // где то тут 04.10.2020 -
+        // 1) Обработка ошибок а Ajax методах
+        // 2) Обработка серверных ошибок 
 
         [AllowAnonymous]
         public JsonResult GetServiceData(long serviceId)

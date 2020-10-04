@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Data;
+using ECMonitoring.Data.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,7 @@ namespace ECMonitoring.Service.Forms
             _lblPassword.Visible = false;
             _txtPassword.Visible = false;
             _editMode = UserEditMode.Adding;
+            _lblNewPassword.Text = "Пароль";
         }
 
         public FormUser(IUnitOfWorkFactory unitOfWorkFactory, User user) : this(unitOfWorkFactory)
@@ -49,7 +51,7 @@ namespace ECMonitoring.Service.Forms
             _lblNewPassword.Visible = false;
             _txtNewPassword.Visible = false;
             _txtName.Text = _user.Login;
-            _editMode = UserEditMode.EditName;
+            _editMode = UserEditMode.EditName;       
         }
 
         public FormUser(IUnitOfWorkFactory unitOfWorkFactory, User user, bool changePassword) : this(unitOfWorkFactory)
@@ -59,6 +61,7 @@ namespace ECMonitoring.Service.Forms
             _lblName.Visible = false;
             _txtName.Visible = false;
             _editMode = UserEditMode.EditPass;
+            _lblPassword.Text = "Старый пароль";
         }
 
         private void _btnApplay_Click(object sender, EventArgs e)
@@ -68,6 +71,7 @@ namespace ECMonitoring.Service.Forms
                 return;
             }
 
+            var password = new SHA1Encryption().EncryptData(_txtNewPassword.Text.Trim());
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
@@ -77,7 +81,7 @@ namespace ECMonitoring.Service.Forms
                     var user = new User()
                     {
                         Login = _txtName.Text.Trim(),
-                        Password = _txtNewPassword.Text.Trim()
+                        Password = password
                     };
                     repository.Add(user);
                     _users.Add(user);
@@ -91,7 +95,7 @@ namespace ECMonitoring.Service.Forms
                 else if (_editMode == UserEditMode.EditPass)
                 {
                     var user = repository.FindById<User>(_user.Id);
-                    user.Password = _txtNewPassword.Text.Trim();
+                    user.Password = password;
                     _user.Password = user.Password;
                 }
 
@@ -119,7 +123,7 @@ namespace ECMonitoring.Service.Forms
 
                     if (_txtNewPassword.Text.Trim().Length < 3)
                     {
-                        throw new Exception("Поле 'Новый пароль' должно содержать не менее 3-х символов.");
+                        throw new Exception($"Поле '{_lblNewPassword.Text}' должно содержать не менее 3-х символов.");
                     }
 
                     CheckLogin(_txtName.Text.Trim());
@@ -142,12 +146,12 @@ namespace ECMonitoring.Service.Forms
                 {
                     if (_txtPassword.Text.Trim().Length < 3)
                     {
-                        throw new Exception("Поле 'Новый пароль' должно содержать не менее 3-х символов.");
+                        throw new Exception($"Поле '{_lblPassword.Text}' должно содержать не менее 3-х символов.");
                     }
 
                     if (_txtNewPassword.Text.Trim().Length < 3)
                     {
-                        throw new Exception("Поле 'Новый пароль' должно содержать не менее 3-х символов.");
+                        throw new Exception($"Поле '{_lblNewPassword.Text}' должно содержать не менее 3-х символов.");
                     }
 
                     CheckPassword(_txtPassword.Text.Trim());
@@ -165,25 +169,26 @@ namespace ECMonitoring.Service.Forms
 
         private void CheckPassword(string password)
         {
+            var enc = new SHA1Encryption();
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var user = 
-                    repository.GetEntities<User>().Where(p => p.Id == _user.Id && p.Password == password.Trim()).FirstOrDefault();
+                    repository.GetEntities<User>().Where(p => p.Id == _user.Id && 
+                    enc.DecryptData(p.Password) == password.Trim()).FirstOrDefault();
                 if (user == null)
                 {
                     throw new Exception("Неверный пароль.");
                 }
             }
         }
-        // где то тут 20.09.2020 - 1) ещё раз проверить добаление и изменение пользователей 2) удаление пользователя 3) Проверка авторизации с БД в веб.
+        
         private void CheckLogin(string login)
         {
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
-
-                if (repository.GetEntities<User>().Where(p => p.Login == login.Trim()).FirstOrDefault() != null)
+                if (repository.GetEntities<User>().Where(p => p.Login.ToLower() == login.Trim().ToLower()).FirstOrDefault() != null)
                 {
                     throw new Exception($"Пользователь с логином '{login} уже существует");
                 }

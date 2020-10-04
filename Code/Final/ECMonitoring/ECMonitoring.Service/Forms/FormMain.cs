@@ -37,7 +37,19 @@ namespace ECMonitoring.Service.Forms
             SetHostStatus();
             SetCoreStatus();
 
-            //_mnuRun_Click(null, null);
+            // для первого подключения к БД
+            Cursor = Cursors.WaitCursor;
+            Task.Run(() =>
+            {
+                using (var uow = _unitOfWorkFactory.Create())
+                {
+                    var repository = uow.GetRepository();
+                    var services = repository.GetEntities<Data.Service>().ToList();
+                }
+            });
+            Cursor = Cursors.Default;
+
+            _mnuRun_Click(null, null);
         }
 
         private void SetHostStatus()
@@ -86,7 +98,7 @@ namespace ECMonitoring.Service.Forms
             }
         }
 
-        private void _mnuRun_Click(object sender, EventArgs e)
+        private async void _mnuRun_Click(object sender, EventArgs e)
         {
             if (_dispatcher.IsConnected)
             {
@@ -94,7 +106,12 @@ namespace ECMonitoring.Service.Forms
                 return;
             }
 
-            _dispatcher.Start();
+            Cursor = Cursors.WaitCursor;
+            await Task.Run(() =>
+            {
+                _dispatcher.Start();
+            });
+            Cursor = Cursors.Default;
 
             SetCoreStatus();
         }
