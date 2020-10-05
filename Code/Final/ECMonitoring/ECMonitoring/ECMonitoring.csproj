@@ -137,6 +137,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\ECMController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -197,7 +198,7 @@
     <Content Include="Views\Shared\_EcmLayout.cshtml" />
     <Content Include="Views\ECM\IndexNew.cshtml" />
     <Content Include="Views\Shared\_EcmLayoutNew.cshtml" />
-    <Content Include="Views\Error.cshtml" />
+    <Content Include="Views\Errors\ErrorHandler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

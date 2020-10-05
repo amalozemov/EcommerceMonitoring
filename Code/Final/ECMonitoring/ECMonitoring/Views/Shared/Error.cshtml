@@ -12,11 +12,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>Ошибка</title>
 </head>
-<body>
+<body style = "padding: 75px 150px">
     <hgroup>
-        <h1>Ошибка.</h1>
-        @*<h2>При обработке запроса произошла ошибка: @TempData["ErrorMessage"]</h2>*@
-        <h2>При обработке запроса произошла ошибка: @Model.Exception.Message</h2>
+        <h2 style = "color: darkred">При обработке запроса произошла ошибка:</h2>
+        <h3>@Model.Exception.Message</h3>
     </hgroup>
 </body>
 </html>

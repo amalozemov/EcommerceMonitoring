@@ -31,5 +31,9 @@ namespace ECMonitoring
                 ecMonitor.Dispose();
             }
         }
+
+        //protected void Application_Error()
+        //{
+        //}
     }
 }

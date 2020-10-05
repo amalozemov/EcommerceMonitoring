@@ -17,19 +17,18 @@ namespace ECMonitoring.Data.Cryptography
     {
         // Закрытое поле для хранения поставщика служб шифрования 3DES
         TripleDESCryptoServiceProvider TripleDes = new TripleDESCryptoServiceProvider();
-        string _key = "~1#6J1saD";      // ключ по умолчанию для всех моих программ
+        const string _key = "~1#6J1saD";      // ключ по умолчанию для всех моих программ
 
         // Конструктор для инициализации поставщика служб шифрования 3DES. 
         // Параметр key управляет методами EncryptData и DecryptData. 
         public SHA1Encryption()
-            : this("~1#6J1saD")
+            : this(_key)
         {
         }
         public SHA1Encryption(string key)
         {
-            // Initialize the crypto provider.
-            _key = key;
-            TripleDes.Key = TruncateHash(_key, TripleDes.KeySize / 8);
+            // Initialize the crypto provider.            
+            TripleDes.Key = TruncateHash(key, TripleDes.KeySize / 8);
             TripleDes.IV = TruncateHash("", TripleDes.BlockSize / 8);
         }
         
@@ -64,10 +63,7 @@ namespace ECMonitoring.Data.Cryptography
             encStream.FlushFinalBlock();
 
             // Convert the encrypted stream to a printable string.
-            // Оригинальная версия:
             return Convert.ToBase64String(ms.ToArray());
-            //' так не работает:
-            //'Return Convert.ToString(ms.ToArray)
         }
 
         /// <summary>

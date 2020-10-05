@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.UI;
 
 namespace ECMonitoring.Controllers
 {
@@ -16,13 +17,15 @@ namespace ECMonitoring.Controllers
     // https://professorweb.ru/my/ASP_NET/gamestore/level2/2_12.php
 
     [Authorize]
+    [OutputCache(NoStore = true, Location = OutputCacheLocation.None)]
     public class ECMController : ControllerBase
     {
         [AllowAnonymous]
         public ActionResult Login(bool? isSignOut)
         {
-            //TempData["ErrorMessage"] = "Тестовая ошибка";
-            //throw new Exception("Тестовая ошибка 1234");
+            throw new Exception("Моя тестовая ошибка 333");
+            //return HttpNotFound();
+            //return new HttpStatusCodeResult(403);
 
             if (isSignOut.HasValue && isSignOut.Value)
             {
@@ -53,13 +56,14 @@ namespace ECMonitoring.Controllers
 
         // GET: ECM
         //[AllowAnonymous] // убрать для появления окна Входа
-        [OutputCache(NoStore = true, Location = System.Web.UI.OutputCacheLocation.None)]
         public ActionResult Index(long? serviceId)
         {
             //FormsAuthentication.SignOut();
             //Response.Redirect("~/ECM/Login");
 
             // 115, 117, 154
+
+            //throw new Exception("Моя тестовая ошибка 222");
 
             using (var uow = UnitOfWorkFactory.Create())
             {
@@ -75,7 +79,7 @@ namespace ECMonitoring.Controllers
                 model.EndPoints = Mapper.Map<List<Data.EndPoint>, List<EndPointModel>>(endPoints);
                 model.ServiceId = serviceId.Value;
                 model.ServiceName = services.Where(s => s.Id == serviceId).FirstOrDefault().Name;
-                model.UserName = HttpContext.User.Identity.Name; //"Пушкин А.С.";//
+                model.UserName = HttpContext.User.Identity.Name;
 
                 var serviceData = EcmManager.GetServiceData(serviceId.Value);
                 foreach (var endPoint in model.EndPoints)
