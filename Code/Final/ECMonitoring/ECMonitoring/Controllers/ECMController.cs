@@ -23,6 +23,7 @@ namespace ECMonitoring.Controllers
         [AllowAnonymous]
         public ActionResult Login(bool? isSignOut)
         {
+            //https://professorweb.ru/my/ASP_NET/mvc/level5/5_4.php
             throw new Exception("Моя тестовая ошибка 333");
             //return HttpNotFound();
             //return new HttpStatusCodeResult(403);
