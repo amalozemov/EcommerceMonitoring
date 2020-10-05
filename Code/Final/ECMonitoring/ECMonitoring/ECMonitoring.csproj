@@ -138,7 +138,6 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\ECMController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,12 +182,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ECM\IndexPrvPrv.cshtml" />
     <Content Include="Views\ECM\Login.cshtml" />
     <Content Include="Views\ECM\LeftBar.cshtml" />
     <Content Include="Views\ECM\MainArea.cshtml" />
@@ -196,9 +189,7 @@
     <Content Include="Views\ECM\ResourceUsageMetric.cshtml" />
     <Content Include="Views\ECM\Index.cshtml" />
     <Content Include="Views\Shared\_EcmLayout.cshtml" />
-    <Content Include="Views\ECM\IndexNew.cshtml" />
-    <Content Include="Views\Shared\_EcmLayoutNew.cshtml" />
-    <Content Include="Views\Errors\ErrorHandler.cshtml" />
+    <Content Include="Views\Errors\General.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

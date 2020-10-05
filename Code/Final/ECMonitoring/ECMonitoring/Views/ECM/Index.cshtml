@@ -76,7 +76,7 @@
         },
 
         TimerStart: function () {
-            setInterval(function () {
+            var requestFuction = function () {
                 var url = "@Url.Action("GetServiceData")";
                 var data = { serviceId: @Model.ServiceId };
 
@@ -87,9 +87,13 @@
                     async: true,
                     data: data,
                     success: function (result) {
+                        debugger;
                         console.log("Success");
-
-                        result.forEach(function (item) {
+                        if (!result.Status) {
+                            location.href = `/Errors/General?errorMessage=${result.ErrorMessage}`;
+                            return;
+                        }
+                        result.Data.forEach(function (item) {
                             if (item.metricType == 0) {
                                 ECMonitoring.UpdateLanMonitor(item);
                             }
@@ -97,13 +101,14 @@
                                 ECMonitoring.UpdateResourceMonitor(item);
                             }
                         });
+                        setTimeout(requestFuction, 200);
                     },
                     error: function (error) {
                         console.log(error);
                     }
                 });
-
-            }, 200);
+            };
+            setTimeout(requestFuction, 200);
         },
 
         UpdateLanMonitor: function (data) {
@@ -157,8 +162,6 @@
             <span class="user_logout">@Model.UserName</span>
             <span> | </span>
             <span class="user_logout">
-                @*@Html.ActionLink("Выход", "Login", "ECM", new { area = "" })*@
-                
                 @Html.ActionLink("Выход", "Login", "ECM", routeValues: new { isSignOut = true }, htmlAttributes: new {})
             </span>
         </p>

@@ -8,14 +8,9 @@ namespace ECMonitoring.Controllers
 {
     public class ErrorsController : Controller
     {
-        // GET: Errors
-        public ActionResult ErrorHandler()
+        public ActionResult General(string errorMessage)
         {
-            //ViewBag["ErrorMessage"] = HttpContext.Error.Message;
-            //var exception = Server.GetLastError();
-            //var exception = HttpContext..
-            //ViewBag["ErrorMessage"] = exception.Message;
-            //return View(ViewBag);
+            ViewBag.ErrorMessage = errorMessage;
             return View();
         }
     }

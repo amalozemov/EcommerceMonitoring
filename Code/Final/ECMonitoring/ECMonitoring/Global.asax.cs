@@ -1,4 +1,5 @@
-﻿using ECMonitoring.Manager;
+﻿using ECMonitoring.Controllers;
+using ECMonitoring.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,22 @@ namespace ECMonitoring
             }
         }
 
-        //protected void Application_Error()
-        //{
-        //}
+        protected void Application_Error()
+        {
+            var exception = Server.GetLastError();
+            var httpException = exception as HttpException;
+            Response.Clear();
+            Server.ClearError();
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Errors";
+            routeData.Values["action"] = "General";
+            routeData.Values["errorMessage"] = exception.Message;
+            Response.StatusCode = 500;
+            Response.TrySkipIisCustomErrors = true;
+            IController errorsController = new ErrorsController();
+            var wrapper = new HttpContextWrapper(Context);
+            var rc = new RequestContext(wrapper, routeData);
+            errorsController.Execute(rc);
+        }
     }
 }

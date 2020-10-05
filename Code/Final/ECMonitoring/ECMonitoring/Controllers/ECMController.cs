@@ -24,7 +24,7 @@ namespace ECMonitoring.Controllers
         public ActionResult Login(bool? isSignOut)
         {
             //https://professorweb.ru/my/ASP_NET/mvc/level5/5_4.php
-            throw new Exception("Моя тестовая ошибка 333");
+            //throw new Exception("Моя тестовая ошибка 333");
             //return HttpNotFound();
             //return new HttpStatusCodeResult(403);
 
@@ -107,38 +107,42 @@ namespace ECMonitoring.Controllers
             }
         }
 
-
-        // где то тут 04.10.2020 -
-        // 1) Обработка ошибок а Ajax методах
-        // 2) Обработка серверных ошибок 
-
         [AllowAnonymous]
         public JsonResult GetServiceData(long serviceId)
         {
-            var responseData = EcmManager.GetServiceData(serviceId);
-            var serviceData = new List<object>();
-            
-            foreach (var endPoint in responseData.EndPointsData)
+            var result = default(JsonResult);
+
+            try
             {
-                object monitorData = null;
+                var responseData = EcmManager.GetServiceData(serviceId);
+                var serviceData = new List<object>();
 
-                if (endPoint.TypeMonitor == MetricType.LanMonitor)
+                foreach (var endPoint in responseData.EndPointsData)
                 {
-                    monitorData = new { metricType = 0, elementKey = $"{endPoint.EndPointId}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
-                }
-                else if (endPoint.TypeMonitor == MetricType.ResourceMonitor)
-                {
-                    monitorData = new { metricType = 1, elementKey = $"{endPoint.EndPointId}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
-                }
-                else
-                {
-                    throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
+                    object monitorData = null;
+
+                    if (endPoint.TypeMonitor == MetricType.LanMonitor)
+                    {
+                        monitorData = new { metricType = 0, elementKey = $"{endPoint.EndPointId}", statusLanDevice = endPoint.StatusLanDevice.ToString(), httpErrorsCount = endPoint.HttpErrorsCount };
+                    }
+                    else if (endPoint.TypeMonitor == MetricType.ResourceMonitor)
+                    {
+                        monitorData = new { metricType = 1, elementKey = $"{endPoint.EndPointId}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("Данный тип конечной точки не поддерживается.");
+                    }
+
+                    serviceData.Add(monitorData);
                 }
 
-                serviceData.Add(monitorData);
+                result = Json(new { Status = true, Data = serviceData }, JsonRequestBehavior.AllowGet);
             }
-
-            var result = Json(serviceData, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                result = Json(new { Status = false, ErrorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
 
             return result;
         }
