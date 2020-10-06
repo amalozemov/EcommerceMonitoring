@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Test.WebRequest.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Url" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://mscrm-sync-preprod.mtt.ru/GMCS.MTT.XRM.Application.Web/Router/Route/GetPersonalAccountBalance/</Value>
+    </Setting>
+    <Setting Name="Params" Type="System.String" Scope="User">
+      <Value Profile="(Default)">?billingName=Porta&amp;personalAccountId={C1399242-0492-4C5C-A7A2-FC33460122F5}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

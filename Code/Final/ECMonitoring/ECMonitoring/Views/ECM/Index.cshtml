@@ -87,7 +87,6 @@
                     async: true,
                     data: data,
                     success: function (result) {
-                        debugger;
                         console.log("Success");
                         if (!result.Status) {
                             location.href = `/Errors/General?errorMessage=${result.ErrorMessage}`;

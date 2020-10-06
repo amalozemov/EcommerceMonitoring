@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +23,16 @@ namespace ECMonitoring.Core.Devices
 
         public TcpAnalyzer(string srcIp)
         {
+            var clientRequestWaiting =
+                Convert.ToInt32(ConfigurationManager.AppSettings["ClientRequestWaiting"]);
+            var repeatPingEvery =
+                Convert.ToInt32(ConfigurationManager.AppSettings["RepeatPingEvery"]);
             _prvStatus = LanDeviceStatus.Sleep;
             _rstCount = 0;
-            _singleShot = new SingleShot(15000, false);
+            _singleShot = new SingleShot(clientRequestWaiting, false);
             _singleShot.Trigger += _singleShot_Trigger;
 
-            _pingGenerator = new PingGenerator(srcIp, 500);
+            _pingGenerator = new PingGenerator(srcIp, repeatPingEvery);
             _pingGenerator.PingErrorOn += _pingGenerator_PingErrorOn;
 
             _syncObject = new object();

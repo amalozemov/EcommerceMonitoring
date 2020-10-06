@@ -55,8 +55,7 @@ namespace ECMonitoring.Controllers
             return View(model);
         }
 
-        // GET: ECM
-        //[AllowAnonymous] // убрать для появления окна Входа
+        [AllowAnonymous] // убрать для появления окна Входа
         public ActionResult Index(long? serviceId)
         {
             //FormsAuthentication.SignOut();
@@ -114,6 +113,8 @@ namespace ECMonitoring.Controllers
 
             try
             {
+                //throw new Exception("Моя тестовая ошибка");
+
                 var responseData = EcmManager.GetServiceData(serviceId);
                 var serviceData = new List<object>();
 

@@ -1,5 +1,6 @@
 ﻿using ECMonitoring.Controllers;
 using ECMonitoring.Manager;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +36,8 @@ namespace ECMonitoring
 
         protected void Application_Error()
         {
+            LoggingApplicationExceptions();
             var exception = Server.GetLastError();
-            var httpException = exception as HttpException;
             Response.Clear();
             Server.ClearError();
             var routeData = new RouteData();
@@ -49,6 +50,16 @@ namespace ECMonitoring
             var wrapper = new HttpContextWrapper(Context);
             var rc = new RequestContext(wrapper, routeData);
             errorsController.Execute(rc);
+        }
+
+        /// <summary>
+        /// Обработка ошибок уровня приложения
+        /// </summary>
+        private void LoggingApplicationExceptions()
+        {
+            var exception = Server.GetLastError();
+            var logger = LogManager.GetLogger("ECMonitoring");
+            logger.Error($"Произошла ошибка уровня приложения: {exception}");
         }
     }
 }

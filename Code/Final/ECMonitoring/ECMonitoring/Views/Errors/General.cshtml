@@ -1,4 +1,6 @@
-﻿@{
+﻿@model string
+
+@{
     Layout = null;
 }
 
@@ -13,6 +15,7 @@
     <hgroup>
         <h2 style="color: darkred">An error occurred while processing the request:</h2>
         <h3>@ViewBag.ErrorMessage</h3>
-    </hgroup>
+        <h3>@Model</h3>
+</hgroup>
 </body>
 </html>

@@ -26,5 +26,17 @@ namespace ECMonitoring.Controllers
             EcmManager = (ECMManager)System.Web.HttpContext.Current.Application["ECMManager"];
             AuthProvider = new FormAuthProvider(UnitOfWorkFactory);
         }
+
+        /// <summary>
+        /// Обработка ошибок уровня контроллера
+        /// </summary>
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Logger.Error("Произошла ошибка в приложении: {0}; Controller:{1}; Action:{3}; Url:{2}",
+                filterContext.Exception, filterContext.RouteData.Values["controller"],
+                filterContext.HttpContext.Request.Url, filterContext.RouteData.Values["action"]);
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = View("~/Views/Errors/General.cshtml", null, filterContext.Exception.Message);
+        }
     }
 }

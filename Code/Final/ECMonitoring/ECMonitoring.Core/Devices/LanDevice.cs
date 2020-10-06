@@ -39,7 +39,8 @@ namespace ECMonitoring.Core.Devices
 
             //string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
             //string filter = "(src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
-            string filter = "(src 192.168.0.101 && port 1800) && tcp";
+            //string filter = "(src 192.168.0.101 && port 1800) && tcp";
+            string filter = $"(src {Ip} && port {Port}) && tcp";
             _device.Filter = filter;
 
             _device.StartCapture();

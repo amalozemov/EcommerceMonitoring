@@ -10,8 +10,7 @@ namespace ECMonitoring.Controllers
     {
         public ActionResult General(string errorMessage)
         {
-            ViewBag.ErrorMessage = errorMessage;
-            return View();
+            return View("~/Views/Errors/General.cshtml", null, errorMessage);
         }
     }
 }
