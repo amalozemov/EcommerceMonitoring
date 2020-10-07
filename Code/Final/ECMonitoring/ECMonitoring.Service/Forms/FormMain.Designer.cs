@@ -103,7 +103,7 @@
             this._mnuRun,
             this._mnuStop});
             this.сервисToolStripMenuItem.Name = "сервисToolStripMenuItem";
-            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.сервисToolStripMenuItem.Text = "Ядро";
             // 
             // _mnuRun
@@ -123,19 +123,19 @@
             // _mnuServices
             // 
             this._mnuServices.Name = "_mnuServices";
-            this._mnuServices.Size = new System.Drawing.Size(180, 22);
+            this._mnuServices.Size = new System.Drawing.Size(146, 22);
             this._mnuServices.Text = "Сервисы";
             this._mnuServices.Click += new System.EventHandler(this._mnuServices_Click);
             // 
             // разделительToolStripMenuItem
             // 
             this.разделительToolStripMenuItem.Name = "разделительToolStripMenuItem";
-            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(177, 6);
+            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(143, 6);
             // 
             // _mnuUsers
             // 
             this._mnuUsers.Name = "_mnuUsers";
-            this._mnuUsers.Size = new System.Drawing.Size(180, 22);
+            this._mnuUsers.Size = new System.Drawing.Size(146, 22);
             this._mnuUsers.Text = "Пользователи";
             this._mnuUsers.Click += new System.EventHandler(this._mnuUsers_Click);
             // 

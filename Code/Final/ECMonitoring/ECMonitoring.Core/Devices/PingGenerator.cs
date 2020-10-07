@@ -14,14 +14,16 @@ namespace ECMonitoring.Core.Devices
         public event PingErrorHandler PingErrorOn;
 
         public string Ip { get; private set; }
-        public int Period { get; private set; }
-        Timer _timer { get; set; }
-        int _errosCount;
+        private int _period { get; set; }
+        private int _pingErrorsCountMax { get; set; }
+        private Timer _timer { get; set; }
+        private int _errosCount;
 
-        public PingGenerator(string ip, int period)
+        public PingGenerator(string ip, int period, int pingErrorsCountMax)
         {
             Ip = ip;
-            Period = period;
+            _period = period;
+            _pingErrorsCountMax = pingErrorsCountMax;
             _timer = new Timer(PingTo);
         }
 
@@ -63,7 +65,7 @@ namespace ECMonitoring.Core.Devices
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                if (_errosCount > 10)
+                if (_errosCount > _pingErrorsCountMax)
                 {
                     PingErrorOn?.Invoke(this, errorMessage);
                 }
@@ -83,7 +85,7 @@ namespace ECMonitoring.Core.Devices
 
         public void Start()
         {
-            _timer.Change(0, Period);
+            _timer.Change(0, _period);
         }
 
         public void Stop()

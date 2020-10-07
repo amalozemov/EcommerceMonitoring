@@ -27,12 +27,14 @@ namespace ECMonitoring.Core.Devices
                 Convert.ToInt32(ConfigurationManager.AppSettings["ClientRequestWaiting"]);
             var repeatPingEvery =
                 Convert.ToInt32(ConfigurationManager.AppSettings["RepeatPingEvery"]);
+            var pingErrorsCountMax =
+                Convert.ToInt32(ConfigurationManager.AppSettings["PingErrorsCountMax"]);
             _prvStatus = LanDeviceStatus.Sleep;
             _rstCount = 0;
             _singleShot = new SingleShot(clientRequestWaiting, false);
             _singleShot.Trigger += _singleShot_Trigger;
 
-            _pingGenerator = new PingGenerator(srcIp, repeatPingEvery);
+            _pingGenerator = new PingGenerator(srcIp, repeatPingEvery, pingErrorsCountMax);
             _pingGenerator.PingErrorOn += _pingGenerator_PingErrorOn;
 
             _syncObject = new object();

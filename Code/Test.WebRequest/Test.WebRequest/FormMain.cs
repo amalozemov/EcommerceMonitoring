@@ -78,13 +78,13 @@ namespace Test.WebRequest
                 string res = sr.ReadToEnd();
                 //_lblResult.Text = "Результат: " + GetResult(res);
                 sr.Close();
-
+                Console.WriteLine("Завершено.");
                 this.Enabled = true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                _timer.Stop();
+                //_timer.Stop();
                 this.Enabled = true;
             }
         }
