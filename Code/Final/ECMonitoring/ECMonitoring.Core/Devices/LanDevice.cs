@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Core.Exceptions;
+using ECMonitoring.Logger;
 using PacketDotNet;
 using SharpPcap;
 using System;
@@ -17,11 +18,13 @@ namespace ECMonitoring.Core.Devices
         public string Ip { get; private set; }
         public int Port { get; private set; }
         private ICaptureDevice _device;
+        IEcmLogger _logger;
 
         public LanDevice(string ip, int port)
         {
             Ip = ip;
             Port = port;
+            _logger = new EcmLogger("Core-LanDevice");
         }
 
         public void Start()
@@ -47,6 +50,7 @@ namespace ECMonitoring.Core.Devices
 
             //Console.WriteLine("-- Listening on {0}, hit 'Enter' to stop...",
             //    _device.Description);
+            _logger.Trace($"Сетевое устройство {Ip}:{Port} включено");
         }
 
         private void device_OnPacketArrival(object sender, CaptureEventArgs e)
@@ -81,12 +85,13 @@ namespace ECMonitoring.Core.Devices
                 //var t = ip.SourceAddress;
                 //if (tcp.SourcePort == 1800 && ip.SourceAddress.ToString() != "192.168.0.101")
                 //{
-                    Console.WriteLine("SrcIp={0}:{1} -> DstIp={2}:{3}, {4}, Rst={5}",
-                       //time.Hour, time.Minute, time.Second,
-                       //string.Empty, len, 
-                       srcIp, tcp.SourcePort, dstIp, tcp.DestinationPort, proto, Convert.ToInt32(tcp.Rst));
+                    //Console.WriteLine("SrcIp={0}:{1} -> DstIp={2}:{3}, {4}, Rst={5}",
+                    //   //time.Hour, time.Minute, time.Second,
+                    //   //string.Empty, len, 
+                    //   srcIp, tcp.SourcePort, dstIp, tcp.DestinationPort, proto, Convert.ToInt32(tcp.Rst));
 
-                
+                _logger.Trace($"SrcIp={srcIp}:{tcp.SourcePort} -> DstIp={dstIp}:{tcp.DestinationPort}, {proto}, Rst={Convert.ToInt32(tcp.Rst)}");
+
                     var eventArgs =
                         new LanDeviceEventArgs(srcIp, dstIp, tcp.Rst, isHttpPresent, httpAttributes);
                 
@@ -105,10 +110,12 @@ namespace ECMonitoring.Core.Devices
             }
             catch
             {
-                Console.WriteLine("При отключении устройства произошла ошибка.");
+                //Console.WriteLine("При отключении устройства произошла ошибка.");
+                _logger.Error($"При отключении устройства {Ip}:{Port} произошла ошибка.");
             }
             _device.Close();
             _device = null;
+            _logger.Trace($"Сетевое устройство {Ip}:{Port} отключено");
         }
 
         ICaptureDevice GetDivice(string deviceName = null)

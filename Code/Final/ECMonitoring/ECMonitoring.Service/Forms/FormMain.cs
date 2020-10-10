@@ -1,5 +1,6 @@
 ﻿using ECMonitoring.Data;
 using ECMonitoring.Data.EF;
+using ECMonitoring.Logger;
 using ECMonitoring.Service.Core;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,15 @@ namespace ECMonitoring.Service.Forms
         IUnitOfWorkFactory _unitOfWorkFactory;
         Dispatcher _dispatcher;
         ServiceHost _host;
+        IEcmLogger _logger;
 
         public FormMain()
         {
             InitializeComponent();
             Text = Application.ProductName;
+            _lblCoreStatus.ForeColor = Color.FromArgb(192, 0, 0);
 
+            _logger = new EcmLogger("WCFService");
             var connectionString =
                 ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
             _unitOfWorkFactory = new UnitOfWorkFactory(connectionString);
@@ -33,9 +37,7 @@ namespace ECMonitoring.Service.Forms
             var ecmService = new ECMService(_dispatcher);
             _host = new ServiceHost(ecmService);
             _host.Open();
-
             SetHostStatus();
-            SetCoreStatus();
 
             // для первого подключения к БД
             Cursor = Cursors.WaitCursor;
@@ -60,13 +62,13 @@ namespace ECMonitoring.Service.Forms
             {
                 _lblHostStatus.Text = "Работает";
                 _lblHostStatus.ForeColor = Color.FromArgb(0, 128, 0);
-                Console.WriteLine("ECMService стартован...");
+                _logger.Info($"Хост стартован...");
             }
             else
             {
                 _lblHostStatus.Text = "Остановлен";
                 _lblHostStatus.ForeColor = Color.FromArgb(192, 0, 0);
-                Console.WriteLine("ECMService остановлен.");
+                _logger.Info($"Хост остановлен.");
             }
         }
 
@@ -82,7 +84,8 @@ namespace ECMonitoring.Service.Forms
                 _lblAmountEndServicesDes.Visible = true;
                 _mnuRun.Enabled = false;
                 _mnuStop.Enabled = true;
-                Console.WriteLine("ECMonitor стартован...");
+                //Console.WriteLine("Монитор стартован...");
+                _logger.Info($"Монитор стартован...");
             }
             else
             {
@@ -94,7 +97,8 @@ namespace ECMonitoring.Service.Forms
                 _lblAmountEndServicesDes.Visible = false;
                 _mnuRun.Enabled = true;
                 _mnuStop.Enabled = false;
-                Console.WriteLine("ECMonitor остановлен.");
+                //Console.WriteLine("ECMonitor остановлен.");
+                _logger.Info($"Монитор остановлен.");
             }
         }
 
@@ -102,7 +106,8 @@ namespace ECMonitoring.Service.Forms
         {
             if (_dispatcher.IsConnected)
             {
-                Console.WriteLine("ECMonitor уже подключен.");
+                //Console.WriteLine("ECMonitor уже подключен.");
+                _logger.Info($"Монитор уже стартован.");
                 return;
             }
 
@@ -120,7 +125,8 @@ namespace ECMonitoring.Service.Forms
         {
             if (!_dispatcher.IsConnected)
             {
-                Console.WriteLine("ECMonitor ещё не подключен.");
+                //Console.WriteLine("ECMonitor ещё не подключен.");
+                _logger.Info($"Монитор ещё не стартован.");
                 return;
             }
 

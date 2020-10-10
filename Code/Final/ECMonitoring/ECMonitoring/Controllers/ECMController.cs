@@ -63,14 +63,14 @@ namespace ECMonitoring.Controllers
 
             // 115, 117, 154
 
-            //throw new Exception("Моя тестовая ошибка 222");
+            //throw new Exception("Index ---> Моя тестовая ошибка 222");
 
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var repository = uow.GetRepository();
                 var services = repository.GetEntities<Data.Service>().OrderBy(s => s.SequenceNumber).ToList();
                 serviceId = serviceId ?? services[0].Id;
-                //Logger.Info($"Количество сервисов = {services.Count}; Запрошенный сервис: {serviceId}");
+                Logger.Info($"Количество сервисов = {services.Count}; Запрошенный сервис: {serviceId}");
                 var endPoints = 
                     repository.GetEntities<Data.EndPoint>().Where(e => e.ServiceId == serviceId.Value).ToList();
 
@@ -113,7 +113,7 @@ namespace ECMonitoring.Controllers
 
             try
             {
-                //throw new Exception("Моя тестовая ошибка");
+                //throw new Exception("GetServiceData --> Моя тестовая ошибка");
 
                 var responseData = EcmManager.GetServiceData(serviceId);
                 var serviceData = new List<object>();
@@ -142,6 +142,7 @@ namespace ECMonitoring.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.ToString());
                 result = Json(new { Status = false, ErrorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
             }
 

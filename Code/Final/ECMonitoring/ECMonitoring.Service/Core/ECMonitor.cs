@@ -56,12 +56,12 @@ namespace ECMonitoring.Service.Core
             if (deviceStatus.EventSource == SourceEvent.Tcp)
             {
                 _storage.WriteData(Id, deviceStatus.DeviceStatus.Value);
-                Console.WriteLine($"deviceStatus = {deviceStatus.DeviceStatus.Value}");
+                //Console.WriteLine($"deviceStatus = {deviceStatus.DeviceStatus.Value}");
             }
             else
             {
                 _storage.WriteData(Id, deviceStatus.HttpErrorsCount.Value);
-                Console.WriteLine($"Количество ошибок HTTP  = {deviceStatus.HttpErrorsCount.Value}");
+                //Console.WriteLine($"Количество ошибок HTTP  = {deviceStatus.HttpErrorsCount.Value}");
             }
         }
 
@@ -72,7 +72,7 @@ namespace ECMonitoring.Service.Core
         {
             var resource = (ResourceUsageEventArgs)eventArgs;
             _storage.WriteData(Id, new ResourceUsage(resource.MemoryUsage, resource.ProcessorTime));
-            Console.WriteLine($"Ресурсы:  Используемая память: {resource.MemoryUsage}; Время процессора: {resource.ProcessorTime}");
+            //Console.WriteLine($"Ресурсы:  Используемая память: {resource.MemoryUsage}; Время процессора: {resource.ProcessorTime}");
         }
 
         public void Start()

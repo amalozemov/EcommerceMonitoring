@@ -36,6 +36,7 @@ namespace ECMonitoring.Core.Devices
 
             _pingGenerator = new PingGenerator(srcIp, repeatPingEvery, pingErrorsCountMax);
             _pingGenerator.PingErrorOn += _pingGenerator_PingErrorOn;
+            _pingGenerator.PingReconnectionOn += _pingGenerator_PingReconnectionOn;
 
             _syncObject = new object();
         }
@@ -67,6 +68,20 @@ namespace ECMonitoring.Core.Devices
                     _prvStatus = LanDeviceStatus.Break;
                     TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Break);
                 }
+            }
+        }
+
+        private void _pingGenerator_PingReconnectionOn(object sender)
+        {
+            lock (_syncObject)
+            {
+                if (_isDisposed)
+                {
+                    return;
+                }
+
+                _prvStatus = LanDeviceStatus.Sleep;
+                TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Sleep);
             }
         }
 
@@ -140,6 +155,11 @@ namespace ECMonitoring.Core.Devices
                 //TcpAnalyzeCompleteOn?.Invoke(this, LanDeviceStatus.Connect);
                 //return;
             }
+        }
+
+        internal void PingExternalStart()
+        {
+            _pingGenerator.Start();
         }
     }
 }

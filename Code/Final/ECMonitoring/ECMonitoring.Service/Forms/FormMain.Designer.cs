@@ -180,11 +180,12 @@
             this._lblCoreStatus.AutoSize = true;
             this._lblCoreStatus.Dock = System.Windows.Forms.DockStyle.Right;
             this._lblCoreStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lblCoreStatus.Location = new System.Drawing.Point(94, 0);
+            this._lblCoreStatus.ForeColor = System.Drawing.Color.DarkRed;
+            this._lblCoreStatus.Location = new System.Drawing.Point(65, 0);
             this._lblCoreStatus.Name = "_lblCoreStatus";
-            this._lblCoreStatus.Size = new System.Drawing.Size(82, 20);
+            this._lblCoreStatus.Size = new System.Drawing.Size(111, 20);
             this._lblCoreStatus.TabIndex = 3;
-            this._lblCoreStatus.Text = "Работает";
+            this._lblCoreStatus.Text = "Остановлено";
             this._lblCoreStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // _lblAmountEndPoints
@@ -236,11 +237,12 @@
             this._lblHostStatus.AutoSize = true;
             this._lblHostStatus.Dock = System.Windows.Forms.DockStyle.Right;
             this._lblHostStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._lblHostStatus.Location = new System.Drawing.Point(94, 0);
+            this._lblHostStatus.ForeColor = System.Drawing.Color.DarkRed;
+            this._lblHostStatus.Location = new System.Drawing.Point(74, 0);
             this._lblHostStatus.Name = "_lblHostStatus";
-            this._lblHostStatus.Size = new System.Drawing.Size(82, 20);
+            this._lblHostStatus.Size = new System.Drawing.Size(102, 20);
             this._lblHostStatus.TabIndex = 3;
-            this._lblHostStatus.Text = "Работает";
+            this._lblHostStatus.Text = "Остановлен";
             this._lblHostStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label3

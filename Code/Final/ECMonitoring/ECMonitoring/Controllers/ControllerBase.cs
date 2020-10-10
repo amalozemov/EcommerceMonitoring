@@ -5,14 +5,15 @@ using ECMonitoring.Data;
 using ECMonitoring.Data.EF;
 using ECMonitoring.Data.Fake;
 using ECMonitoring.Infrastructure;
+using ECMonitoring.Logger;
 using ECMonitoring.Manager;
-using NLog;
+//using NLog;
 
 namespace ECMonitoring.Controllers
 {
     public abstract class ControllerBase : Controller
     {
-        protected Logger Logger { get; private set; }
+        protected IEcmLogger Logger { get; private set; }
         protected ECMManager EcmManager { get; private set; }
         protected IUnitOfWorkFactory UnitOfWorkFactory { get; private set; }
         protected IAuthProvider AuthProvider { get; private set; }
@@ -22,7 +23,8 @@ namespace ECMonitoring.Controllers
             var connectionString =
                 WebConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
             UnitOfWorkFactory = new UnitOfWorkFactory(connectionString); ;// new FakeUnitOfWorkFactory(connectionString);
-            Logger = LogManager.GetLogger("ECMonitoring");
+            //Logger = LogManager.GetLogger("ECMonitoring");
+            Logger = new EcmLogger("Web");
             EcmManager = (ECMManager)System.Web.HttpContext.Current.Application["ECMManager"];
             AuthProvider = new FormAuthProvider(UnitOfWorkFactory);
         }
@@ -32,9 +34,13 @@ namespace ECMonitoring.Controllers
         /// </summary>
         protected override void OnException(ExceptionContext filterContext)
         {
-            Logger.Error("Произошла ошибка в приложении: {0}; Controller:{1}; Action:{3}; Url:{2}",
-                filterContext.Exception, filterContext.RouteData.Values["controller"],
-                filterContext.HttpContext.Request.Url, filterContext.RouteData.Values["action"]);
+            //Logger.Error("Произошла ошибка в приложении: {0}; Controller:{1}; Action:{3}; Url:{2}",
+            //    filterContext.Exception, filterContext.RouteData.Values["controller"],
+            //    filterContext.HttpContext.Request.Url, filterContext.RouteData.Values["action"]);
+            Logger.Error($"Произошла ошибка в приложении: {filterContext.Exception}; " + 
+                $"Controller: {filterContext.RouteData.Values["controller"]}; " + 
+                $"Action: {filterContext.RouteData.Values["action"]}; " + 
+                $"Url:{filterContext.HttpContext.Request.Url}");
             filterContext.ExceptionHandled = true;
             filterContext.Result = View("~/Views/Errors/General.cshtml", null, filterContext.Exception.Message);
         }

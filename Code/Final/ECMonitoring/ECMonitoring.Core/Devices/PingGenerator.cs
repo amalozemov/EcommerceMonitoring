@@ -8,16 +8,25 @@ using System.Threading.Tasks;
 
 namespace ECMonitoring.Core.Devices
 {
+    enum PingStatus
+    {
+        Ok,
+        Error
+    }
+
     internal class PingGenerator
     {
         public delegate void PingErrorHandler(object sender, string errorMessage);
+        public delegate void PingReconnectionHandler(object sender);
         public event PingErrorHandler PingErrorOn;
+        public event PingReconnectionHandler PingReconnectionOn;
 
         public string Ip { get; private set; }
         private int _period { get; set; }
         private int _pingErrorsCountMax { get; set; }
         private Timer _timer { get; set; }
         private int _errosCount;
+        private PingStatus _pingStatus;
 
         public PingGenerator(string ip, int period, int pingErrorsCountMax)
         {
@@ -25,6 +34,7 @@ namespace ECMonitoring.Core.Devices
             _period = period;
             _pingErrorsCountMax = pingErrorsCountMax;
             _timer = new Timer(PingTo);
+            _pingStatus = PingStatus.Ok;
         }
 
         public void Dispose()
@@ -68,6 +78,7 @@ namespace ECMonitoring.Core.Devices
                 if (_errosCount > _pingErrorsCountMax)
                 {
                     PingErrorOn?.Invoke(this, errorMessage);
+                    _pingStatus = PingStatus.Error;
                 }
                 else
                 {
@@ -76,6 +87,11 @@ namespace ECMonitoring.Core.Devices
                     ping = null;
                     return;
                 }
+            }
+            else if (_pingStatus == PingStatus.Error)
+            {
+                PingReconnectionOn?.Invoke(this);
+                _pingStatus = PingStatus.Ok;
             }
 
             _errosCount = 0;

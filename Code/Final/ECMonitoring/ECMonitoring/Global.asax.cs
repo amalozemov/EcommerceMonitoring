@@ -1,6 +1,6 @@
 ﻿using ECMonitoring.Controllers;
+using ECMonitoring.Logger;
 using ECMonitoring.Manager;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace ECMonitoring
         private void LoggingApplicationExceptions()
         {
             var exception = Server.GetLastError();
-            var logger = LogManager.GetLogger("ECMonitoring");
+            var logger = new EcmLogger("Web");
             logger.Error($"Произошла ошибка уровня приложения: {exception}");
         }
     }

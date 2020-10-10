@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Core.Devices;
+using ECMonitoring.Logger;
 using System;
 
 namespace ECMonitoring.Core
@@ -25,7 +26,8 @@ namespace ECMonitoring.Core
         ILanDevice _lanDevice;
         HttpAnalyzer _httpAnalyzer;
         TcpAnalyzer _tcpAnalyzer;
-        ILogger _logger;
+        //ILogger _logger;
+        IEcmLogger _logger;
 
         public LanMonitor(string ip, int port)
         {
@@ -37,7 +39,7 @@ namespace ECMonitoring.Core
 
             _httpAnalyzer = new HttpAnalyzer();
             _httpAnalyzer.HttpAnalyzeCompleteOn += _httpAnalyzer_HttpAnalyzeCompleteOn;
-            _logger = new FileLogger();
+            _logger = new EcmLogger("Core-LanMonitor");
         }
 
         public void Dispose()
@@ -52,7 +54,7 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _tcpAnalyzer_TcpAnalyzeCompleteOn(object sender, LanDeviceStatus deviceStatus)
         {
-            _logger.TcpLog(deviceStatus);
+            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} изменил состояние на {deviceStatus}");
             var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Tcp, deviceStatus, null);
             DeviceStatusChangedOn?.Invoke(this, eventArgs);
         }
@@ -62,7 +64,7 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
         {
-            _logger.HttpLog(httpStatus);
+            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} вернул ответ: {httpStatus.ErrorDescription}({httpStatus.StatusCode})");
             var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Http, null, httpStatus.HttpErrorsCount);
             DeviceStatusChangedOn?.Invoke(this, eventArgs);
         }
@@ -80,6 +82,7 @@ namespace ECMonitoring.Core
         public void Start()
         {
             _lanDevice.Start();
+            _tcpAnalyzer.PingExternalStart();
         }
 
         public void Stop()

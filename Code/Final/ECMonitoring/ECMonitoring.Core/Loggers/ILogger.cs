@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ECMonitoring.Core
 {
-    internal interface ILogger
-    {
-        void StartApplication();
-        void StopApplication();
-        void TcpLog(LanDeviceStatus deviceStatus);
-        void HttpLog(LanDeviceHttpStatus httpStatus);
-    }
+    //internal interface ILogger
+    //{
+    //    void StartApplication();
+    //    void StopApplication();
+    //    void TcpLog(LanDeviceStatus deviceStatus);
+    //    void HttpLog(LanDeviceHttpStatus httpStatus);
+    //}
 }
