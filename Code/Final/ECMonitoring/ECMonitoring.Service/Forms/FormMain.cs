@@ -28,30 +28,46 @@ namespace ECMonitoring.Service.Forms
             InitializeComponent();
             Text = Application.ProductName;
             _lblCoreStatus.ForeColor = Color.FromArgb(192, 0, 0);
+            _lblHostStatus.ForeColor = Color.FromArgb(192, 0, 0);
+            _lblAmountEndServices.Text = "0";
+            _lblAmountEndPoints.Text = "0";
 
             _logger = new EcmLogger("WCFService");
             var connectionString =
                 ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
             _unitOfWorkFactory = new UnitOfWorkFactory(connectionString);
             _dispatcher = new Dispatcher(_unitOfWorkFactory);
-            var ecmService = new ECMService(_dispatcher);
-            _host = new ServiceHost(ecmService);
-            _host.Open();
-            SetHostStatus();
 
-            // для первого подключения к БД
-            Cursor = Cursors.WaitCursor;
-            Task.Run(() =>
+            try
             {
-                using (var uow = _unitOfWorkFactory.Create())
-                {
-                    var repository = uow.GetRepository();
-                    var services = repository.GetEntities<Data.Service>().ToList();
-                }
-            });
-            Cursor = Cursors.Default;
+                var ecmService = new ECMService(_dispatcher);
+                _host = new ServiceHost(ecmService);
+                _host.Open();
 
-            _mnuRun_Click(null, null);
+                SetHostStatus();
+
+                // для первого подключения к БД
+                Cursor = Cursors.WaitCursor;
+                Task.Run(() =>
+                {
+                    using (var uow = _unitOfWorkFactory.Create())
+                    {
+                        var repository = uow.GetRepository();
+                        var services = repository.GetEntities<Data.Service>().ToList();
+                    }
+                });
+
+                _mnuRun_Click(null, null);
+            }
+            catch (Exception ex)
+            {
+                _host = null;
+                _logger.Error($"При открытии хоста произошла ошибка:{Environment.NewLine}{ex}");
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private void SetHostStatus()
@@ -84,8 +100,7 @@ namespace ECMonitoring.Service.Forms
                 _lblAmountEndServicesDes.Visible = true;
                 _mnuRun.Enabled = false;
                 _mnuStop.Enabled = true;
-                //Console.WriteLine("Монитор стартован...");
-                _logger.Info($"Монитор стартован...");
+                _logger.Info($"Ядро стартовано...");
             }
             else
             {
@@ -98,7 +113,7 @@ namespace ECMonitoring.Service.Forms
                 _mnuRun.Enabled = true;
                 _mnuStop.Enabled = false;
                 //Console.WriteLine("ECMonitor остановлен.");
-                _logger.Info($"Монитор остановлен.");
+                _logger.Info($"Ядро остановлено.");
             }
         }
 
@@ -106,15 +121,21 @@ namespace ECMonitoring.Service.Forms
         {
             if (_dispatcher.IsConnected)
             {
-                //Console.WriteLine("ECMonitor уже подключен.");
-                _logger.Info($"Монитор уже стартован.");
+                _logger.Info($"Ядро уже стартовано.");
                 return;
             }
 
             Cursor = Cursors.WaitCursor;
             await Task.Run(() =>
             {
-                _dispatcher.Start();
+                try
+                {
+                    _dispatcher.Start();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"При запуске ядра произошла ошибка:{Environment.NewLine}{ex}");
+                }
             });
             Cursor = Cursors.Default;
 
@@ -125,8 +146,7 @@ namespace ECMonitoring.Service.Forms
         {
             if (!_dispatcher.IsConnected)
             {
-                //Console.WriteLine("ECMonitor ещё не подключен.");
-                _logger.Info($"Монитор ещё не стартован.");
+                _logger.Info($"Ядро ещё не стартовано.");
                 return;
             }
 
@@ -136,7 +156,10 @@ namespace ECMonitoring.Service.Forms
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _host.Close();
+            if (_host != null)
+            {
+                _host.Close();
+            }
         }
 
         private void _mnuAppExit_Click(object sender, EventArgs e)

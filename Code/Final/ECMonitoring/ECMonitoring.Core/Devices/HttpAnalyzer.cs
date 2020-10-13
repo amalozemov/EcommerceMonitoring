@@ -58,7 +58,7 @@ namespace ECMonitoring.Core.Devices
 
         private int GetHttpStatus(string httpHeader, out string errorMessage)
         {
-            errorMessage = string.Empty;
+            errorMessage = "OK";
             var errorCode = 200;
             var firstRow = httpHeader.Split('\n')[0].Split(' ');
             if (firstRow[1] != "200")
@@ -79,7 +79,7 @@ namespace ECMonitoring.Core.Devices
                 _httpErrorsCount = 0;
                 var httpStatus =
                     new LanDeviceHttpStatus(string.Empty, ServerHttpResponseStatus.OK,
-                    "methodServiceSignature", string.Empty,
+                    "methodServiceSignature", "OK",
                     200, _httpErrorsCount);
                 HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
             }

@@ -1,5 +1,6 @@
 ﻿using ECMonitoring.Core;
 using ECMonitoring.Data;
+using ECMonitoring.Logger;
 using ECMonitoring.Service.Storage;
 using System;
 using System.Collections.Generic;
@@ -19,16 +20,20 @@ namespace ECMonitoring.Service.Core
         public int Port { get; private set; }
         public string NetworkName { get; private set; }
         public MonitorType TypeMonitor { get; private set; }
+        public string Name { get; private set; }
         IECMonitor _monitor;
         IStorage _storage;
+        IEcmLogger _logger;
 
         public ECMonitor(EndPoint endPoint, IStorage storage)
         {
+            _logger = new EcmLogger("WCFService");
             ServiceId = endPoint.ServiceId.Value;
             Ip = endPoint.Ip;
             Port = endPoint.Port.Value;
             Id = endPoint.Id;
             NetworkName = endPoint.NetworkName;
+            Name = endPoint.Name;
             TypeMonitor = (MonitorType)endPoint.EndPointType.Value;
             _storage = storage;
 
@@ -77,7 +82,14 @@ namespace ECMonitoring.Service.Core
 
         public void Start()
         {
-            _monitor.Start();
+            try
+            {
+                _monitor.Start();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Во время подключения Конечной точки произошла ошибка:{Environment.NewLine}{ex}");
+            }
         }
 
         public void Stop()

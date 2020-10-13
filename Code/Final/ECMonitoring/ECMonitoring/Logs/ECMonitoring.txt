@@ -911,3 +911,403 @@ Exception rethrown at [0]:
    в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
    в ECMonitoring.Controllers.ECMController.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 118 |#]
 [#| 2020-10-10 22:20:51.876 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:06:35.673 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:06:51.528 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:18:25.788 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:21:15.916 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:23:37.466 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:29:06.033 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:36:19.826 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:44:18.355 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 12:46:07.813 | ERROR | Web | System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetResponse()
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpChannelUtilities.ProcessGetResponseWebException(WebException webException, HttpWebRequest request, HttpAbortReason abortReason)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 118 |#]
+[#| 2020-10-11 13:06:44.951 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:06:47.045 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 13:11:32.064 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:11:34.127 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 13:12:14.201 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:12:16.296 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 13:12:39.401 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:12:41.508 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 13:13:58.085 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:14:00.336 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 13:58:57.314 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 13:59:52.744 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 14:29:03.991 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 14:32:31.827 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 14:32:34.723 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.CommunicationException: Ошибка при получении ответа HTTP на http://localhost:8733/ECMonitoring.Service.ECMService. Возможно, это вызвано тем, что привязка конечной точки службы не использует протокол HTTP. Это может быть также вызвано тем, что контекст запроса HTTP прерван сервером (возможно, из-за отключения службы). Подробнее см. в журналах сервера. ---> System.Net.WebException: Базовое соединение закрыто: Непредвиденная ошибка при приеме. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   в System.Net.PooledStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   в System.Net.Connection.SyncRead(HttpWebRequest request, Boolean userRetrievedStream, Boolean probeRead)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetResponse()
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpChannelUtilities.ProcessGetResponseWebException(WebException webException, HttpWebRequest request, HttpAbortReason abortReason)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 15:02:54.238 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:10:20.295 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:10:24.246 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:10:32.260 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:27:29.735 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:27:52.681 | ERROR | Web | Произошла ошибка уровня приложения: System.Web.HttpException (0x80004005): A public action method 'Login2' was not found on controller 'ECMonitoring.Controllers.ECMController'.
+   в System.Web.Mvc.Controller.HandleUnknownAction(String actionName)
+   в System.Web.Mvc.Controller.<>c.<BeginExecuteCore>b__152_1(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   в System.Web.Mvc.Controller.<>c.<BeginExecute>b__151_2(IAsyncResult asyncResult, Controller controller)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   в System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult)
+   в System.Web.Mvc.MvcHandler.<>c.<BeginProcessRequest>b__20_1(IAsyncResult asyncResult, ProcessRequestState innerState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   в System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)
+   в System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   в System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   в System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) |#]
+[#| 2020-10-11 15:29:04.988 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:31:35.830 | ERROR | Web | System.ServiceModel.CommunicationException: Ошибка при получении ответа HTTP на http://localhost:8733/ECMonitoring.Service.ECMService. Возможно, это вызвано тем, что привязка конечной точки службы не использует протокол HTTP. Это может быть также вызвано тем, что контекст запроса HTTP прерван сервером (возможно, из-за отключения службы). Подробнее см. в журналах сервера. ---> System.Net.WebException: Базовое соединение закрыто: Непредвиденная ошибка при приеме. ---> System.IO.IOException: Не удается прочитать данные из транспортного соединения: Удаленный хост принудительно разорвал существующее подключение. ---> System.Net.Sockets.SocketException: Удаленный хост принудительно разорвал существующее подключение
+   в System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   в System.Net.PooledStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+   в System.Net.Connection.SyncRead(HttpWebRequest request, Boolean userRetrievedStream, Boolean probeRead)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetResponse()
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpChannelUtilities.ProcessGetResponseWebException(WebException webException, HttpWebRequest request, HttpAbortReason abortReason)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.WaitForReply(TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 118 |#]
+[#| 2020-10-11 15:33:17.756 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-11 15:33:29.376 | ERROR | Web | Произошла ошибка в приложении: System.ServiceModel.EndpointNotFoundException: Прослушивание на http://localhost:8733/ECMonitoring.Service.ECMService не выполняла ни одна конечная точка, которая могла бы принять сообщение. Среди прочих причин это могло быть вызвано неправильным адресом или действием SOAP. Подробнее см. в описании InnerException (если имеется). ---> System.Net.WebException: Невозможно соединиться с удаленным сервером ---> System.Net.Sockets.SocketException: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение 127.0.0.1:8733
+   в System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   в System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- Конец трассировки внутреннего стека исключений ---
+   в System.Net.HttpWebRequest.GetRequestStream(TransportContext& context)
+   в System.Net.HttpWebRequest.GetRequestStream()
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   --- Конец трассировки внутреннего стека исключений ---
+
+Server stack trace: 
+   в System.ServiceModel.Channels.HttpOutput.WebRequestHttpOutput.GetOutputStream()
+   в System.ServiceModel.Channels.HttpOutput.Send(TimeSpan timeout)
+   в System.ServiceModel.Channels.HttpChannelFactory`1.HttpRequestChannel.HttpChannelRequest.SendRequest(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.RequestChannel.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Dispatcher.RequestChannelBinder.Request(Message message, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   в System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   в System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   в System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   в System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   в ECMonitoring.Manager.ServiceReference.IECMService.GetDataByServiceId(Int64 serviceId)
+   в ECMonitoring.Manager.ServiceReference.ECMServiceClient.GetDataByServiceId(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\Connected Services\ServiceReference\Reference.cs:строка 231
+   в ECMonitoring.Manager.ECMManager.GetServiceData(Int64 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring.Manager\ECMManager.cs:строка 120
+   в ECMonitoring.Controllers.ECMController.Index(Nullable`1 serviceId) в E:\Projects\Tolik\ECMonitoring\Code\Final\ECMonitoring\ECMonitoring\Controllers\ECMController.cs:строка 84
+   в lambda_method(Closure , ControllerBase , Object[] )
+   в System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)
+   в System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   в System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c.<BeginInvokeSynchronousActionMethod>b__9_0(IAsyncResult asyncResult, ActionInvocation innerInvokeState)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__11_0()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.AsyncInvocationWithFilters.<>c__DisplayClass11_1.<InvokeActionMethodFilterAsynchronouslyRecursive>b__2()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass7_0.<BeginInvokeActionMethodWithFilters>b__1(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResultBase`1.End()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult)
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_6.<BeginInvokeAction>b__3()
+   в System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__5(IAsyncResult asyncResult); Controller: ECM; Action: Index; Url:http://localhost:1257/ |#]
+[#| 2020-10-11 15:35:15.413 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]
+[#| 2020-10-13 12:48:03.543 | INFO | Web | Количество сервисов = 1; Запрошенный сервис: 1 |#]

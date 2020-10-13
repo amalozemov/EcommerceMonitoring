@@ -63,8 +63,6 @@
     <Compile Include="Monitors\IECMonitor.cs" />
     <Compile Include="Monitors\LanMonitor.cs" />
     <Compile Include="Exceptions\DeviceAlreadyConnectedException.cs" />
-    <Compile Include="Loggers\ILogger.cs" />
-    <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Monitors\ResourceMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -64,7 +64,9 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
         {
-            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} вернул ответ: {httpStatus.ErrorDescription}({httpStatus.StatusCode})");
+            var errorsCountPart = httpStatus.HttpErrorsCount == 0 ? string.Empty : $" - Кол-во ошибок: {httpStatus.HttpErrorsCount}";
+            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} вернул ответ: " + 
+                $"{httpStatus.ErrorDescription}({httpStatus.StatusCode}){errorsCountPart}");
             var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Http, null, httpStatus.HttpErrorsCount);
             DeviceStatusChangedOn?.Invoke(this, eventArgs);
         }
@@ -74,9 +76,15 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _lanDevice_PacketArrivalOn(object sender, LanDeviceEventArgs e)
         {
-            _tcpAnalyzer.Analyze(e);
-            _httpAnalyzer.Analyze(e);
-            //Console.WriteLine("_lanDevice_PacketArrivalOn");
+            try
+            {
+                _tcpAnalyzer.Analyze(e);
+                _httpAnalyzer.Analyze(e);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"При разборе пакетов произошла ошибка:{Environment.NewLine}{ex}");
+            }
         }
 
         public void Start()

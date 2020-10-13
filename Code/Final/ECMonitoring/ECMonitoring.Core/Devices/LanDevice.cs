@@ -31,10 +31,11 @@ namespace ECMonitoring.Core.Devices
         {
             if (_device != null)
             {
-                throw new DeviceAlreadyConnectedException("Устройство уже подключено.");
+                throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} уже подключено.");
             }
 
-            _device = GetDivice();
+            var deviceName = "rpcap://\\Device\\NPF_{F4D18444-FF49-4876-8CC7-3782EC14FCBE}";// + "h";
+            _device = GetDivice(deviceName);
             _device.OnPacketArrival += device_OnPacketArrival;
 
             int readTimeoutMilliseconds = 300;
@@ -103,16 +104,21 @@ namespace ECMonitoring.Core.Devices
 
         public void Stop()
         {
-            try
+            if (_device == null)
             {
-                _device.OnPacketArrival -= device_OnPacketArrival;
-                _device.StopCapture();
+                throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} ещё не подключено.");
             }
-            catch
-            {
-                //Console.WriteLine("При отключении устройства произошла ошибка.");
-                _logger.Error($"При отключении устройства {Ip}:{Port} произошла ошибка.");
-            }
+
+            //try
+            //{
+            _device.OnPacketArrival -= device_OnPacketArrival;
+            _device.StopCapture();
+            //}
+            //catch
+            //{
+            //    //Console.WriteLine("При отключении устройства произошла ошибка.");
+            //    _logger.Error($"При отключении устройства {Ip}:{Port} произошла ошибка.");
+            //}
             _device.Close();
             _device = null;
             _logger.Trace($"Сетевое устройство {Ip}:{Port} отключено");
@@ -120,11 +126,24 @@ namespace ECMonitoring.Core.Devices
 
         ICaptureDevice GetDivice(string deviceName = null)
         {
-            var device = CaptureDeviceList.Instance.FirstOrDefault();
+            var device = default(ICaptureDevice); //
+
+            if (string.IsNullOrWhiteSpace(deviceName))
+            {
+                device = CaptureDeviceList.Instance.FirstOrDefault();
+            }
+            else
+            {
+                device = CaptureDeviceList.Instance.Where(d => d.Name == deviceName).FirstOrDefault();
+            }
 
             //Console.WriteLine("\nThe following devices are available on this machine:");
             //Console.WriteLine("----------------------------------------------------\n");
             //Console.WriteLine("{0}\n", device.ToString());
+            if (device == null)
+            {
+                throw new Exception($"Ссылка на устройство не получена.");
+            }
 
             return device;
         }
