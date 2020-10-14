@@ -29,10 +29,13 @@ namespace ECMonitoring.Manager.ServiceReference {
         private System.Nullable<int> HttpErrorsCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> MemoryUsageField;
+        private bool IsResourceRequestSuccessField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> ProcessorTimeField;
+        private System.Nullable<double> MemoryUsageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> ProcessorTimeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<ECMonitoring.Manager.ServiceReference.LanDeviceStatus> StatusLanDeviceField;
@@ -77,7 +80,20 @@ namespace ECMonitoring.Manager.ServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> MemoryUsage {
+        public bool IsResourceRequestSuccess {
+            get {
+                return this.IsResourceRequestSuccessField;
+            }
+            set {
+                if ((this.IsResourceRequestSuccessField.Equals(value) != true)) {
+                    this.IsResourceRequestSuccessField = value;
+                    this.RaisePropertyChanged("IsResourceRequestSuccess");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> MemoryUsage {
             get {
                 return this.MemoryUsageField;
             }
@@ -90,7 +106,7 @@ namespace ECMonitoring.Manager.ServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> ProcessorTime {
+        public System.Nullable<double> ProcessorTime {
             get {
                 return this.ProcessorTimeField;
             }

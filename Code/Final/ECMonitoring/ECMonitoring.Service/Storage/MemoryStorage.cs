@@ -50,9 +50,10 @@ namespace ECMonitoring.Service.Storage
                 {
                     var devicesStatus = _devicesStatusesCollection.Keys.Contains(id) ? (LanDeviceStatus?)_devicesStatusesCollection[id] : null;
                     var httpErrorsCount = _httpErrorsCountCollection.Keys.Contains(id) ? (int?)_httpErrorsCountCollection[id] : null;
-                    var memoryUsage = _resourceUsage.Keys.Contains(id) ? (int?)_resourceUsage[id].MemoryUsage : null;
-                    var processorTime = _resourceUsage.Keys.Contains(id) ? (int?)_resourceUsage[id].ProcessorTime : null;
-                    rez = new EcmData(id, devicesStatus, httpErrorsCount, memoryUsage, processorTime);
+                    var memoryUsage = _resourceUsage.Keys.Contains(id) ? (double?)_resourceUsage[id].MemoryUsage : null;
+                    var processorTime = _resourceUsage.Keys.Contains(id) ? (double?)_resourceUsage[id].ProcessorTime : null;
+                    var isResourceRequestSuccess = _resourceUsage.Keys.Contains(id) ? _resourceUsage[id].IsSuccess : false;
+                    rez = new EcmData(id, devicesStatus, httpErrorsCount, memoryUsage, processorTime, isResourceRequestSuccess);
                 }
             }
             return rez;
@@ -112,7 +113,7 @@ namespace ECMonitoring.Service.Storage
                     _httpErrorsCountCollection.Add(endPoint.Id, 0);
                     break;
                 case MonitorType.ResourceMonitor:
-                    _resourceUsage.Add(endPoint.Id, null);
+                    _resourceUsage.Add(endPoint.Id, new ResourceUsage());
                     break;
                 default:
                     throw new NotImplementedException("Данный тип конечной точки не поддерживается.");

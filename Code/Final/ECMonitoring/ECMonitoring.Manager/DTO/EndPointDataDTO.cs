@@ -25,10 +25,10 @@ namespace ECMonitoring.Manager
         public long EndPointId { get; internal set; }
         public int? HttpErrorsCount { get; internal set; }
         public LanDeviceStatus? StatusLanDevice { get; internal set; }
-        public int? MemoryUsage { get; internal set; }
-        public int? ProcessorTime { get; internal set; }
-        public MetricType TypeMonitor { get; set; }
-
+        public double? MemoryUsage { get; internal set; }
+        public double? ProcessorTime { get; internal set; }
+        public MetricType TypeMonitor { get; internal set; }
+        public bool IsResourceRequestSuccess { get; internal set; }
 
         //// УБРАТЬ !!!!!!!!!!!!!
         //public bool Equals(EndPointDataDTO other)

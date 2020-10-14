@@ -15,6 +15,10 @@ namespace ECMonitoring.Data
         public int? Port { get; set; }
         public string Name { get; set; }
         public string NetworkName { get; set; }
+        public string ConnectorName { get; set; }
+        public string HostUserName { get; set; }
+        public string HostPassword { get; set; }
+        public bool? IsDisabledEndPoint { get; set; }
 
         public virtual EndPointType EndPointType { get; set; }
         public virtual Service Service { get; set; }

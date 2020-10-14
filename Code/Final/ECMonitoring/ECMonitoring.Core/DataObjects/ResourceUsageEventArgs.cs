@@ -9,13 +9,30 @@ namespace ECMonitoring.Core
 
     public class ResourceUsageEventArgs
     {
-        public int MemoryUsage { get; private set; }
-        public int ProcessorTime { get; private set; }
-
-        public ResourceUsageEventArgs(int memoryUsage, int processorTime)
+        public double TotalVisibleMemorySize { get; internal set; }
+        public double FreePhysicalMemory { get; internal set; }
+        public double FreeVirtualMemory { get; internal set; }
+        public double TotalVirtualMemorySize { get; internal set; }
+        public double BusyPhysicalMemory
         {
-            MemoryUsage = memoryUsage;
-            ProcessorTime = processorTime;
+            get
+            {
+                return TotalVisibleMemorySize - FreePhysicalMemory;
+            }
+        }
+        public double BusyPhysicalMemoryPercent
+        {
+            get
+            {
+                return (BusyPhysicalMemory / TotalVisibleMemorySize) * 100;
+            }
+        }
+        public double PercentIdleTime { get; internal set; }
+        public double PercentProcessorTime { get; internal set; }
+        public bool IsSuccess { get; internal set; } = true;
+
+        public ResourceUsageEventArgs()
+        {
         }
     }
 }

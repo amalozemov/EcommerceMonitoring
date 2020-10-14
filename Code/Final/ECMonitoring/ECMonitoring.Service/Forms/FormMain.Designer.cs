@@ -103,39 +103,39 @@
             this._mnuRun,
             this._mnuStop});
             this.сервисToolStripMenuItem.Name = "сервисToolStripMenuItem";
-            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.сервисToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.сервисToolStripMenuItem.Text = "Ядро";
             // 
             // _mnuRun
             // 
             this._mnuRun.Name = "_mnuRun";
-            this._mnuRun.Size = new System.Drawing.Size(99, 22);
+            this._mnuRun.Size = new System.Drawing.Size(180, 22);
             this._mnuRun.Text = "Пуск";
             this._mnuRun.Click += new System.EventHandler(this._mnuRun_Click);
             // 
             // _mnuStop
             // 
             this._mnuStop.Name = "_mnuStop";
-            this._mnuStop.Size = new System.Drawing.Size(99, 22);
+            this._mnuStop.Size = new System.Drawing.Size(180, 22);
             this._mnuStop.Text = "Стоп";
             this._mnuStop.Click += new System.EventHandler(this._mnuStop_Click);
             // 
             // _mnuServices
             // 
             this._mnuServices.Name = "_mnuServices";
-            this._mnuServices.Size = new System.Drawing.Size(146, 22);
+            this._mnuServices.Size = new System.Drawing.Size(180, 22);
             this._mnuServices.Text = "Сервисы";
             this._mnuServices.Click += new System.EventHandler(this._mnuServices_Click);
             // 
             // разделительToolStripMenuItem
             // 
             this.разделительToolStripMenuItem.Name = "разделительToolStripMenuItem";
-            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(143, 6);
+            this.разделительToolStripMenuItem.Size = new System.Drawing.Size(177, 6);
             // 
             // _mnuUsers
             // 
             this._mnuUsers.Name = "_mnuUsers";
-            this._mnuUsers.Size = new System.Drawing.Size(146, 22);
+            this._mnuUsers.Size = new System.Drawing.Size(180, 22);
             this._mnuUsers.Text = "Пользователи";
             this._mnuUsers.Click += new System.EventHandler(this._mnuUsers_Click);
             // 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECMonitoring.Core.Devices
 {
+    internal delegate void PacketArrivalHandler(object sender, LanDeviceEventArgs e);
     internal interface ILanDevice
     {
         void Start();

@@ -22,7 +22,7 @@ namespace ECMonitoring.Controllers
         {
             var connectionString =
                 WebConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
-            UnitOfWorkFactory = new UnitOfWorkFactory(connectionString); ;// new FakeUnitOfWorkFactory(connectionString);
+            UnitOfWorkFactory = new UnitOfWorkFactory(connectionString); // new FakeUnitOfWorkFactory(connectionString); //
             Logger = new EcmLogger("Web");
             EcmManager = (ECMManager)System.Web.HttpContext.Current.Application["ECMManager"];
             AuthProvider = new FormAuthProvider(UnitOfWorkFactory);

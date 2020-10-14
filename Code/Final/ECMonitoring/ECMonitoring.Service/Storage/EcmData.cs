@@ -18,19 +18,24 @@ namespace ECMonitoring.Service.Storage
         [DataMember]
         public int? HttpErrorsCount { get; private set; }
         [DataMember]
-        public int? MemoryUsage { get; private set; }
+        public double? MemoryUsage { get; private set; }
         [DataMember]
-        public int? ProcessorTime { get; private set; }
+        public double? ProcessorTime { get; private set; }
         [DataMember]
         public int TypeMonitor { get; set; }
+        [DataMember]
+        public bool IsResourceRequestSuccess { get; set; }
 
-        public EcmData(long endPointId, LanDeviceStatus? lanDeviceStatus, int? httpErrorsCount, int? memoryUsage, int? processorTime)
+        public EcmData(long endPointId, LanDeviceStatus? lanDeviceStatus, 
+            int? httpErrorsCount, double? memoryUsage, double? processorTime,
+            bool isResourceRequestSuccess)
         {
             EndPointId = endPointId;
             StatusLanDevice = lanDeviceStatus;
             HttpErrorsCount = httpErrorsCount;
             MemoryUsage = memoryUsage;
             ProcessorTime = processorTime;
+            IsResourceRequestSuccess = isResourceRequestSuccess;
         }
     }
 }

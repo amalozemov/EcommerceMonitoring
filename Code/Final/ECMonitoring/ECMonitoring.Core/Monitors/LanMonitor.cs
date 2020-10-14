@@ -18,20 +18,22 @@ namespace ECMonitoring.Core
         Break
     }
 
-    internal delegate void PacketArrivalHandler(object sender, LanDeviceEventArgs e);
-
     public class LanMonitor : IECMonitor
     {
         public event DeviceStatusChangedHandler DeviceStatusChangedOn;
-        ILanDevice _lanDevice;
-        HttpAnalyzer _httpAnalyzer;
-        TcpAnalyzer _tcpAnalyzer;
-        //ILogger _logger;
-        IEcmLogger _logger;
+        private ILanDevice _lanDevice;
+        private HttpAnalyzer _httpAnalyzer;
+        private TcpAnalyzer _tcpAnalyzer;
+        private IEcmLogger _logger;
+        private string _ip;
+        private int _port;
 
-        public LanMonitor(string ip, int port)
+        public LanMonitor(string ip, int port, string deviceName)
         {
-            _lanDevice = new LanDevice(ip, port); //new FakeLanDevice(ip, port);//
+            _ip = ip;
+            _port = port;
+
+            _lanDevice = new LanDevice(ip, port, deviceName); //new FakeLanDevice(ip, port);//
             _lanDevice.PacketArrivalOn += _lanDevice_PacketArrivalOn;
 
             _tcpAnalyzer = new TcpAnalyzer(ip);
@@ -54,7 +56,7 @@ namespace ECMonitoring.Core
         /// </summary>
         private void _tcpAnalyzer_TcpAnalyzeCompleteOn(object sender, LanDeviceStatus deviceStatus)
         {
-            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} изменил состояние на {deviceStatus}");
+            _logger.Info($"Сервис {_ip}:{_port} изменил состояние на {deviceStatus}");
             var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Tcp, deviceStatus, null);
             DeviceStatusChangedOn?.Invoke(this, eventArgs);
         }
@@ -65,7 +67,7 @@ namespace ECMonitoring.Core
         private void _httpAnalyzer_HttpAnalyzeCompleteOn(object sender, LanDeviceHttpStatus httpStatus)
         {
             var errorsCountPart = httpStatus.HttpErrorsCount == 0 ? string.Empty : $" - Кол-во ошибок: {httpStatus.HttpErrorsCount}";
-            _logger.Info($"Сервис {((LanDevice)_lanDevice).Ip}:{((LanDevice)_lanDevice).Port} вернул ответ: " + 
+            _logger.Info($"Сервис {_ip}:{_port} вернул ответ: " + 
                 $"{httpStatus.ErrorDescription}({httpStatus.StatusCode}){errorsCountPart}");
             var eventArgs = new LanDeviceStatusEventArgs(SourceEvent.Http, null, httpStatus.HttpErrorsCount);
             DeviceStatusChangedOn?.Invoke(this, eventArgs);

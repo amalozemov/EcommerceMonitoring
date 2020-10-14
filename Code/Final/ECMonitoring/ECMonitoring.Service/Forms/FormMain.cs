@@ -1,5 +1,6 @@
 ﻿using ECMonitoring.Data;
 using ECMonitoring.Data.EF;
+using ECMonitoring.Data.Fake;
 using ECMonitoring.Logger;
 using ECMonitoring.Service.Core;
 using System;
@@ -35,7 +36,7 @@ namespace ECMonitoring.Service.Forms
             _logger = new EcmLogger("WCFService");
             var connectionString =
                 ConfigurationManager.ConnectionStrings["ECMonitoring"].ConnectionString;
-            _unitOfWorkFactory = new UnitOfWorkFactory(connectionString);
+            _unitOfWorkFactory = new UnitOfWorkFactory(connectionString); //new FakeUnitOfWorkFactory(connectionString); //
             _dispatcher = new Dispatcher(_unitOfWorkFactory);
 
             try
@@ -48,14 +49,14 @@ namespace ECMonitoring.Service.Forms
 
                 // для первого подключения к БД
                 Cursor = Cursors.WaitCursor;
-                Task.Run(() =>
-                {
+                //Task.Run(() =>
+                //{
                     using (var uow = _unitOfWorkFactory.Create())
                     {
                         var repository = uow.GetRepository();
                         var services = repository.GetEntities<Data.Service>().ToList();
                     }
-                });
+                //});
 
                 _mnuRun_Click(null, null);
             }
@@ -112,7 +113,6 @@ namespace ECMonitoring.Service.Forms
                 _lblAmountEndServicesDes.Visible = false;
                 _mnuRun.Enabled = true;
                 _mnuStop.Enabled = false;
-                //Console.WriteLine("ECMonitor остановлен.");
                 _logger.Info($"Ядро остановлено.");
             }
         }
@@ -121,7 +121,7 @@ namespace ECMonitoring.Service.Forms
         {
             if (_dispatcher.IsConnected)
             {
-                _logger.Info($"Ядро уже стартовано.");
+                _logger.Info("Ядро уже стартовано.");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace ECMonitoring.Service.Forms
         {
             if (!_dispatcher.IsConnected)
             {
-                _logger.Info($"Ядро ещё не стартовано.");
+                _logger.Info("Ядро ещё не стартовано.");
                 return;
             }
 

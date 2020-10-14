@@ -112,18 +112,27 @@
 
         UpdateLanMonitor: function (data) {
             var labelStatus = document.getElementById('status_' + data.elementKey);
-            labelStatus.innerText = data.statusLanDevice;
+            if (labelStatus == null) {
+                console.log('элемент ' + 'status_' + data.elementKey + ' не найден.');
+                return;
+            }
 
+            labelStatus.innerText = data.statusLanDevice;
             var labelHttpErrorsCount = document.getElementById('httpErrorsCount_' + data.elementKey);
             labelHttpErrorsCount.innerText = data.httpErrorsCount;
         },
 
         UpdateResourceMonitor: function (data) {
             var labelMemoryUsage = document.getElementById('memoryUsage_' + data.elementKey);
-            labelMemoryUsage.innerText = data.memoryUsage + "%";
+            if (labelMemoryUsage == null) {
+                console.log('элемент ' + 'memoryUsage_' + data.elementKey + ' не найден.');
+                return;
+            }
+
+            labelMemoryUsage.innerText = data.memoryUsage;
 
             var labelProcessorTime = document.getElementById('processorTime_' + data.elementKey);
-            labelProcessorTime.innerText = data.processorTime + "%";
+            labelProcessorTime.innerText = data.processorTime;
         },
 
         SelectMnuItem: function (serviceId) {

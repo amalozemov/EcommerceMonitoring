@@ -66,7 +66,11 @@ namespace ECMonitoring.Service.Forms
                         RequestContentsTypeId = p.RequestContentsTypeId,
                         RowStatus = (int)EndPointGridRowStatus.Unchanged,
                         Service = p.Service,
-                        ServiceId = p.ServiceId
+                        ServiceId = p.ServiceId,
+                        ConnectorName = p.ConnectorName,
+                        HostUserName = p.HostUserName,
+                        HostPassword = p.HostPassword,
+                        IsDisabledEndPoint = p.IsDisabledEndPoint
                     }).ToList();
                 _dgvEndPointsList.DataSource = _endPointBinding;
             }
@@ -128,6 +132,7 @@ namespace ECMonitoring.Service.Forms
                 repository.Add(new EndPoint()
                 {
                     Service = service,
+                    ConnectorName = templateEndPoint.ConnectorName,
                     Name = templateEndPoint.Name,
                     NetworkName = templateEndPoint.NetworkName,
                     Ip = templateEndPoint.Ip,
@@ -135,7 +140,10 @@ namespace ECMonitoring.Service.Forms
                     EndPointType =
                         repository.FindById<EndPointType>(templateEndPoint.EndPointType.Id),
                     RequestContentsType =
-                        repository.FindById<RequestContentsType>(templateEndPoint.RequestContentsType.Id)
+                        repository.FindById<RequestContentsType>(templateEndPoint.RequestContentsType.Id),
+                    IsDisabledEndPoint = templateEndPoint.IsDisabledEndPoint,
+                    HostUserName = templateEndPoint.HostUserName,
+                    HostPassword = templateEndPoint.HostPassword
                 });
             }
         }
@@ -147,6 +155,7 @@ namespace ECMonitoring.Service.Forms
             foreach (var templateEndPoint in modifiedRows)
             {
                 var updatedEndPoint = repository.FindById<EndPoint>(templateEndPoint.Id);
+                updatedEndPoint.ConnectorName = templateEndPoint.ConnectorName;
                 updatedEndPoint.Name = templateEndPoint.Name;
                 updatedEndPoint.NetworkName = templateEndPoint.NetworkName;
                 updatedEndPoint.Ip = templateEndPoint.Ip;
@@ -155,6 +164,9 @@ namespace ECMonitoring.Service.Forms
                     repository.FindById<EndPointType>(templateEndPoint.EndPointType.Id);
                 updatedEndPoint.RequestContentsType =
                    repository.FindById<RequestContentsType>(templateEndPoint.RequestContentsType.Id);
+                updatedEndPoint.IsDisabledEndPoint = templateEndPoint.IsDisabledEndPoint;
+                updatedEndPoint.HostUserName = templateEndPoint.HostUserName;
+                updatedEndPoint.HostPassword = templateEndPoint.HostPassword;
             }
         }
 
@@ -295,19 +307,13 @@ namespace ECMonitoring.Service.Forms
                 DataGridViewAutoSizeColumnMode.Fill;
             _dgvEndPointsList.Columns["Название"].MinimumWidth = 120;
             //
-            _dgvEndPointsList.Columns.Add("Сетевое имя", "Сетевое имя");
-            _dgvEndPointsList.Columns["Сетевое имя"].DataPropertyName = "NetworkName";
-            _dgvEndPointsList.Columns["Сетевое имя"].ReadOnly = true;
-            _dgvEndPointsList.Columns["Сетевое имя"].AutoSizeMode =
-                DataGridViewAutoSizeColumnMode.Fill;
-            _dgvEndPointsList.Columns["Сетевое имя"].MinimumWidth = 120;
-            //
             _dgvEndPointsList.Columns.Add("Ip", "Ip");
             _dgvEndPointsList.Columns["Ip"].DataPropertyName = "Ip";
             _dgvEndPointsList.Columns["Ip"].AutoSizeMode =
-                DataGridViewAutoSizeColumnMode.AllCells;
+                DataGridViewAutoSizeColumnMode.Fill;
             _dgvEndPointsList.Columns["Ip"].ReadOnly = true;
-            _dgvEndPointsList.Columns["Ip"].Resizable = DataGridViewTriState.False;
+            _dgvEndPointsList.Columns["Ip"].MinimumWidth = 80;
+            _dgvEndPointsList.Columns["Ip"].Width = 210;
             //
             _dgvEndPointsList.Columns.Add("Порт", "Порт");
             _dgvEndPointsList.Columns["Порт"].DataPropertyName = "Port";
@@ -328,6 +334,13 @@ namespace ECMonitoring.Service.Forms
             _dgvEndPointsList.Columns["Тип запроса"].ReadOnly = true;
             _dgvEndPointsList.Columns["Тип запроса"].Resizable = DataGridViewTriState.False;
             _dgvEndPointsList.Columns["Тип запроса"].AutoSizeMode =
+              DataGridViewAutoSizeColumnMode.AllCells;
+            //
+            _dgvEndPointsList.Columns.Add("Доступность", "Доступность");
+            _dgvEndPointsList.Columns["Доступность"].DataPropertyName = "IsDisabledEndPoint";
+            _dgvEndPointsList.Columns["Доступность"].ReadOnly = true;
+            _dgvEndPointsList.Columns["Доступность"].Resizable = DataGridViewTriState.False;
+            _dgvEndPointsList.Columns["Доступность"].AutoSizeMode =
               DataGridViewAutoSizeColumnMode.AllCells;
             //
             _dgvEndPointsList.Columns.Add("Состояние", "Состояние");
@@ -353,10 +366,20 @@ namespace ECMonitoring.Service.Forms
                 var val = (RequestContentsType)e.Value ;
                 e.Value = val.Description;
             }
+            else if (_dgvEndPointsList.Columns[e.ColumnIndex].Name == "Доступность")
+            {
+                var val = (bool)e.Value;
+                if (val)
+                {
+                    e.Value = "Отключено";
+                }
+                else
+                {
+                    e.Value = "Включено";
+                }
+            }
         }
 
         #endregion
-
-        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ECMonitoring.Data;
+using ECMonitoring.Data.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,15 +43,21 @@ namespace ECMonitoring.Service.Forms
 
         public FormEndPoint(IUnitOfWorkFactory unitOfWorkFactory, EndPointGridRow endPoint) : this(unitOfWorkFactory)
         {
-            _endPoint = endPoint;
             Text = "Изменение конечной точки";
+            _endPoint = endPoint;
 
+            _txtConnectorName.Text = endPoint.ConnectorName;
             _txtEndPointName.Text = _endPoint.Name;
             _txtNetworkName.Text = _endPoint.NetworkName;
             _txtIp.Text = _endPoint.Ip;
             _txtPort.Text = _endPoint.Port.ToString();
             _cmbMonitorType.SelectedValue = endPoint.TypeMonitor;
             _cmbRequesType.SelectedValue = endPoint.RequestType;
+            _chkIsDisabledEndPoint.Checked = 
+                endPoint.IsDisabledEndPoint.HasValue ? endPoint.IsDisabledEndPoint.Value : false;
+            _txtHostUserName.Text = endPoint.HostUserName;
+            _txtHostPassword.Text = !string.IsNullOrWhiteSpace(endPoint.HostPassword) ?
+                new SHA1Encryption().DecryptData(endPoint.HostPassword) : string.Empty;
         }
 
         public FormEndPoint(IUnitOfWorkFactory unitOfWorkFactory, List<EndPointGridRow> endPointsCollection) : this(unitOfWorkFactory)
@@ -68,10 +75,16 @@ namespace ECMonitoring.Service.Forms
 
             using (var uow = _unitOfWorkFactory.Create())
             {
+                _endPoint.ConnectorName = _txtConnectorName.Text.Trim();
                 _endPoint.Name = _txtEndPointName.Text.Trim();
                 _endPoint.NetworkName = _txtNetworkName.Text.Trim();
-                _endPoint.Ip = _txtIp.Text;
-                _endPoint.Port = Convert.ToInt32(_txtPort.Text.Trim());
+                _endPoint.Ip = _txtIp.Text.Trim();
+                _endPoint.Port = !string.IsNullOrWhiteSpace(_txtPort.Text.Trim()) ? 
+                    (int?)Convert.ToInt32(_txtPort.Text.Trim()) : null;
+                _endPoint.IsDisabledEndPoint = _chkIsDisabledEndPoint.Checked;
+                _endPoint.HostUserName = _txtHostUserName.Text.Trim();
+                _endPoint.HostPassword = !string.IsNullOrWhiteSpace(_txtHostPassword.Text.Trim()) ?
+                    new SHA1Encryption().EncryptData(_txtHostPassword.Text.Trim()) : string.Empty;
 
                 var repository = uow.GetRepository();
                 _endPoint.EndPointType =
@@ -97,33 +110,60 @@ namespace ECMonitoring.Service.Forms
         {
             try
             {
+                // коннектор
+                if ((TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.LanMonitor)
+                {
+                    if (string.IsNullOrWhiteSpace(_txtConnectorName.Text.Trim()))
+                    {
+                        throw new Exception("Заполните поле ввода 'Имя коннектора'.");
+                    }
+                }
+
                 if (string.IsNullOrWhiteSpace(_txtEndPointName.Text.Trim()))
                 {
                     throw new Exception("Заполните поле ввода 'Название'.");
                 }
 
-                if (string.IsNullOrWhiteSpace(_txtNetworkName.Text.Trim()) && 
-                    (TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.ResourceMonitor)
-                {
-                    throw new Exception("Заполните поле ввода 'Сетевое имя'.");
-                }
+                //if (string.IsNullOrWhiteSpace(_txtNetworkName.Text.Trim()) && 
+                //    (TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.ResourceMonitor)
+                //{
+                //    throw new Exception("Заполните поле ввода 'Сетевое имя'.");
+                //}
 
                 CheckIPAddress(_txtIp.Text);
 
-                if (string.IsNullOrWhiteSpace(_txtPort.Text.Trim()))
+                // порт
+                if ((TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.LanMonitor)
                 {
-                    throw new Exception("Заполните поле ввода 'Port'.");
+                    if (string.IsNullOrWhiteSpace(_txtPort.Text.Trim()))
+                    {
+                        throw new Exception("Заполните поле ввода 'Port'.");
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(_txtPort.Text.Trim()))
+                {
+                    try
+                    {
+                        var test = Convert.ToInt32(_txtPort.Text.Trim());
+                    }
+                    catch
+                    {
+                        throw new Exception("В поле ввода 'Port' указаны некорректные значения.");
+                    }
                 }
 
-                try
+                // логин и пароль хоста
+                if ((TypeEndPoint)_cmbMonitorType.SelectedValue == TypeEndPoint.ResourceMonitor)
                 {
-                    var test = Convert.ToInt32(_txtPort.Text);
+                    if (string.IsNullOrWhiteSpace(_txtHostUserName.Text.Trim()))
+                    {
+                        throw new Exception("Заполните поле ввода 'Логин хоста'.");
+                    }
+                    if (string.IsNullOrWhiteSpace(_txtHostPassword.Text.Trim()))
+                    {
+                        throw new Exception("Заполните поле ввода 'Пароль хоста'.");
+                    }
                 }
-                catch
-                {
-                    throw new Exception("В поле ввода 'Port' указаны некорректные значения.");
-                }
-                
             }
             catch (Exception ex)
             {

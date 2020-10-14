@@ -72,7 +72,8 @@ namespace ECMonitoring.Controllers
                 serviceId = serviceId ?? services[0].Id;
                 Logger.Info($"Количество сервисов = {services.Count}; Запрошенный сервис: {serviceId}");
                 var endPoints = 
-                    repository.GetEntities<Data.EndPoint>().Where(e => e.ServiceId == serviceId.Value).ToList();
+                    repository.GetEntities<Data.EndPoint>().Where(e => e.ServiceId == serviceId.Value && 
+                    e.IsDisabledEndPoint == false).ToList();
 
                 var model = new MainModel();
                 model.Services = Mapper.Map<List<Data.Service>, List<ServiceModel>>(services);
@@ -95,6 +96,7 @@ namespace ECMonitoring.Controllers
                     {
                         endPoint.ProcessorTime = endPointData?.ProcessorTime;
                         endPoint.MemoryUsage = endPointData?.MemoryUsage;
+                        endPoint.IsResourceRequestSuccess = endPointData?.IsResourceRequestSuccess;
                     }
                     else
                     {
@@ -120,6 +122,12 @@ namespace ECMonitoring.Controllers
 
                 foreach (var endPoint in responseData.EndPointsData)
                 {
+                    var model = new EndPointModel()
+                    {
+                        MemoryUsage = endPoint.MemoryUsage,
+                        IsResourceRequestSuccess = endPoint.IsResourceRequestSuccess,
+                        ProcessorTime = endPoint.ProcessorTime
+                    };
                     object monitorData = null;
 
                     if (endPoint.TypeMonitor == MetricType.LanMonitor)
@@ -128,7 +136,7 @@ namespace ECMonitoring.Controllers
                     }
                     else if (endPoint.TypeMonitor == MetricType.ResourceMonitor)
                     {
-                        monitorData = new { metricType = 1, elementKey = $"{endPoint.EndPointId}", memoryUsage = endPoint.MemoryUsage, processorTime = endPoint.ProcessorTime };
+                        monitorData = new { metricType = 1, elementKey = $"{endPoint.EndPointId}", memoryUsage = model.GetMemoryUsageValue(), processorTime = model.GetProcessorTimeValue() };
                     }
                     else
                     {
@@ -156,5 +164,21 @@ namespace ECMonitoring.Controllers
             var result = Json(new { sucess = true }, JsonRequestBehavior.AllowGet);
             return result;
         }
+
+        //private string GetMemoryUsageValue(EndPointDataDTO endPoint)
+        //{
+        //    var model = new EndPointModel() {
+        //        MemoryUsage = endPoint.MemoryUsage, IsResourceRequestSuccess = endPoint.IsResourceRequestSuccess
+        //    };
+        //    return
+        //        model.GetMemoryUsageValue();
+        //}
+
+        //private string GetProcessorTimeValue(EndPointDataDTO endPoint)
+        //{
+        //    return
+        //        ProcessorTime.HasValue && IsResourceRequestSuccess.HasValue &&
+        //        IsResourceRequestSuccess.Value ? $"{ProcessorTime:N1}%" : string.Empty;
+        //}
     }
 }

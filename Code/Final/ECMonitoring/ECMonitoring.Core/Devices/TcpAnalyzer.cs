@@ -47,6 +47,7 @@ namespace ECMonitoring.Core.Devices
             {
                 _singleShot.Trigger -= _singleShot_Trigger;
                 _pingGenerator.PingErrorOn -= _pingGenerator_PingErrorOn;
+                _pingGenerator.PingReconnectionOn -= _pingGenerator_PingReconnectionOn;
                 _singleShot.Dispose();
                 _pingGenerator.Dispose();
                 _isDisposed = true;
@@ -110,7 +111,6 @@ namespace ECMonitoring.Core.Devices
         {
             lock (_syncObject)
             {
-
                 // тут 25.07.2020 ВОССТАНОВИТЬ ЭТОТ КОД !!!!!!!!!!!!!!!!!!!!!!!!!!
                 //
                 if (_isDisposed)
@@ -159,6 +159,7 @@ namespace ECMonitoring.Core.Devices
 
         internal void PingExternalStart()
         {
+            // 14.10.2020 УБРАТЬ ЭТОТ Комментарий без fake репозитория
             _pingGenerator.Start();
         }
     }

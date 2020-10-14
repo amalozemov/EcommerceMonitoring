@@ -77,7 +77,8 @@ namespace ECMonitoring.Manager
                     HttpErrorsCount = data.HttpErrorsCount,
                     StatusLanDevice = (LanDeviceStatus)data.StatusLanDevice,
                     MemoryUsage = data.MemoryUsage,
-                    ProcessorTime = data.ProcessorTime
+                    ProcessorTime = data.ProcessorTime,
+                    IsResourceRequestSuccess = data.IsResourceRequestSuccess
                 };
 
                 var dataContainer = new DataContainer<EndPointDataDTO>()
@@ -133,7 +134,8 @@ namespace ECMonitoring.Manager
                         StatusLanDevice = (LanDeviceStatus?)data.StatusLanDevice,
                         MemoryUsage = data.MemoryUsage,
                         ProcessorTime = data.ProcessorTime,
-                        TypeMonitor = (MetricType)data.TypeMonitor
+                        TypeMonitor = (MetricType)data.TypeMonitor,
+                        IsResourceRequestSuccess = data.IsResourceRequestSuccess
                     };
                     serviceData.EndPointsData.Add(endPointData);
                 }

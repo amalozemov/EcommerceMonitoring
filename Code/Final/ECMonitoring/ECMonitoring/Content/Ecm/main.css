@@ -276,7 +276,10 @@ li a:hover:not(.mnu_active) {
     padding: 0px;
     /*height: 30px;*/
     /*overflow: hidden;*/
-    margin-top: 3px;
+    margin-top: 5px;
+    /*position: relative;
+    top: 7px;*/
+    /*left: 0px;*/
 }
 
 .end_point_errors_value {
@@ -304,6 +307,9 @@ li a:hover:not(.mnu_active) {
     margin: 0 0 0 5px;
     /*text-decoration:none;*/
     /*cursor: pointer;*/
+    /*position: relative;
+    top: 0px;
+    left: 7px;*/
 }
 
 .unselectable {
@@ -342,6 +348,7 @@ li a:hover:not(.mnu_active) {
     float: right;
     display: inline-block;
     font-weight: bold;
+    font-size: 15px;
     margin-right: 50px;
     text-align: right;
 }

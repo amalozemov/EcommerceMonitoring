@@ -45,13 +45,13 @@ namespace ECMonitoring.Core.Devices
                     }
                 }
                 //
-                ////// УБРАТЬ ЭТОТ КОД
-                //////
-                ////var httpStatus =
-                ////    new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
-                ////    "methodServiceSignature", "Тестовая ошибка",
-                ////    402, 456);
-                ////HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
+                //// УБРАТЬ ЭТОТ КОД
+                ////
+                //var httpStatus =
+                //    new LanDeviceHttpStatus(e.DstIp, ServerHttpResponseStatus.Error,
+                //    "methodServiceSignature", "Тестовая ошибка",
+                //    402, 456);
+                //HttpAnalyzeCompleteOn?.BeginInvoke(this, httpStatus, null, null);
 
             }
         }

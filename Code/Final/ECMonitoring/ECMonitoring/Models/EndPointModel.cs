@@ -16,7 +16,22 @@ namespace ECMonitoring.Models
         public Data.TypeEndPoint TypeMonitor { get; set; }
         public int? HttpErrorsCount { get; set; }
         public LanDeviceStatus? StatusLanDevice { get; set; }
-        public int? MemoryUsage { get; set; }
-        public int? ProcessorTime { get; set; }
+        public double? MemoryUsage { get; set; }
+        public double? ProcessorTime { get; set; }
+        public bool? IsResourceRequestSuccess { get; internal set; }
+
+        public string GetMemoryUsageValue()
+        {
+            return
+                MemoryUsage.HasValue && IsResourceRequestSuccess.HasValue && 
+                IsResourceRequestSuccess.Value ? $"{MemoryUsage:N1}%" : string.Empty;
+        }
+
+        public string GetProcessorTimeValue()
+        {
+            return
+                ProcessorTime.HasValue && IsResourceRequestSuccess.HasValue &&
+                IsResourceRequestSuccess.Value ? $"{ProcessorTime:N1}%" : string.Empty;
+        }
     }
 }

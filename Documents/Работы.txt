@@ -24,3 +24,8 @@
 layout="[#| ${date:format=yyyy-MM-dd HH-mm-ss.fff} | ${level:uppercase=true} | ${logger} | ${message} |#]" 
 
 CaptureDeviceList.Instance[0].Name = rpcap://\\Device\\NPF_{F4D18444-FF49-4876-8CC7-3782EC14FCBE}
+
+Дополнительные параметры Конечной точки
+
+Имя пользователя для работы с WMI
+Пароль пользователя для работы с WMI

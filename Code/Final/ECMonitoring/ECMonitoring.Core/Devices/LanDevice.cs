@@ -17,41 +17,49 @@ namespace ECMonitoring.Core.Devices
         public event PacketArrivalHandler PacketArrivalOn;
         public string Ip { get; private set; }
         public int Port { get; private set; }
+        private int _readTimeoutMilliseconds;
+        private string _deviceName;
         private ICaptureDevice _device;
-        IEcmLogger _logger;
+        private IEcmLogger _logger;
 
-        public LanDevice(string ip, int port)
+        public LanDevice(string ip, int port, string deviceName)
         {
             Ip = ip;
             Port = port;
             _logger = new EcmLogger("Core-LanDevice");
+            _readTimeoutMilliseconds = 300;
+            _deviceName = deviceName;// "rpcap://\\Device\\NPF_{F4D18444-FF49-4876-8CC7-3782EC14FCBE}";// + "h";
         }
 
         public void Start()
         {
-            if (_device != null)
+            try
             {
-                throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} уже подключено.");
+                if (_device != null)
+                {
+                    throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} уже подключено.");
+                }
+
+                _device = GetDivice(_deviceName);
+                _device.OnPacketArrival += device_OnPacketArrival;
+                _device.Open(DeviceMode.Promiscuous, _readTimeoutMilliseconds);
+
+                //string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
+                //string filter = "(src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
+                //string filter = "(src 192.168.0.101 && port 1800) && tcp";
+                string filter = $"(src {Ip} && port {Port}) && tcp";
+                _device.Filter = filter;
+
+                _device.StartCapture();
+
+                //Console.WriteLine("-- Listening on {0}, hit 'Enter' to stop...",
+                //    _device.Description);
+                _logger.Trace($"Сетевое устройство {Ip}:{Port} включено");
             }
-
-            var deviceName = "rpcap://\\Device\\NPF_{F4D18444-FF49-4876-8CC7-3782EC14FCBE}";// + "h";
-            _device = GetDivice(deviceName);
-            _device.OnPacketArrival += device_OnPacketArrival;
-
-            int readTimeoutMilliseconds = 300;
-            _device.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
-
-            //string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
-            //string filter = "(src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
-            //string filter = "(src 192.168.0.101 && port 1800) && tcp";
-            string filter = $"(src {Ip} && port {Port}) && tcp";
-            _device.Filter = filter;
-
-            _device.StartCapture();
-
-            //Console.WriteLine("-- Listening on {0}, hit 'Enter' to stop...",
-            //    _device.Description);
-            _logger.Trace($"Сетевое устройство {Ip}:{Port} включено");
+            catch (Exception ex)
+            {
+                _logger.Error($"При подключении сетевого устройства {Ip}:{Port} произошла ошибка:{Environment.NewLine}{ex}");
+            }
         }
 
         private void device_OnPacketArrival(object sender, CaptureEventArgs e)
@@ -104,24 +112,31 @@ namespace ECMonitoring.Core.Devices
 
         public void Stop()
         {
-            if (_device == null)
+            try
             {
-                throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} ещё не подключено.");
-            }
+                if (_device == null)
+                {
+                    throw new DeviceAlreadyConnectedException($"Устройство {Ip}:{Port} ещё не подключено.");
+                }
 
-            //try
-            //{
-            _device.OnPacketArrival -= device_OnPacketArrival;
-            _device.StopCapture();
-            //}
-            //catch
-            //{
-            //    //Console.WriteLine("При отключении устройства произошла ошибка.");
-            //    _logger.Error($"При отключении устройства {Ip}:{Port} произошла ошибка.");
-            //}
-            _device.Close();
-            _device = null;
-            _logger.Trace($"Сетевое устройство {Ip}:{Port} отключено");
+                //try
+                //{
+                _device.OnPacketArrival -= device_OnPacketArrival;
+                _device.StopCapture();
+                //}
+                //catch
+                //{
+                //    //Console.WriteLine("При отключении устройства произошла ошибка.");
+                //    _logger.Error($"При отключении устройства {Ip}:{Port} произошла ошибка.");
+                //}
+                _device.Close();
+                _device = null;
+                _logger.Trace($"Сетевое устройство {Ip}:{Port} отключено");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"При отключении сетевого устройства {Ip}:{Port} произошла ошибка:{Environment.NewLine}{ex}");
+            }
         }
 
         ICaptureDevice GetDivice(string deviceName = null)
@@ -142,7 +157,7 @@ namespace ECMonitoring.Core.Devices
             //Console.WriteLine("{0}\n", device.ToString());
             if (device == null)
             {
-                throw new Exception($"Ссылка на устройство не получена.");
+                throw new Exception($"Сетевое устройство {deviceName} не найдено.");
             }
 
             return device;

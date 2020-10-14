@@ -40,6 +40,8 @@ namespace ECMonitoring.Service.Core
                     return;
                 }
 
+                IsConnected = true;
+
                 _storage = new MemoryStorage();
 
                 using (var uow = _unitOfWorkFactory.Create())
@@ -62,7 +64,7 @@ namespace ECMonitoring.Service.Core
                     }
                 }
 
-                IsConnected = true;
+                //IsConnected = true;
             }
         }
 
