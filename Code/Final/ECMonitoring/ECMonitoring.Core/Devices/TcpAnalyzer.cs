@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECMonitoring.Core.Timings;
 using SharpPcap;
 
 namespace ECMonitoring.Core.Devices
@@ -13,28 +14,24 @@ namespace ECMonitoring.Core.Devices
         private int _rstCount;
         private LanDeviceStatus _prvStatus;
         private SingleShot _singleShot;
-        private PingGenerator _pingGenerator;
+        //private PingGeneratorPrv _pingGenerator;
+        private LanNotification _pingGenerator;
         private object _syncObject;
+        bool _isDisposed;
 
         public delegate void TcpAnalyzeCompleteHandler(object sender, LanDeviceStatus deviceStatus);
         public event TcpAnalyzeCompleteHandler TcpAnalyzeCompleteOn;
 
-        bool _isDisposed;
-
         public TcpAnalyzer(string srcIp)
         {
-            var clientRequestWaiting =
-                Convert.ToInt32(ConfigurationManager.AppSettings["ClientRequestWaiting"]);
-            var repeatPingEvery =
-                Convert.ToInt32(ConfigurationManager.AppSettings["RepeatPingEvery"]);
-            var pingErrorsCountMax =
-                Convert.ToInt32(ConfigurationManager.AppSettings["PingErrorsCountMax"]);
             _prvStatus = LanDeviceStatus.Sleep;
             _rstCount = 0;
-            _singleShot = new SingleShot(clientRequestWaiting, false);
+
+            _singleShot = new SingleShot(false);
             _singleShot.Trigger += _singleShot_Trigger;
 
-            _pingGenerator = new PingGenerator(srcIp, repeatPingEvery, pingErrorsCountMax);
+            //_pingGenerator = new PingGeneratorPrv(srcIp);
+            _pingGenerator = new LanNotification(srcIp);
             _pingGenerator.PingErrorOn += _pingGenerator_PingErrorOn;
             _pingGenerator.PingReconnectionOn += _pingGenerator_PingReconnectionOn;
 

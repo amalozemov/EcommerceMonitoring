@@ -58,8 +58,11 @@
     <Compile Include="Devices\HttpAnalyzer.cs" />
     <Compile Include="Devices\ILanDevice.cs" />
     <Compile Include="Devices\LanDevice.cs" />
-    <Compile Include="Devices\PingGenerator.cs" />
-    <Compile Include="Devices\SingleShot.cs" />
+    <Compile Include="Timings\IPingNotification.cs" />
+    <Compile Include="Timings\LanNotification.cs" />
+    <Compile Include="Timings\PingGenerator.cs" />
+    <Compile Include="Timings\PingGeneratorPrv.cs" />
+    <Compile Include="Timings\SingleShot.cs" />
     <Compile Include="Devices\TcpAnalyzer.cs" />
     <Compile Include="Monitors\IECMonitor.cs" />
     <Compile Include="Monitors\LanMonitor.cs" />

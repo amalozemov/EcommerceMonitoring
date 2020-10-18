@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace ECMonitoring.Core.Devices
+namespace ECMonitoring.Core.Timings
 {
-    enum PingStatus
-    {
-        Ok,
-        Error
-    }
-
-    internal class PingGenerator
+    internal class LanNotification : IPingNotification
     {
         public delegate void PingErrorHandler(object sender, string errorMessage);
         public delegate void PingReconnectionHandler(object sender);
@@ -24,53 +17,47 @@ namespace ECMonitoring.Core.Devices
         public string Ip { get; private set; }
         private int _period { get; set; }
         private int _pingErrorsCountMax { get; set; }
-        private Timer _timer { get; set; }
+        private int _pingWaitingResponse { get; set; }
+        //private Timer _timer { get; set; }
         private int _errosCount;
         private PingStatus _pingStatus;
+        private PingGenerator _pingGenerator;
 
-        public PingGenerator(string ip, int period, int pingErrorsCountMax)
+        public LanNotification(string ip)
         {
+            _pingErrorsCountMax =
+                Convert.ToInt32(ConfigurationManager.AppSettings["PingErrorsCountMax"]);
             Ip = ip;
-            _period = period;
-            _pingErrorsCountMax = pingErrorsCountMax;
-            _timer = new Timer(PingTo);
+            //_timer = new Timer(PingTo);
             _pingStatus = PingStatus.Ok;
+            _pingGenerator = PingGenerator.Get();
         }
 
         public void Dispose()
         {
             Stop();
-            _timer.Dispose();
-            _timer = null;
         }
 
-        private void PingTo(object state)
+        public void PingOn(PingStatus result)
         {
-            var address = Ip;
+            //var address = Ip;
             var errorMessage = string.Empty;
-            bool rez = false;
-            var ping = new Ping();
-            var pingReply = default(PingReply);
+            //bool rez = false;
+            //var ping = new Ping();
+            //var pingReply = default(PingReply);
 
-            try
+            //try
+            //{
+            //    pingReply = ping.Send(address, _pingWaitingResponse);
+            //    rez = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    errorMessage = ex.Message;
+            //}
+            if (result == PingStatus.Error)
             {
-                pingReply = ping.Send(address, 100);
-                rez = true;
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-            }
-            if (rez == true)
-            {
-                if (pingReply.Status == IPStatus.Success)
-                {
-                    //
-                }
-                else
-                {
-                    errorMessage = "Не успешный пинг.";
-                }
+                errorMessage = "Не успешный пинг.";
             }
 
             if (!string.IsNullOrEmpty(errorMessage))
@@ -83,8 +70,8 @@ namespace ECMonitoring.Core.Devices
                 else
                 {
                     _errosCount++;
-                    ping.Dispose();
-                    ping = null;
+                    //ping.Dispose();
+                    //ping = null;
                     return;
                 }
             }
@@ -95,18 +82,18 @@ namespace ECMonitoring.Core.Devices
             }
 
             _errosCount = 0;
-            ping.Dispose();
-            ping = null;
+            //ping.Dispose();
+            //ping = null;
         }
 
         public void Start()
         {
-            _timer.Change(0, _period);
+            _pingGenerator.Register(this);
         }
 
         public void Stop()
         {
-            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+            _pingGenerator.UnRegister(this);
         }
     }
 }

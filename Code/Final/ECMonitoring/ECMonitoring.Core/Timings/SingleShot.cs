@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Configuration;
 
-
-namespace ECMonitoring.Core.Devices
+namespace ECMonitoring.Core.Timings
 {
     // A Single-Shot - одновибратор. Нет механизма защиты от одновременного воздействия нескольких потоков.
 
@@ -32,11 +32,12 @@ namespace ECMonitoring.Core.Devices
         System.Timers.Timer _timer;
         bool _isResetTimer;
 
-        public SingleShot(int time_interval_ms, bool isResetTimer = true)
+        public SingleShot(bool isResetTimer = true)
         {
-            TimeInterval = time_interval_ms;
+            TimeInterval =
+                Convert.ToInt32(ConfigurationManager.AppSettings["ClientRequestWaiting"]);
             _isResetTimer = isResetTimer;
-            _timer = new System.Timers.Timer(time_interval_ms);
+            _timer = new System.Timers.Timer(TimeInterval);
             _timer.AutoReset = false;
             _timer.Elapsed +=
                 new System.Timers.ElapsedEventHandler(_timer_Elapsed);

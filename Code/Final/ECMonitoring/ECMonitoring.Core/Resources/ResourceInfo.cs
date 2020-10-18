@@ -93,12 +93,12 @@ namespace ECMonitoring.Core.Resources
                         resourceUsageEventArgs.FreeVirtualMemory = Convert.ToDouble(paramRam["FreeVirtualMemory"]);
                         resourceUsageEventArgs.TotalVirtualMemorySize = Convert.ToDouble(paramRam["TotalVirtualMemorySize"]);
                         resourceUsageEventArgs.TotalVisibleMemorySize = Convert.ToDouble(paramRam["TotalVisibleMemorySize"]);
-                        _logger.Trace($"С ресурса {_ip} получены данные о памяти: Занято: " +
+                        _logger.Trace($"Ресурс {_ip}, получены данные о памяти: Занято: " +
                             $"{resourceUsageEventArgs.BusyPhysicalMemory / 1000 / 1000:N1}Гб ({resourceUsageEventArgs.BusyPhysicalMemoryPercent:N1}%)");
                     }
                     else
                     {
-                        _logger.Warn($"С ресурса {_ip} не удалось получить данные о памяти");
+                        _logger.Warn($"Ресурс {_ip}, не удалось получить данные о памяти");
                     }
 
                     // получение процента загрузки процессора ПК
@@ -113,11 +113,11 @@ namespace ECMonitoring.Core.Resources
                     {
                         resourceUsageEventArgs.PercentIdleTime = Convert.ToDouble(paramProc["PercentIdleTime"]);
                         resourceUsageEventArgs.PercentProcessorTime = Convert.ToDouble(paramProc["PercentProcessorTime"]);
-                        _logger.Trace($"С ресурса {_ip} получены данные о загрузке процессора: {resourceUsageEventArgs.PercentProcessorTime:N1}%");
+                        _logger.Trace($"Ресурс {_ip}, получены данные о загрузке процессора: {resourceUsageEventArgs.PercentProcessorTime:N1}%");
                     }
                     else
                     {
-                        _logger.Warn($"С ресурса {_ip} не удалось получить данные о загрузке процессора");
+                        _logger.Warn($"Ресурс {_ip}, не удалось получить данные о загрузке процессора");
                     }
                 }
                 catch (Exception ex)
