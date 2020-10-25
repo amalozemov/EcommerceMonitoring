@@ -1,0 +1,131 @@
+USE [ECMonitoring]
+GO
+
+/****** Object:  Table [dbo].[EndPoints]    Script Date: 25.10.2020 14:47:22 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[EndPoints](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[ServiceId] [bigint] NULL,
+	[EndPointTypeId] [bigint] NULL,
+	[Ip] [nvarchar](50) NULL,
+	[Port] [int] NULL,
+	[Name] [nvarchar](max) NULL,
+	[NetworkName] [nvarchar](max) NULL,
+	[SequenceNumber] [int] NULL,
+	[RequestContentsTypeId] [bigint] NULL,
+	[ConnectorName] [nvarchar](max) NULL,
+	[IsDisabledEndPoint] [bit] NULL,
+	[HostUserName] [nvarchar](max) NULL,
+	[HostPassword] [nvarchar](max) NULL,
+ CONSTRAINT [PK_EndPoints] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[EndPoints]  WITH CHECK ADD  CONSTRAINT [FK_EndPoints_EndPointTypes] FOREIGN KEY([EndPointTypeId])
+REFERENCES [dbo].[EndPointTypes] ([Id])
+GO
+
+ALTER TABLE [dbo].[EndPoints] CHECK CONSTRAINT [FK_EndPoints_EndPointTypes]
+GO
+
+ALTER TABLE [dbo].[EndPoints]  WITH CHECK ADD  CONSTRAINT [FK_EndPoints_RequestContentsTypes] FOREIGN KEY([RequestContentsTypeId])
+REFERENCES [dbo].[RequestContentsTypes] ([Id])
+GO
+
+ALTER TABLE [dbo].[EndPoints] CHECK CONSTRAINT [FK_EndPoints_RequestContentsTypes]
+GO
+
+ALTER TABLE [dbo].[EndPoints]  WITH CHECK ADD  CONSTRAINT [FK_EndPoints_Services] FOREIGN KEY([ServiceId])
+REFERENCES [dbo].[Services] ([Id])
+GO
+
+ALTER TABLE [dbo].[EndPoints] CHECK CONSTRAINT [FK_EndPoints_Services]
+GO
+
+
+/****** Object:  Table [dbo].[EndPointTypes]    Script Date: 25.10.2020 14:48:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[EndPointTypes](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[Value] [int] NULL,
+ CONSTRAINT [PK_EndPointTypes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[RequestContentsTypes]    Script Date: 25.10.2020 14:48:29 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[RequestContentsTypes](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[Value] [int] NULL,
+ CONSTRAINT [PK_RequestContentsTypes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+/****** Object:  Table [dbo].[Services]    Script Date: 25.10.2020 14:48:47 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Services](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NULL,
+	[SequenceNumber] [int] NULL,
+ CONSTRAINT [PK_Services] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+
+/****** Object:  Table [dbo].[Users]    Script Date: 25.10.2020 14:49:11 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Users](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Login] [nvarchar](50) NULL,
+	[Password] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
