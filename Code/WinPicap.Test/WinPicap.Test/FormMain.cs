@@ -57,7 +57,7 @@ namespace WinPicap.Test
 
             //string filter = "((src 192.168.0.103 && dst 192.168.0.100 && dst port 1800) || ( src 192.168.0.100 && dst port 1800 && dst 192.168.0.103)) && (http || tcp)";
             string filter = "(src 192.168.0.103 && dst 192.168.0.100 && port 1800) || (src 192.168.0.100 && port 1800 && dst 192.168.0.103) && tcp";
-            _device.Filter = filter;
+            //_device.Filter = filter;
 
             Console.WriteLine("-- Listening on {0}, hit 'Enter' to stop...",
                 _device.Description);
@@ -215,7 +215,10 @@ namespace WinPicap.Test
                 return;
             }
 
-            _device = GetDivice();
+            //_device = GetDivice();
+            //var deviceName = @"rpcap://\Device\NPF_{F4D18444-FF49-4876-8CC7-3782EC14FCBE}";
+            var deviceName = @"rpcap://\Device\NPF_{823D5A81-B42A-4079-ADAF-8B7B74C7970A}";
+            _device = GetDivice(deviceName);
             Console.WriteLine("\nThe following devices are available on this machine:");
             Console.WriteLine("----------------------------------------------------\n");
             Console.WriteLine("{0}\n", _device.ToString());
@@ -235,9 +238,25 @@ namespace WinPicap.Test
 
         ICaptureDevice GetDivice(string deviceName = null)
         {
-            var device = CaptureDeviceList.Instance.FirstOrDefault();
-            //var device = CaptureDeviceList.Instance[1];//.FirstOrDefault();
-            return device;
+            var ret = default(ICaptureDevice);
+            //var device = CaptureDeviceList.Instance.FirstOrDefault();
+            var devices = CaptureDeviceList.Instance; //;//.FirstOrDefault();
+                                                      //var device = CaptureDeviceList.Instance[1];//.FirstOrDefault();
+
+            //foreach (var device in devices)
+            //{
+            //    Console.WriteLine($"device.Name = {device.Name};{Environment.NewLine}device.Description = {device.Description}");
+            //}
+
+            if (string.IsNullOrWhiteSpace(deviceName))
+            {
+                ret = devices.FirstOrDefault();
+            }
+            else
+            {
+                ret = CaptureDeviceList.Instance.Where(d => d.Name == deviceName).FirstOrDefault();
+            }
+            return ret;
         }
     }
 }

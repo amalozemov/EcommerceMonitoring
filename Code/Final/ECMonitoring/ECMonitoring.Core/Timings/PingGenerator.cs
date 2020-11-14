@@ -72,32 +72,8 @@ namespace ECMonitoring.Core.Timings
             lock (_syncRoot)
             {
                 var workItems = _observers.GroupBy(p => p.Ip).Select(g => g.Key);
-                //foreach (var ip in workItems)
-                //workItems.AsParallel(ip=>
-                //{
-                //    Task<PingResult> task = new Task<PingResult>((p) => PingTo(p.ToString()), ip);
-                //    Task task2 = task.ContinueWith(t => {
-                //        var recipients = _observers.Where(o => o.Ip == t.Result.Ip);
-                //        foreach (var recipient in recipients)
-                //        {
-                //            recipient.PingOn(t.Result.Result);
-                //        }
-                //    });
-                //    task.Start();
-                //    task2.Wait();
-                //});
-
                 var pingResults = (from ip in workItems.AsParallel()
                                  select PingTo(ip)).ToList();
-
-                //foreach (var pingResult in pingResults)
-                //{
-                //    var pingRecipients = _observers.Where(o => o.Ip == pingResult.Ip);
-                //    foreach (var recipient in pingRecipients)
-                //    {
-                //        recipient.PingOn(pingResult.Result);
-                //    }
-                //}
 
                 var actions = new List<Action>(pingResults.Count);
                 actions.AddRange(pingResults.Select(pingResult => new Action(() => {
