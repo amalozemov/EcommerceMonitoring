@@ -30,3 +30,8 @@ CaptureDeviceList.Instance[0].Name = rpcap://\\Device\\NPF_{F4D18444-FF49-4876-8
 
 Имя пользователя для работы с WMI
 Пароль пользователя для работы с WMI
+
+**********************************************************************
+Устранение ошибки: System.ServiceModel.Activation.HttpModule
+https://stackoverflow.com/questions/15688930/could-not-load-type-system-servicemodel-activation-httpmodule-from-assembly-s
+c:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\aspnet_regiis.exe -iru 
